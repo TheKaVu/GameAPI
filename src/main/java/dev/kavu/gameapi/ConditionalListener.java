@@ -23,6 +23,19 @@ public class ConditionalListener implements Listener {
         this.plugin = plugin;
     }
 
+    // Getters
+    public Listener getListener() {
+        return listener;
+    }
+
+    public Predicate<Plugin> getCondition() {
+        return condition;
+    }
+
+    public Plugin getPlugin() {
+        return plugin;
+    }
+
     // Functionality
     public final void onEvent(Event event){
         for(Method method : listener.getClass().getDeclaredMethods()){
