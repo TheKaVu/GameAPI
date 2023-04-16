@@ -2,6 +2,7 @@ package dev.kavu.gameapi;
 
 public abstract class GameState {
 
+    // Constants
     public static final GameState EMPTY = new GameState("",0, false) {
         @Override
         public void onInit() {
@@ -22,7 +23,7 @@ public abstract class GameState {
         }
     };
 
-
+    // Fields
     private final long duration;
 
     private final int period;
@@ -31,7 +32,7 @@ public abstract class GameState {
 
     private final String name;
 
-
+    // Constructors
     public GameState(String name, long duration, boolean reverseTimer) {
         this.duration = duration;
         this.period = 1;
@@ -46,7 +47,7 @@ public abstract class GameState {
         this.name = name;
     }
 
-
+    // Getters
     public long getDuration() {
         return duration;
     }
@@ -63,7 +64,7 @@ public abstract class GameState {
         return name;
     }
 
-
+    // Abstract functionality
     public abstract void onInit();
 
     public abstract void tick();
