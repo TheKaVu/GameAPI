@@ -2,6 +2,26 @@ package dev.kavu.gameapi;
 
 public abstract class GameState {
 
+    public static final GameState EMPTY = new GameState("",0, false) {
+        @Override
+        public void onInit() {
+        }
+
+        @Override
+        public void onEnd() {
+        }
+
+        @Override
+        public void tick() {
+
+        }
+
+        @Override
+        public boolean shouldEnd() {
+            return false;
+        }
+    };
+
 
     private final long duration;
 
@@ -12,14 +32,14 @@ public abstract class GameState {
     private final String name;
 
 
-    public GameState(long duration, boolean reverseTimer, String name) {
+    public GameState(String name, long duration, boolean reverseTimer) {
         this.duration = duration;
         this.period = 1;
         this.reverseTimer = reverseTimer;
         this.name = name;
     }
 
-    public GameState(long duration, int period, boolean reverseTimer, String name) {
+    public GameState(String name, long duration, int period, boolean reverseTimer) {
         this.duration = duration;
         this.period = period;
         this.reverseTimer = reverseTimer;
