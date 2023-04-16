@@ -11,4 +11,5 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 # intellij project files
-.idea/
+/.idea/
+/src/test/
