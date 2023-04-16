@@ -1,6 +1,7 @@
 package dev.kavu.gameapi;
 
 import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
@@ -37,6 +38,7 @@ public class ConditionalListener implements Listener {
     }
 
     // Functionality
+    @EventHandler
     public final void onEvent(Event event){
         for(Method method : listener.getClass().getDeclaredMethods()){
 
