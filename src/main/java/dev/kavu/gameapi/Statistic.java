@@ -9,6 +9,8 @@ public class Statistic {
 
     private final int initValue;
 
+    private boolean locked;
+
     // Constructor
     public Statistic(int initValue) {
         this.initValue = initValue;
@@ -21,15 +23,23 @@ public class Statistic {
     }
 
     public void set(int value) {
-        this.value = value;
+        if(!locked) this.value = value;
     }
 
-    public void modify(Function<Integer, Integer> modifier){
-        set(modifier.apply(value));
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public boolean isLocked() {
+        return locked;
     }
 
     // Functionality
     public void reset(){
-        value = initValue;
+        if(!locked) value = initValue;
+    }
+
+    public void modify(Function<Integer, Integer> modifier){
+        if(!locked) value = modifier.apply(value);
     }
 }
