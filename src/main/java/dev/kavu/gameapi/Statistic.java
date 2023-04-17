@@ -24,6 +24,10 @@ public class Statistic {
         this.value = value;
     }
 
+    public void modify(Function<Integer, Integer> modifier){
+        set(modifier.apply(value));
+    }
+
     // Functionality
     public void reset(){
         value = initValue;
