@@ -1,5 +1,6 @@
 package dev.kavu.gameapi;
 
+import dev.kavu.gameapi.world.GameMap;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashSet;
@@ -18,10 +19,13 @@ public class GameManager<T extends GameType> {
 
     private final HashSet<UUID> playersOffGame = new HashSet<>();
 
+    private final GameMap gameMap;
+
     // Constructor
-    public GameManager(Plugin plugin, T gametType) {
+    public GameManager(Plugin plugin, T gametType, GameMap gameMap) {
         this.plugin = plugin;
         this.gametType = gametType;
+        this.gameMap = gameMap;
     }
 
     // Getters
@@ -35,6 +39,10 @@ public class GameManager<T extends GameType> {
 
     public GameStateTimer getGameStateTimer() {
         return gameStateTimer;
+    }
+
+    public GameMap getGameMap() {
+        return gameMap;
     }
 
     public HashSet<UUID> getPlayersInGame() {
