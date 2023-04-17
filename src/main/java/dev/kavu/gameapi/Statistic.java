@@ -2,27 +2,27 @@ package dev.kavu.gameapi;
 
 import java.util.function.Function;
 
-public class Statistic {
+public class Statistic<T extends Number> {
 
     // Fields
-    private int value;
+    private T value;
 
-    private final int initValue;
+    private final T initValue;
 
     private boolean locked;
 
     // Constructor
-    public Statistic(int initValue) {
+    public Statistic(T initValue) {
         this.initValue = initValue;
         reset();
     }
 
     // Getters & setters
-    public int get() {
+    public T get() {
         return value;
     }
 
-    public void set(int value) {
+    public void set(T value) {
         if(!locked) this.value = value;
     }
 
@@ -39,7 +39,7 @@ public class Statistic {
         if(!locked) value = initValue;
     }
 
-    public void modify(Function<Integer, Integer> modifier){
+    public void modify(Function<T, T> modifier){
         if(!locked) value = modifier.apply(value);
     }
 }
