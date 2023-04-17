@@ -3,6 +3,7 @@ package dev.kavu.gameapi;
 import dev.kavu.gameapi.world.GameMap;
 import org.bukkit.plugin.Plugin;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
 
@@ -18,6 +19,8 @@ public class GameManager<T extends GameType> {
     private final HashSet<UUID> playersInGame = new HashSet<>();
 
     private final HashSet<UUID> playersOffGame = new HashSet<>();
+
+    private final HashMap<String, Statistic> statistics = new HashMap<>();
 
     private final GameMap gameMap;
 
