@@ -55,4 +55,8 @@ public class GameManager<T extends GameType> {
     public HashSet<UUID> getPlayersOffGame() {
         return playersOffGame;
     }
+
+    public HashMap<String, Statistic> getStatistics(){
+        return statistics;
+    }
 }
