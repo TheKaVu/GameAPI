@@ -1,5 +1,7 @@
 package dev.kavu.gameapi;
 
+import java.util.function.Function;
+
 public class Statistic {
 
     // Fields
@@ -7,26 +9,19 @@ public class Statistic {
 
     private final int initValue;
 
-    private final String name;
-
     // Constructor
-    public Statistic(int initValue, String name) {
+    public Statistic(int initValue) {
         this.initValue = initValue;
-        this.name = name;
         reset();
     }
 
     // Getters & setters
-    public int getValue() {
+    public int get() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void set(int value) {
         this.value = value;
-    }
-
-    public String getName() {
-        return name;
     }
 
     // Functionality
