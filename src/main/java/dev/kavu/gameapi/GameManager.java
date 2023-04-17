@@ -20,7 +20,7 @@ public class GameManager<T extends GameType> {
 
     private final HashSet<UUID> playersOffGame = new HashSet<>();
 
-    private final HashMap<String, Statistic> statistics = new HashMap<>();
+    private final HashMap<String, Statistic<?>> statistics = new HashMap<>();
 
     private final GameMap gameMap;
 
@@ -56,7 +56,7 @@ public class GameManager<T extends GameType> {
         return playersOffGame;
     }
 
-    public HashMap<String, Statistic> getStatistics(){
+    public HashMap<String, Statistic<?>> getStatistics(){
         return statistics;
     }
 }
