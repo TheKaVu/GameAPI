@@ -3,38 +3,26 @@ package dev.kavu.gameapi;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.Method;
-import java.util.function.Predicate;
+import java.util.function.BooleanSupplier;
 
 public class ConditionalListener implements Listener {
 
     // Fields
     private final Listener listener;
 
-    private final Predicate<Plugin> condition;
-
-    private final Plugin plugin;
+    private final BooleanSupplier condition;
 
     // Constructor
-    public ConditionalListener(Predicate<Plugin> condition, Listener handledListener, Plugin plugin) {
+    public ConditionalListener(BooleanSupplier condition, Listener handledListener) {
         this.condition = condition;
         this.listener = handledListener;
-        this.plugin = plugin;
     }
 
     // Getters
     public Listener getListener() {
         return listener;
-    }
-
-    public Predicate<Plugin> getCondition() {
-        return condition;
-    }
-
-    public Plugin getPlugin() {
-        return plugin;
     }
 
     // Functionality
@@ -43,7 +31,7 @@ public class ConditionalListener implements Listener {
         for(Method method : listener.getClass().getDeclaredMethods()){
 
             if(method.getParameterCount() != 1) return;
-            if(!condition.test(plugin)) return;
+            if(!condition.getAsBoolean()) return;
 
             try {
                 method.invoke(listener, event);
