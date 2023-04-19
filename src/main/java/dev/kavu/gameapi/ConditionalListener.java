@@ -15,7 +15,7 @@ public class ConditionalListener implements Listener {
     private final BooleanSupplier condition;
 
     // Constructor
-    public ConditionalListener(BooleanSupplier condition, Listener handledListener) {
+    public ConditionalListener(Listener handledListener, BooleanSupplier condition) {
         this.condition = condition;
         this.handledListener = handledListener;
     }
