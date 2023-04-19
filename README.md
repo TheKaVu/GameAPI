@@ -24,9 +24,11 @@ This API is created with `Java 8` and built using `Maven`. It uses Spigot API 1.
 <dependency>
     <groupId>com.github.TheKaVu</groupId>
     <artifactId>GameAPI</artifactId>
-    <version>master-SNAPSHOT</version>
+    <version>LatestCommitId</version>
 </dependency>
 ```
+
+Latest commit id can be found [here](https://jitpack.io/#TheKaVu/GameAPI/). Until there are no releases, it is the only way to depend on this repo. When new commits are pushed the commit id must be changed to get the updated version. However this will be fixed as soon as first releases come out.
 ***
 **Note:** 
 
