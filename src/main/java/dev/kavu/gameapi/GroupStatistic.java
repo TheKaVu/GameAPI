@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class StatisticGroup<T extends Number> {
+public class GroupStatistic<T extends Number> {
 
     // Fields
     private final HashMap<UUID, T> values;
@@ -15,12 +15,12 @@ public class StatisticGroup<T extends Number> {
     private boolean locked;
 
     // Constructors
-    public StatisticGroup(T initValue) {
+    public GroupStatistic(T initValue) {
         this.initValue = initValue;
         values = new HashMap<>();
     }
 
-    public StatisticGroup(T initValue, Set<UUID> members) {
+    public GroupStatistic(T initValue, Set<UUID> members) {
         this.initValue = initValue;
         values = new HashMap<>();
         for(UUID m : members){
