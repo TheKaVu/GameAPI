@@ -56,7 +56,19 @@ public class GameManager<T extends GameType> {
         return playersOffGame;
     }
 
-    public HashMap<String, Statistic<?>> getStatistics(){
-        return statistics;
+    public void addStatistic(String name, Statistic<?> statistic){
+        statistics.put(name, statistic);
+    }
+
+    public <E extends Statistic<?>> HashMap<String, E> getStatistics(Class<E> statisticClass){
+        HashMap<String, E> statisticSubmap = new HashMap<>();
+
+        statistics.forEach((k, v) -> {
+            if(v.getClass().equals(statisticClass)){
+                statisticSubmap.put(k, (E) v);
+            }
+        });
+
+        return statisticSubmap;
     }
 }
