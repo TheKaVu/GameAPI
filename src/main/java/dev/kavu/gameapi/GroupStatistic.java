@@ -5,32 +5,30 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class GroupStatistic<T extends Number> {
+public class GroupStatistic<T extends Number> extends Statistic<T>{
 
     // Fields
     private final HashMap<UUID, T> values;
 
-    private final T initValue;
-
     private boolean locked;
 
     // Constructors
-    public GroupStatistic(T initValue) {
-        this.initValue = initValue;
+    public GroupStatistic(T defaultValue) {
+        super(defaultValue);
         values = new HashMap<>();
     }
 
-    public GroupStatistic(T initValue, Set<UUID> members) {
-        this.initValue = initValue;
+    public GroupStatistic(T defaultValue, Set<UUID> members) {
+        super(defaultValue);
         values = new HashMap<>();
         for(UUID m : members){
-            values.put(m, initValue);
+            values.put(m, defaultValue);
         }
     }
 
     // Getters & setters
     public T get(UUID member) {
-        if(!values.containsKey(member)) values.put(member, initValue);
+        if(!values.containsKey(member)) values.put(member, getDefaultValue());
         return values.get(member);
     }
 
@@ -38,24 +36,17 @@ public class GroupStatistic<T extends Number> {
         if(!locked) this.values.replace(member, value);
     }
 
-    public void setLocked(boolean locked) {
-        this.locked = locked;
-    }
-
-    public boolean isLocked() {
-        return locked;
-    }
-
     // Functionality
     public boolean addMember(UUID newMember){
         if(values.containsKey(newMember)) return false;
 
-        values.put(newMember, initValue);
+        values.put(newMember, getDefaultValue());
         return true;
     }
 
+    @Override
     public void reset(){
-        if(!locked) values.forEach((k, v) -> values.put(k, initValue));
+        if(!locked) values.forEach((k, v) -> values.put(k, getDefaultValue()));
     }
 
     public void modify(Function<T, T> modifier, UUID member){
