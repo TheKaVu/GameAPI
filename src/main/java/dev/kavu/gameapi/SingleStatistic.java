@@ -2,18 +2,16 @@ package dev.kavu.gameapi;
 
 import java.util.function.Function;
 
-public class SingleStatistic<T extends Number> {
+public class SingleStatistic<T extends Number> extends Statistic<T> {
 
     // Fields
     private T value;
 
-    private final T initValue;
-
     private boolean locked;
 
     // Constructor
-    public SingleStatistic(T initValue) {
-        this.initValue = initValue;
+    public SingleStatistic(T defaultValue) {
+        super(defaultValue);
         reset();
     }
 
@@ -26,17 +24,10 @@ public class SingleStatistic<T extends Number> {
         if(!locked) this.value = value;
     }
 
-    public void setLocked(boolean locked) {
-        this.locked = locked;
-    }
-
-    public boolean isLocked() {
-        return locked;
-    }
-
     // Functionality
+    @Override
     public void reset(){
-        if(!locked) value = initValue;
+        if(!locked) value = getDefaultValue();
     }
 
     public void modify(Function<T, T> modifier){
