@@ -2,7 +2,7 @@ package dev.kavu.gameapi;
 
 import java.util.function.Function;
 
-public class Statistic<T extends Number> {
+public class SingleStatistic<T extends Number> {
 
     // Fields
     private T value;
@@ -12,7 +12,7 @@ public class Statistic<T extends Number> {
     private boolean locked;
 
     // Constructor
-    public Statistic(T initValue) {
+    public SingleStatistic(T initValue) {
         this.initValue = initValue;
         reset();
     }
