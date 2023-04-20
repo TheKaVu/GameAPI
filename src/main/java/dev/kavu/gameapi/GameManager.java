@@ -65,7 +65,10 @@ public class GameManager<T extends GameType> {
 
         statistics.forEach((k, v) -> {
             if(v.getClass().equals(statisticClass)){
-                statisticSubmap.put(k, (E) v);
+                try {
+                    E e = (E) v;
+                    statisticSubmap.put(k, e);
+                } catch (ClassCastException ignored){ }
             }
         });
 
