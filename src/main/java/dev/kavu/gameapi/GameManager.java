@@ -60,6 +60,7 @@ public class GameManager<T extends GameType> {
         statistics.put(name, statistic);
     }
 
+    @SuppressWarnings("unchecked")
     public <E extends Statistic<?>> HashMap<String, E> getStatistics(Class<E> statisticClass){
         HashMap<String, E> statisticSubmap = new HashMap<>();
 
