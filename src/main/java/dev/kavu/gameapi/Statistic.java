@@ -22,9 +22,10 @@ public abstract class Statistic<T extends Number> {
         return locked;
     }
 
-    public abstract void reset();
-
     public T getDefaultValue(){
         return defaultValue;
     }
+
+    // Abstract functionality
+    public abstract void reset();
 }
