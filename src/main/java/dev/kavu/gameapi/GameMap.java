@@ -1,4 +1,4 @@
-package dev.kavu.gameapi.world;
+package dev.kavu.gameapi;
 
 import org.bukkit.World;
 
