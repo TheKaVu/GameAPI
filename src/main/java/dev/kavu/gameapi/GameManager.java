@@ -1,6 +1,5 @@
 package dev.kavu.gameapi;
 
-import dev.kavu.gameapi.world.GameMap;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
