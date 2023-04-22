@@ -21,13 +21,19 @@ public class GameManager<T extends GameType> {
 
     private final HashMap<String, Statistic<?>> statistics = new HashMap<>();
 
-    private final GameMap gameMap;
+    private final MapManager mapManager;
 
     // Constructor
-    public GameManager(Plugin plugin, T gametType, GameMap gameMap) {
+    public GameManager(Plugin plugin, T gametType) {
         this.plugin = plugin;
         this.gametType = gametType;
-        this.gameMap = gameMap;
+        mapManager = new MapManager(plugin.getDataFolder());
+    }
+
+    public GameManager(Plugin plugin, T gametType, MapManager mapManager) {
+        this.plugin = plugin;
+        this.gametType = gametType;
+        this.mapManager = mapManager;
     }
 
     // Getters
@@ -43,8 +49,8 @@ public class GameManager<T extends GameType> {
         return gameStateTimer;
     }
 
-    public GameMap getGameMap() {
-        return gameMap;
+    public MapManager getMapManager() {
+        return mapManager;
     }
 
     public HashSet<UUID> getPlayersInGame() {
