@@ -2,15 +2,15 @@ package dev.kavu.gameapi.world;
 
 import org.bukkit.World;
 
+import java.io.File;
+
 public interface GameMap {
 
-    boolean load();
+    void onLoad(World world);
 
-    void unload();
+    void onUnload();
 
-    boolean restore();
+    String getName();
 
-    boolean isLoaded();
-
-    World getWorld();
+    File getSourceFolder();
 }
