@@ -39,6 +39,10 @@ public class MapManager {
         return currentMap;
     }
 
+    public World getWorld() {
+        return world;
+    }
+
     // Functionality
 
     public boolean load(GameMap map){
@@ -79,13 +83,37 @@ public class MapManager {
         return load(mapSupplier != null ? mapSupplier.get() : currentMap);
     }
 
-
     public boolean isLoaded() {
         return world != null && activeWorldFolder != null && currentMap != null;
     }
 
-    public World getWorld() {
-        return world;
+    public GameMap createMap(String mapPath , boolean autoLoad){
+        GameMap map = new GameMap() {
+
+            @Override
+            public void onLoad(World world) {
+
+            }
+
+            @Override
+            public void onUnload() {
+
+            }
+
+            @Override
+            public String getName() {
+                return getSourceFolder().getName();
+            }
+
+            @Override
+            public File getSourceFolder() {
+                return new File(mainFolder + mapPath);
+            }
+
+        };
+        if(autoLoad) load(map);
+
+        return map;
     }
 
     public GameMap createMap(String mapPath, Consumer<World> onLoadAction, Runnable onUnloadAction , boolean autoLoad){
