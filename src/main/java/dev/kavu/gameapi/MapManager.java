@@ -78,6 +78,16 @@ public class MapManager {
         currentMap = null;
     }
 
+    public boolean restore(){
+        unload();
+        return load(currentMap);
+    }
+
+    public boolean restore(GameMap gameMap){
+        unload();
+        return load(gameMap != null ? gameMap : currentMap);
+    }
+
     public boolean restore(Supplier<GameMap> mapSupplier){
         unload();
         return load(mapSupplier != null ? mapSupplier.get() : currentMap);
