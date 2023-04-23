@@ -11,7 +11,7 @@ public class GameManager<T extends GameType> {
     // Fields
     private final Plugin plugin;
 
-    private final T gametType;
+    private final T gameType;
 
     private final GameStateTimer gameStateTimer = new GameStateTimer();
 
@@ -24,15 +24,15 @@ public class GameManager<T extends GameType> {
     private final MapManager mapManager;
 
     // Constructor
-    public GameManager(Plugin plugin, T gametType) {
+    public GameManager(Plugin plugin, T gameType) {
         this.plugin = plugin;
-        this.gametType = gametType;
+        this.gameType = gameType;
         mapManager = new MapManager(plugin.getDataFolder());
     }
 
-    public GameManager(Plugin plugin, T gametType, MapManager mapManager) {
+    public GameManager(Plugin plugin, T gameType, MapManager mapManager) {
         this.plugin = plugin;
-        this.gametType = gametType;
+        this.gameType = gameType;
         this.mapManager = mapManager;
     }
 
@@ -41,8 +41,8 @@ public class GameManager<T extends GameType> {
         return plugin;
     }
 
-    public T getGametType() {
-        return gametType;
+    public T getGameType() {
+        return gameType;
     }
 
     public GameStateTimer getGameStateTimer() {
