@@ -81,7 +81,7 @@ public class GameStateTimer {
 
     private boolean shouldCancel(){
 
-        boolean timerOvercount = timerReversed ? (stateTime <= 0) : (stateTime >= currentState.getDuration());
+        boolean timerOvercount = (timerReversed ? (stateTime <= 0) : (stateTime >= currentState.getDuration())) && currentState.getDuration() >= 0;
 
         if (timerOvercount || currentState.shouldEnd()) {
             currentState.onEnd();
@@ -97,7 +97,7 @@ public class GameStateTimer {
     }
 
     public void prompt(){
-        shouldCancel();
+        if(running) shouldCancel();
     }
 
     public void pause(){
