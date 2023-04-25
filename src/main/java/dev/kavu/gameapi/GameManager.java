@@ -1,10 +1,10 @@
 package dev.kavu.gameapi;
 
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Supplier;
 
 public class GameManager<T extends GameType> {
 
@@ -34,6 +34,24 @@ public class GameManager<T extends GameType> {
         this.plugin = plugin;
         this.gameType = gameType;
         this.mapManager = mapManager;
+    }
+
+    public GameManager(Plugin plugin, T gameType, Supplier<Collection<Player>> inGamePlayers) {
+        this.plugin = plugin;
+        this.gameType = gameType;
+        mapManager = new MapManager(plugin.getDataFolder());
+        for(Player p : inGamePlayers.get()){
+            playersInGame.add(p.getUniqueId());
+        }
+    }
+
+    public GameManager(Plugin plugin, T gameType, MapManager mapManager, Supplier<Collection<Player>> inGamePlayers) {
+        this.plugin = plugin;
+        this.gameType = gameType;
+        this.mapManager = mapManager;
+        for(Player p : inGamePlayers.get()){
+            playersInGame.add(p.getUniqueId());
+        }
     }
 
     // Getters
