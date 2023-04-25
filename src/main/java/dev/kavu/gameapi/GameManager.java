@@ -36,7 +36,7 @@ public class GameManager<T extends GameType> {
         this.mapManager = mapManager;
     }
 
-    public GameManager(Plugin plugin, T gameType, Supplier<Collection<Player>> inGamePlayers) {
+    public GameManager(Plugin plugin, T gameType, Supplier<Collection<? extends Player>> inGamePlayers) {
         this.plugin = plugin;
         this.gameType = gameType;
         mapManager = new MapManager(plugin.getDataFolder());
@@ -45,7 +45,7 @@ public class GameManager<T extends GameType> {
         }
     }
 
-    public GameManager(Plugin plugin, T gameType, MapManager mapManager, Supplier<Collection<Player>> inGamePlayers) {
+    public GameManager(Plugin plugin, T gameType, MapManager mapManager, Supplier<Collection<? extends Player>> inGamePlayers) {
         this.plugin = plugin;
         this.gameType = gameType;
         this.mapManager = mapManager;
