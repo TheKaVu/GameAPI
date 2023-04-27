@@ -3,6 +3,9 @@ package dev.kavu.gameapi;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.Plugin;
 
@@ -15,7 +18,7 @@ public class AreaController {
 
     private final HashMap<Player, Area> players = new HashMap<>();
 
-    private final Listener listener = new Listener() {
+    protected final Listener moveListener = new Listener() {
         @EventHandler
         public void onPlayerMove(PlayerMoveEvent event){
             Player player = event.getPlayer();
@@ -29,14 +32,50 @@ public class AreaController {
         }
     };
 
+    protected final Listener blockPlaceListener = new Listener() {
+        @EventHandler
+        public void onBlockPlace(BlockPlaceEvent event){
+            Player player = event.getPlayer();
+            if(!players.get(player).allowBlockPlacement()){
+                event.setCancelled(true);
+            }
+        }
+    };
+
+    protected final Listener blockBreakListener = new Listener() {
+        @EventHandler
+        public void onBlockBreak(BlockBreakEvent event){
+            Player player = event.getPlayer();
+            if(!players.get(player).allowBlockDestruction()){
+                event.setCancelled(true);
+            }
+        }
+    };
+
+    protected final Listener blockInteractListener = new Listener() {
+        @EventHandler
+        public void onBlockInteraction(PlayerInteractEvent event){
+            Player player = event.getPlayer();
+            if(!players.get(player).allowBlockInteraction()){
+                event.setCancelled(true);
+            }
+        }
+    };
+
     public AreaController(Plugin plugin){
-        areas = new HashMap<>();
-        plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+        this(new HashMap<>(), plugin);
     }
 
     public AreaController(HashMap<Area, Integer> areas, Plugin plugin){
         this.areas = areas;
-        plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+        plugin.getServer().getPluginManager().registerEvents(moveListener, plugin);
+        plugin.getServer().getPluginManager().registerEvents(blockPlaceListener, plugin);
+        plugin.getServer().getPluginManager().registerEvents(blockBreakListener, plugin);
+        plugin.getServer().getPluginManager().registerEvents(blockInteractListener, plugin);
+    }
+
+    public HashMap<Area, Integer> getAreas() {
+        return areas;
     }
 
     public Area currentPlayerArea(Player player){
