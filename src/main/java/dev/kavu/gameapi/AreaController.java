@@ -41,9 +41,9 @@ public class AreaController {
             Area blockArea = getLocationArea(event.getBlock().getLocation());
 
             if(playerArea != null) // Null check
-                event.setCancelled(!playerArea.allowBlockInteraction() && playerArea.getTarget().affectsPlayers());
+                event.setCancelled(!playerArea.allowBlockPlacement() && playerArea.getTarget().affectsPlayers());
             if(blockArea != null) // Null check
-                event.setCancelled(!blockArea.allowBlockInteraction() && blockArea.getTarget().affectsBlocks());
+                event.setCancelled(!blockArea.allowBlockPlacement() && blockArea.getTarget().affectsBlocks());
         }
     };
 
@@ -55,9 +55,9 @@ public class AreaController {
             Area blockArea = getLocationArea(event.getBlock().getLocation());
 
             if(playerArea != null) // Null check
-                event.setCancelled(!playerArea.allowBlockInteraction() && playerArea.getTarget().affectsPlayers());
+                event.setCancelled(!playerArea.allowBlockDestruction() && playerArea.getTarget().affectsPlayers());
             if(blockArea != null) // Null check
-                event.setCancelled(!blockArea.allowBlockInteraction() && blockArea.getTarget().affectsBlocks());
+                event.setCancelled(!blockArea.allowBlockDestruction() && blockArea.getTarget().affectsBlocks());
         }
     };
 
