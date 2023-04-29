@@ -1,6 +1,7 @@
 package dev.kavu.gameapi;
 
 import org.bukkit.Location;
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,6 +10,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicReference;
@@ -81,10 +83,11 @@ public class AreaController {
 
     public AreaController(HashMap<Area, Integer> areas, Plugin plugin){
         this.areas = areas;
-        plugin.getServer().getPluginManager().registerEvents(moveListener, plugin);
-        plugin.getServer().getPluginManager().registerEvents(blockPlaceListener, plugin);
-        plugin.getServer().getPluginManager().registerEvents(blockBreakListener, plugin);
-        plugin.getServer().getPluginManager().registerEvents(blockInteractListener, plugin);
+        PluginManager manager = plugin.getServer().getPluginManager();
+        manager.registerEvents(moveListener, plugin);
+        manager.registerEvents(blockPlaceListener, plugin);
+        manager.registerEvents(blockBreakListener, plugin);
+        manager.registerEvents(blockInteractListener, plugin);
     }
 
     public HashMap<Area, Integer> getAreas() {
