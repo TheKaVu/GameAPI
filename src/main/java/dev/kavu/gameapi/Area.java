@@ -103,7 +103,9 @@ public class Area {
 
         if(x < originPos.getBlockX() || x > originPos.getBlockX() + dx) return false;
         if(y < originPos.getBlockY() || y > originPos.getBlockY() + dy) return false;
-        return z >= originPos.getBlockX() && z <= originPos.getBlockX() + dz;
+        if(z < originPos.getBlockZ() || z > originPos.getBlockZ() + dz) return false;
+
+        return true;
     }
 
     public boolean hasPlayer(Player player){
