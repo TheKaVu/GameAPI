@@ -11,9 +11,9 @@ public class Area {
     private int dz;
     private final Location originPos;
 
-    private boolean blockPlacement;
-    private boolean blockDestruction;
-    private boolean blockInteraction;
+    private boolean blockPlacement = true;
+    private boolean blockDestruction = true;
+    private boolean blockInteraction = true;
     private Target target;
 
     // Constructors
