@@ -1,5 +1,6 @@
 package dev.kavu.gameapi;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,7 +23,7 @@ public class AreaController {
         @EventHandler
         public void onPlayerMove(PlayerMoveEvent event){
             Player player = event.getPlayer();
-            Area newArea = currentPlayerArea(event.getPlayer());
+            Area newArea = getPlayerArea(event.getPlayer());
             Area lastArea = players.get(player);
             if(lastArea != newArea){
                 lastArea.onLeave(event.getPlayer());
@@ -36,9 +37,13 @@ public class AreaController {
         @EventHandler
         public void onBlockPlace(BlockPlaceEvent event){
             Player player = event.getPlayer();
-            if(!players.get(player).allowBlockPlacement()){
-                event.setCancelled(true);
-            }
+            Area playerArea = players.get(player);
+            Area blockArea = getLocationArea(event.getBlock().getLocation());
+
+            if(playerArea != null) // Null check
+                event.setCancelled(!playerArea.allowBlockInteraction() && playerArea.getTarget().affectsPlayers());
+            if(blockArea != null) // Null check
+                event.setCancelled(!blockArea.allowBlockInteraction() && blockArea.getTarget().affectsBlocks());
         }
     };
 
@@ -46,9 +51,13 @@ public class AreaController {
         @EventHandler
         public void onBlockBreak(BlockBreakEvent event){
             Player player = event.getPlayer();
-            if(!players.get(player).allowBlockDestruction()){
-                event.setCancelled(true);
-            }
+            Area playerArea = players.get(player);
+            Area blockArea = getLocationArea(event.getBlock().getLocation());
+
+            if(playerArea != null) // Null check
+                event.setCancelled(!playerArea.allowBlockInteraction() && playerArea.getTarget().affectsPlayers());
+            if(blockArea != null) // Null check
+                event.setCancelled(!blockArea.allowBlockInteraction() && blockArea.getTarget().affectsBlocks());
         }
     };
 
@@ -56,9 +65,13 @@ public class AreaController {
         @EventHandler
         public void onBlockInteraction(PlayerInteractEvent event){
             Player player = event.getPlayer();
-            if(!players.get(player).allowBlockInteraction()){
-                event.setCancelled(true);
-            }
+            Area playerArea = players.get(player);
+            Area blockArea = getLocationArea(event.getClickedBlock().getLocation());
+
+            if(playerArea != null) // Null check
+                event.setCancelled(!playerArea.allowBlockInteraction() && playerArea.getTarget().affectsPlayers());
+            if(blockArea != null) // Null check
+                event.setCancelled(!blockArea.allowBlockInteraction() && blockArea.getTarget().affectsBlocks());
         }
     };
 
@@ -78,7 +91,7 @@ public class AreaController {
         return areas;
     }
 
-    public Area currentPlayerArea(Player player){
+    public Area getPlayerArea(Player player){
         int lastPriority = Integer.MIN_VALUE;
         AtomicReference<Area> currentArea = new AtomicReference<>(null);
 
@@ -89,5 +102,13 @@ public class AreaController {
         });
 
         return currentArea.get();
+    }
+
+    public Area getLocationArea(Location location){
+        for(Area area : areas.keySet()){
+            if(area.hasLocation(location)) return area;
+        }
+
+        return null;
     }
 }
