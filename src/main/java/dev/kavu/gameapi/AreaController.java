@@ -5,6 +5,7 @@ import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -68,6 +69,11 @@ public class AreaController {
         public void onBlockInteraction(PlayerInteractEvent event){
             Player player = event.getPlayer();
             Area playerArea = players.get(player);
+
+            if(!event.hasBlock()) return;
+            if(event.isBlockInHand()) return;
+            if(event.getAction() == Action.LEFT_CLICK_BLOCK) return;
+
             Area blockArea = (event.getClickedBlock() != null) ? getLocationArea(event.getClickedBlock().getLocation()) : null;
 
             if(playerArea != null) // Null check
