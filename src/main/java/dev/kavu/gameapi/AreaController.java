@@ -26,8 +26,8 @@ public class AreaController {
             Area newArea = getPlayerArea(event.getPlayer());
             Area lastArea = players.get(player);
             if(lastArea != newArea){
-                lastArea.onLeave(event.getPlayer());
-                newArea.onEnter(event.getPlayer());
+                if(lastArea != null) lastArea.onLeave(event.getPlayer());
+                if(newArea != null) newArea.onEnter(event.getPlayer());
                 players.put(player, newArea);
             }
         }
@@ -66,7 +66,7 @@ public class AreaController {
         public void onBlockInteraction(PlayerInteractEvent event){
             Player player = event.getPlayer();
             Area playerArea = players.get(player);
-            Area blockArea = getLocationArea(event.getClickedBlock().getLocation());
+            Area blockArea = (event.getClickedBlock() != null) ? getLocationArea(event.getClickedBlock().getLocation()) : null;
 
             if(playerArea != null) // Null check
                 event.setCancelled(!playerArea.allowBlockInteraction() && playerArea.getTarget().affectsPlayers());
