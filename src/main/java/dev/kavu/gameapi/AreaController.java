@@ -40,7 +40,7 @@ public class AreaController {
         public void onBlockPlace(BlockPlaceEvent event){
             Player player = event.getPlayer();
             Area playerArea = players.get(player);
-            Area blockArea = getLocationArea(event.getBlock().getLocation());
+            Area blockArea = getLocationArea(event.getBlockPlaced().getLocation());
 
             if(playerArea != null) // Null check
                 event.setCancelled(!playerArea.allowBlockPlacement() && playerArea.getTarget().affectsPlayers());
