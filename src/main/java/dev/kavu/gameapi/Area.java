@@ -98,10 +98,10 @@ public class Area {
     }
 
     // Functionality
-    public Area resize(int xd, int yd, int zd){
-        this.dx = xd;
-        this.dy = yd;
-        this.dz = zd;
+    public Area resize(int x, int y, int z){
+        this.dx = x;
+        this.dy = y;
+        this.dz = z;
         return this;
     }
 
