@@ -43,9 +43,9 @@ public class AreaController {
             Area blockArea = getLocationArea(event.getBlockPlaced().getLocation());
 
             if(playerArea != null) // Null check
-                event.setCancelled(!playerArea.allowBlockPlacement() && playerArea.getTarget().affectsPlayers());
+                event.setCancelled(!playerArea.allowBlockPlacement() && playerArea.getTarget().affectsPlayers() && playerArea.filterPlayer(player));
             if(blockArea != null) // Null check
-                event.setCancelled(!blockArea.allowBlockPlacement() && blockArea.getTarget().affectsBlocks());
+                event.setCancelled(!blockArea.allowBlockPlacement() && blockArea.getTarget().affectsBlocks() && blockArea.filterBlock(event.getBlockPlaced().getType()));
         }
     };
 
@@ -57,9 +57,9 @@ public class AreaController {
             Area blockArea = getLocationArea(event.getBlock().getLocation());
 
             if(playerArea != null) // Null check
-                event.setCancelled(!playerArea.allowBlockDestruction() && playerArea.getTarget().affectsPlayers());
+                event.setCancelled(!playerArea.allowBlockDestruction() && playerArea.getTarget().affectsPlayers() && playerArea.filterPlayer(player));
             if(blockArea != null) // Null check
-                event.setCancelled(!blockArea.allowBlockDestruction() && blockArea.getTarget().affectsBlocks());
+                event.setCancelled(!blockArea.allowBlockDestruction() && blockArea.getTarget().affectsBlocks() && blockArea.filterBlock(event.getBlock().getType()));
         }
     };
 
@@ -69,16 +69,15 @@ public class AreaController {
             Player player = event.getPlayer();
             Area playerArea = players.get(player);
 
-            if(!event.hasBlock()) return;
-            if(event.isBlockInHand()) return;
-            if(event.getAction() == Action.LEFT_CLICK_BLOCK) return;
-
             Area blockArea = (event.getClickedBlock() != null) ? getLocationArea(event.getClickedBlock().getLocation()) : null;
 
+            Action action = event.getAction();
+            if (action != Action.RIGHT_CLICK_BLOCK) return;
+
             if(playerArea != null) // Null check
-                event.setCancelled(!playerArea.allowBlockInteraction() && playerArea.getTarget().affectsPlayers());
+                event.setCancelled(!playerArea.allowBlockInteraction() && playerArea.getTarget().affectsPlayers() && playerArea.filterPlayer(player));
             if(blockArea != null) // Null check
-                event.setCancelled(!blockArea.allowBlockInteraction() && blockArea.getTarget().affectsBlocks());
+                event.setCancelled(!blockArea.allowBlockInteraction() && blockArea.getTarget().affectsBlocks() && blockArea.filterBlock(event.getClickedBlock().getType()));
         }
     };
 
