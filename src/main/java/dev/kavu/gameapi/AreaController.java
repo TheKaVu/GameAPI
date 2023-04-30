@@ -1,7 +1,6 @@
 package dev.kavu.gameapi;
 
 import org.bukkit.Location;
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,7 +21,7 @@ public class AreaController {
 
     private final HashMap<Player, Area> players = new HashMap<>();
 
-    protected final Listener moveListener = new Listener() {
+    protected Listener moveListener = new Listener() {
         @EventHandler
         public void onPlayerMove(PlayerMoveEvent event){
             Player player = event.getPlayer();
@@ -36,7 +35,7 @@ public class AreaController {
         }
     };
 
-    protected final Listener blockPlaceListener = new Listener() {
+    protected Listener blockPlaceListener = new Listener() {
         @EventHandler
         public void onBlockPlace(BlockPlaceEvent event){
             Player player = event.getPlayer();
@@ -50,7 +49,7 @@ public class AreaController {
         }
     };
 
-    protected final Listener blockBreakListener = new Listener() {
+    protected Listener blockBreakListener = new Listener() {
         @EventHandler
         public void onBlockBreak(BlockBreakEvent event){
             Player player = event.getPlayer();
@@ -64,7 +63,7 @@ public class AreaController {
         }
     };
 
-    protected final Listener blockInteractListener = new Listener() {
+    protected Listener blockInteractListener = new Listener() {
         @EventHandler
         public void onBlockInteraction(PlayerInteractEvent event){
             Player player = event.getPlayer();
