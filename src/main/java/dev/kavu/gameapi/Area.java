@@ -2,6 +2,7 @@ package dev.kavu.gameapi;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 public class Area {
 
@@ -17,11 +18,19 @@ public class Area {
     private Target target;
 
     // Constructors
-    public Area(int dx, int dy, int dz, Location originPos, Target affectTarget) {
-        this.dx = dx;
-        this.dy = dy;
-        this.dz = dz;
-        this.originPos = originPos;
+    public Area(Location originPos, int x, int y, int z, Target affectTarget, boolean center) {
+
+        if(center) {
+            this.dx = 2 * x;
+            this.dy = 2 * y;
+            this.dz = 2 * z;
+            this.originPos = originPos.add(new Vector(-x, -y, -z));
+        } else {
+            this.dx = x;
+            this.dy = y;
+            this.dz = z;
+            this.originPos = originPos;
+        }
         target = affectTarget;
     }
 
