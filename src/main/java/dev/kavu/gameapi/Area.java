@@ -1,8 +1,11 @@
 package dev.kavu.gameapi;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+
+import java.util.function.Predicate;
 
 public class Area {
 
@@ -16,6 +19,9 @@ public class Area {
     private boolean blockDestruction = true;
     private boolean blockInteraction = true;
     private Target target;
+
+    private Predicate<Material> blockFilter = (material) -> true;
+    private Predicate<Player> playerFilter = (player) -> true;
 
     // Constructors
     public Area(Location originPos, int x, int y, int z, Target affectTarget, boolean center) {
@@ -95,6 +101,22 @@ public class Area {
 
     public void setTarget(Target target){
         this.target = target;
+    }
+
+    public boolean filterBlock(Material material) {
+        return blockFilter.test(material);
+    }
+
+    public void setBlockFilter(Predicate<Material> blockFilter) {
+        this.blockFilter = blockFilter;
+    }
+
+    public boolean filterPlayer(Player player) {
+        return playerFilter.test(player);
+    }
+
+    public void setPlayerFilter(Predicate<Player> playerFilter) {
+        this.playerFilter = playerFilter;
     }
 
     // Functionality
