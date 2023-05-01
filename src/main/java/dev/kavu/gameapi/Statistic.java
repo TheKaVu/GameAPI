@@ -11,6 +11,7 @@ public abstract class Statistic<V> implements ValueContainer<V>{
 
     public Statistic(V initValue){
         this.initValue = initValue;
+        this.value = initValue;
         locked = false;
     }
 
