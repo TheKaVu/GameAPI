@@ -23,7 +23,7 @@ public class AreaController {
 
     private final HashMap<Player, Area> players = new HashMap<>();
 
-    boolean running = true;
+    private boolean running = true;
 
     protected Listener moveListener = new Listener() {
         @EventHandler
