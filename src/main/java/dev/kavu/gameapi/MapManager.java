@@ -88,9 +88,9 @@ public class MapManager {
         return load(gameMap != null ? gameMap : currentMap);
     }
 
-    public boolean restore(Supplier<GameMap> mapSupplier){
+    public boolean restore(Supplier<GameMap> mapFactory){
         unload();
-        return load(mapSupplier != null ? mapSupplier.get() : currentMap);
+        return load(mapFactory != null ? mapFactory.get() : currentMap);
     }
 
     public boolean isLoaded() {
