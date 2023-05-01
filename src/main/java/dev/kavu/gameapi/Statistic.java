@@ -3,7 +3,7 @@ package dev.kavu.gameapi;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class Statistic<V> implements ValueContainer<V>{
+public abstract class Statistic<V> implements ValueContainer<V>{
 
     private V value;
     private final V initValue;
