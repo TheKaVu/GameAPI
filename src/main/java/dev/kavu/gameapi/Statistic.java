@@ -1,31 +1,52 @@
 package dev.kavu.gameapi;
 
-public abstract class Statistic<T extends Number> {
+import java.util.function.Consumer;
+import java.util.function.Function;
 
-    // Fields
-    private final T defaultValue;
+public class Statistic<V> implements ValueContainer<V>{
 
+    private V value;
+    private final V initValue;
     private boolean locked;
 
-    // Constructor
-    public Statistic(T defaultValue){
-        this.defaultValue = defaultValue;
+    public Statistic(V initValue){
+        this.initValue = initValue;
         locked = false;
     }
 
-    // Getters & setters
-    public void setLocked(boolean locked) {
-        this.locked = locked;
+    @Override
+    public V get() {
+        return value;
+    }
+
+    @Override
+    public void set(V value) {
+        if(!locked){
+            this.value = value;
+        }
     }
 
     public boolean isLocked() {
         return locked;
     }
 
-    public T getDefaultValue(){
-        return defaultValue;
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 
-    // Abstract functionality
-    public abstract void reset();
+    public void reset(){
+        set(initValue);
+    }
+
+    @Override
+    public void modify(Consumer<V> modifier) {
+        if(!locked){
+            modifier.accept(value);
+        }
+    }
+
+    @Override
+    public void modify(Function<V, V> modifier) {
+        set(modifier.apply(value));
+    }
 }
