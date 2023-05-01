@@ -1,6 +1,7 @@
 package dev.kavu.gameapi;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,12 +15,15 @@ import org.bukkit.plugin.PluginManager;
 
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Predicate;
 
 public class AreaController {
 
     private final HashMap<Area, Integer> areas;
 
     private final HashMap<Player, Area> players = new HashMap<>();
+
+    boolean running = true;
 
     protected Listener moveListener = new Listener() {
         @EventHandler
@@ -42,10 +46,17 @@ public class AreaController {
             Area playerArea = players.get(player);
             Area blockArea = getLocationArea(event.getBlockPlaced().getLocation());
 
-            if(playerArea != null) // Null check
-                event.setCancelled(!playerArea.allowBlockPlacement() && playerArea.getTarget().affectsPlayers() && playerArea.filterPlayer(player));
-            if(blockArea != null) // Null check
-                event.setCancelled(!blockArea.allowBlockPlacement() && blockArea.getTarget().affectsBlocks() && blockArea.filterBlock(event.getBlockPlaced().getType()));
+            Predicate<Player> playerFilter = playerArea != null ? playerArea::filterPlayer : (b) -> true;
+            Predicate<Material> blockFilter = blockArea != null ? blockArea::filterBlock : (b) -> true;
+
+            if(playerArea != null) {// Null check
+                if (playerArea.getTarget().affectsPlayers() && playerArea.allowBlockPlacement() != playerFilter.test(player))
+                    event.setCancelled(true);
+            }
+            if(blockArea != null) {// Null check
+                if (blockArea.getTarget().affectsBlocks() && blockArea.allowBlockPlacement() != blockFilter.test(event.getBlockPlaced().getType()))
+                    event.setCancelled(true);
+            }
         }
     };
 
@@ -56,10 +67,17 @@ public class AreaController {
             Area playerArea = players.get(player);
             Area blockArea = getLocationArea(event.getBlock().getLocation());
 
-            if(playerArea != null) // Null check
-                event.setCancelled(!playerArea.allowBlockDestruction() && playerArea.getTarget().affectsPlayers() && playerArea.filterPlayer(player));
-            if(blockArea != null) // Null check
-                event.setCancelled(!blockArea.allowBlockDestruction() && blockArea.getTarget().affectsBlocks() && blockArea.filterBlock(event.getBlock().getType()));
+            Predicate<Player> playerFilter = playerArea != null ? playerArea::filterPlayer : (b) -> true;
+            Predicate<Material> blockFilter = blockArea != null ? blockArea::filterBlock : (b) -> true;
+
+            if(playerArea != null) {// Null check
+                if (playerArea.getTarget().affectsPlayers() && playerArea.allowBlockDestruction() != playerFilter.test(player))
+                    event.setCancelled(true);
+            }
+            if(blockArea != null) {// Null check
+                if (blockArea.getTarget().affectsBlocks() && blockArea.allowBlockDestruction() != blockFilter.test(event.getBlock().getType()))
+                    event.setCancelled(true);
+            }
         }
     };
 
@@ -74,10 +92,17 @@ public class AreaController {
             Action action = event.getAction();
             if (action != Action.RIGHT_CLICK_BLOCK) return;
 
-            if(playerArea != null) // Null check
-                event.setCancelled(!playerArea.allowBlockInteraction() && playerArea.getTarget().affectsPlayers() && playerArea.filterPlayer(player));
-            if(blockArea != null) // Null check
-                event.setCancelled(!blockArea.allowBlockInteraction() && blockArea.getTarget().affectsBlocks() && blockArea.filterBlock(event.getClickedBlock().getType()));
+            Predicate<Player> playerFilter = playerArea != null ? playerArea::filterPlayer : (b) -> true;
+            Predicate<Material> blockFilter = blockArea != null ? blockArea::filterBlock : (b) -> true;
+
+            if(playerArea != null) {// Null check
+                if (playerArea.getTarget().affectsPlayers() && playerArea.allowBlockInteraction() != playerFilter.test(player))
+                    event.setCancelled(true);
+            }
+            if(blockArea != null) {// Null check
+                if (blockArea.getTarget().affectsBlocks() && blockArea.allowBlockInteraction() != blockFilter.test(event.getClickedBlock().getType()))
+                    event.setCancelled(true);
+            }
         }
     };
 
@@ -117,5 +142,17 @@ public class AreaController {
         }
 
         return null;
+    }
+
+    public boolean isRunning(){
+        return running;
+    }
+
+    public void start(){
+        running = true;
+    }
+
+    public void stop(){
+        running = false;
     }
 }
