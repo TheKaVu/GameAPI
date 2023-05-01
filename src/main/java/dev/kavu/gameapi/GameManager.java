@@ -19,7 +19,7 @@ public class GameManager<T extends GameType> {
 
     private final HashSet<UUID> playersOffGame = new HashSet<>();
 
-    private final HashMap<String, Statistic<?>> statistics = new HashMap<>();
+    private final HashMap<Class<? extends Statistic>, Statistic<?>> statistics = new HashMap<>();
 
     private final MapManager mapManager;
 
@@ -79,23 +79,11 @@ public class GameManager<T extends GameType> {
         return playersOffGame;
     }
 
-    public void addStatistic(String name, Statistic<?> statistic){
-        statistics.put(name, statistic);
+    public void addStatistic(Statistic statistic){
+        statistics.put(statistic.getClass(), statistic);
     }
 
-    @SuppressWarnings("unchecked")
-    public <E extends Statistic<?>> HashMap<String, E> getStatistics(Class<E> statisticClass){
-        HashMap<String, E> statisticSubmap = new HashMap<>();
-
-        statistics.forEach((k, v) -> {
-            if(v.getClass().equals(statisticClass)){
-                try {
-                    E e = (E) v;
-                    statisticSubmap.put(k, e);
-                } catch (ClassCastException ignored){ }
-            }
-        });
-
-        return statisticSubmap;
+    public <C extends Statistic> C getStatistic(Class<C> clazz){
+        return clazz.cast(statistics.get(clazz));
     }
 }
