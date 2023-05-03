@@ -6,12 +6,12 @@ import java.util.function.Function;
 public abstract class Statistic<V> implements ValueContainer<V>{
 
     private V value;
-    private final V initValue;
+    private final V defaultValue;
     private boolean locked;
 
-    public Statistic(V initValue){
-        this.initValue = initValue;
-        this.value = initValue;
+    public Statistic(V defaultValue){
+        this.defaultValue = defaultValue;
+        this.value = defaultValue;
         locked = false;
     }
 
@@ -27,6 +27,10 @@ public abstract class Statistic<V> implements ValueContainer<V>{
         }
     }
 
+    public V getDefault() {
+        return defaultValue;
+    }
+
     public boolean isLocked() {
         return locked;
     }
@@ -36,7 +40,7 @@ public abstract class Statistic<V> implements ValueContainer<V>{
     }
 
     public void reset(){
-        set(initValue);
+        set(defaultValue);
     }
 
     @Override
