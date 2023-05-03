@@ -39,6 +39,10 @@ public abstract class Statistic<V> implements ValueContainer<V>{
         this.locked = locked;
     }
 
+    public V getDefaultValue() {
+        return defaultValue;
+    }
+
     public void reset(){
         set(defaultValue);
     }
