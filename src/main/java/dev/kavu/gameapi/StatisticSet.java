@@ -1,8 +1,6 @@
 package dev.kavu.gameapi;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.BiPredicate;
 
 public abstract class StatisticSet<V> extends Statistic<V> {
@@ -38,6 +36,10 @@ public abstract class StatisticSet<V> extends Statistic<V> {
 
     public Statistic<V> get(UUID uuid){
         return map.get(uuid);
+    }
+
+    public Set<UUID> getMembers(){
+        return map.keySet();
     }
 
     @Override
