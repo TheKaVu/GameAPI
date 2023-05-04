@@ -1,50 +1,36 @@
 package dev.kavu.gameapi;
 
 import java.util.*;
-import java.util.function.BiPredicate;
 
-public abstract class StatisticSet<V> extends Statistic<V> {
+public abstract class StatisticSet<V> extends Statistic<HashMap<UUID, Statistic<V>>>   {
 
-    private final HashMap<UUID, Statistic<V>> map = new HashMap<>();
+    private final V defaultEntryValue;
 
     public StatisticSet(V defaultValue) {
-        super(defaultValue);
+        super(new HashMap<>());
+        defaultEntryValue = defaultValue;
+        reset();
     }
 
     public StatisticSet(V defaultValue, Collection<UUID> members) {
-        super(defaultValue);
+        super(new HashMap<>());
+        defaultEntryValue = defaultValue;
         for (UUID id : members) {
-            map.put(id, new Statistic<V>(defaultValue) {});
+            get().put(id, new Statistic<V>(defaultValue) {});
         }
     }
 
-    @Override
-    public void set(V value) {
-        map.forEach((k, v) -> v.set(value));
+    public Set<UUID> getMembers() {
+        return get().keySet();
     }
 
-    public void set(BiPredicate<UUID, V> selector, V value) {
-        map.forEach((k, v) -> {
-            if(selector.test(k, v.get())) v.set(value);
-        });
+    public V getDefaultEntry() {
+        return defaultEntryValue;
     }
 
     @Override
-    public V get(){
-        return getDefault();
-    }
-
-    public Statistic<V> get(UUID uuid){
-        return map.get(uuid);
-    }
-
-    public Set<UUID> getMembers(){
-        return map.keySet();
-    }
-
-    @Override
-    public void reset(){
-        map.forEach((k, v) -> v.reset());
+    public void reset() {
+        get().forEach((k, v) -> get().get(k).reset());
     }
 
 }
