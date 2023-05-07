@@ -3,6 +3,7 @@ package dev.kavu.gameapi;
 import java.io.Serializable;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 
 public class StatisticSetWrapper<V extends Serializable> implements Serializable  {
 
@@ -33,10 +34,10 @@ public class StatisticSetWrapper<V extends Serializable> implements Serializable
         return new StatisticSetWrapper<>(statistic.getDefaultEntry(), statistic.isLocked(), keys, values);
     }
 
-    public <T extends StatisticSet<V>> T getStatisticSet(Class<T> clazz) throws ClassCastException {
-        T statisticSet = clazz.cast(new StatisticSet<V>(defaultValue){});
+    public <T extends StatisticSet<V>> T getStatisticSet(Supplier<T> supplier) throws ClassCastException {
+        T statisticSet = supplier.get();
         for(int i = 0; i < keys.length; i++){
-            statisticSet.get().put(keys[i], values[i].getStatistic(Statistic.class));
+            statisticSet.get().put(keys[i], values[i].getStatistic(() -> new Statistic<V>(statisticSet.getDefaultEntry()) {}));
         }
         statisticSet.setLocked(locked);
         return statisticSet;
