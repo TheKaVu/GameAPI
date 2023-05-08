@@ -14,7 +14,7 @@ public class StatisticWrapper<V extends Serializable> implements Serializable {
         this.locked = locked;
     }
 
-    public <T extends Statistic<V>> T getStatistic(Supplier<T> supplier) throws ClassCastException {
+    public <T extends Statistic<V>> T getStatistic(Supplier<T> supplier) {
         T statistic = supplier.get();
         statistic.setLocked(false);
         statistic.set(value);
