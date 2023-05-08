@@ -1,5 +1,7 @@
-package dev.kavu.gameapi;
+package dev.kavu.gameapi.game;
 
+import dev.kavu.gameapi.world.MapManager;
+import dev.kavu.gameapi.statistic.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 

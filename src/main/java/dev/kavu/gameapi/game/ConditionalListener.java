@@ -1,4 +1,4 @@
-package dev.kavu.gameapi;
+package dev.kavu.gameapi.game;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
