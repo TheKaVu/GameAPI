@@ -1,4 +1,4 @@
-package dev.kavu.gameapi;
+package dev.kavu.gameapi.statistic;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;

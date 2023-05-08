@@ -1,4 +1,4 @@
-package dev.kavu.gameapi;
+package dev.kavu.gameapi.statistic;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
