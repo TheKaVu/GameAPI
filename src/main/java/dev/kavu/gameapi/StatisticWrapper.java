@@ -1,6 +1,7 @@
 package dev.kavu.gameapi;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.function.Supplier;
 
 public class StatisticWrapper<V extends Serializable> implements Serializable {
@@ -21,6 +22,17 @@ public class StatisticWrapper<V extends Serializable> implements Serializable {
         statistic.set(value);
         statistic.setLocked(locked);
         return statistic;
+    }
+
+    public <T extends Statistic<V>> T getStatistic(Class<T> clazz) {
+        try {
+            T t = clazz.getConstructor().newInstance();
+            return getStatistic(() -> t);
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
     public static <V extends Serializable> StatisticWrapper<V> wrap(Statistic<V> statistic) {
