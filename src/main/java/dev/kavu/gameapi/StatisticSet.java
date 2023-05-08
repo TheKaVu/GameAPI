@@ -28,6 +28,20 @@ public abstract class StatisticSet<V> extends Statistic<HashMap<UUID, Statistic<
         return defaultEntryValue;
     }
 
+    public boolean put(UUID uuid){
+        return get().put(uuid, new Statistic<V>(defaultEntryValue) {}) == null;
+    }
+
+    public boolean put(UUID uuid, V value){
+        Statistic<V> s =  new Statistic<V>(defaultEntryValue) {};
+        s.set(value);
+        return get().put(uuid, s) == null;
+    }
+
+    public boolean remove(UUID uuid){
+        return get().remove(uuid) != null;
+    }
+
     @Override
     public void reset() {
         get().forEach((k, v) -> get().get(k).reset());
