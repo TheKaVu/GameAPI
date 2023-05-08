@@ -8,13 +8,11 @@ import java.util.function.Supplier;
 
 public class StatisticSetWrapper<V extends Serializable> implements Serializable  {
 
-    private final V defaultValue;
     private final boolean locked;
     private final UUID[] keys;
     private final StatisticWrapper<V>[] values;
 
-    private StatisticSetWrapper(V defaultValue, boolean locked, UUID[] keys, StatisticWrapper<V>[] values) {
-        this.defaultValue = defaultValue;
+    private StatisticSetWrapper(boolean locked, UUID[] keys, StatisticWrapper<V>[] values) {
         this.locked = locked;
         this.keys = keys;
         this.values = values;
@@ -32,7 +30,7 @@ public class StatisticSetWrapper<V extends Serializable> implements Serializable
             values[i.get()] = StatisticWrapper.wrap(v);
             i.incrementAndGet();
         });
-        return new StatisticSetWrapper<>(statistic.getDefaultEntry(), statistic.isLocked(), keys, values);
+        return new StatisticSetWrapper<>(statistic.isLocked(), keys, values);
     }
 
     public <T extends StatisticSet<V>> T getStatisticSet(Supplier<T> supplier) throws ClassCastException {
