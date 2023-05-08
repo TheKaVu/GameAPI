@@ -6,12 +6,10 @@ import java.util.function.Supplier;
 
 public class StatisticWrapper<V extends Serializable> implements Serializable {
 
-    private final V defaultValue;
     private final V value;
     private final boolean locked;
 
-    private StatisticWrapper(V defaultValue, V value, boolean locked) {
-        this.defaultValue = defaultValue;
+    private StatisticWrapper(V value, boolean locked) {
         this.value = value;
         this.locked = locked;
     }
@@ -36,7 +34,7 @@ public class StatisticWrapper<V extends Serializable> implements Serializable {
     }
 
     public static <V extends Serializable> StatisticWrapper<V> wrap(Statistic<V> statistic) {
-        return new StatisticWrapper<>(statistic.getDefault(), statistic.get(), statistic.isLocked());
+        return new StatisticWrapper<>(statistic.get(), statistic.isLocked());
     }
 
     public static <V extends Serializable> StatisticWrapper<V> wrap(Supplier<Statistic<V>> supplier){
