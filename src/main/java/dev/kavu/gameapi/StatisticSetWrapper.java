@@ -1,6 +1,7 @@
 package dev.kavu.gameapi;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
@@ -41,5 +42,14 @@ public class StatisticSetWrapper<V extends Serializable> implements Serializable
         }
         statisticSet.setLocked(locked);
         return statisticSet;
+    }
+
+    public <T extends StatisticSet<V>> T getStatisticSet(Class<T> clazz) {
+        try {
+            T t = clazz.getConstructor().newInstance();
+            return getStatisticSet(() -> t);
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ignored) {
+        }
+        return null;
     }
 }
