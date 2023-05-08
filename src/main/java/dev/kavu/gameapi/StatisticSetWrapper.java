@@ -33,7 +33,7 @@ public class StatisticSetWrapper<V extends Serializable> implements Serializable
         return new StatisticSetWrapper<>(statistic.isLocked(), keys, values);
     }
 
-    public <T extends StatisticSet<V>> T getStatisticSet(Supplier<T> supplier) throws ClassCastException {
+    public <T extends StatisticSet<V>> T getStatisticSet(Supplier<T> supplier) {
         T statisticSet = supplier.get();
         for(int i = 0; i < keys.length; i++){
             statisticSet.get().put(keys[i], values[i].getStatistic(() -> new Statistic<V>(statisticSet.getDefaultEntry()) {}));
