@@ -1,4 +1,4 @@
-package dev.kavu.gameapi;
+package dev.kavu.gameapi.world;
 
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
