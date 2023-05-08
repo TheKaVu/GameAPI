@@ -38,21 +38,21 @@ public class GameManager<T extends GameType> {
         this.mapManager = mapManager;
     }
 
-    public GameManager(Plugin plugin, T gameType, Supplier<Collection<? extends Player>> inGamePlayers) {
+    public GameManager(Plugin plugin, T gameType, Supplier<Collection<? extends Player>> playersInGame) {
         this.plugin = plugin;
         this.gameType = gameType;
         mapManager = new MapManager(plugin.getDataFolder());
-        for(Player p : inGamePlayers.get()){
-            playersInGame.add(p.getUniqueId());
+        for(Player p : playersInGame.get()){
+            this.playersInGame.add(p.getUniqueId());
         }
     }
 
-    public GameManager(Plugin plugin, T gameType, MapManager mapManager, Supplier<Collection<? extends Player>> inGamePlayers) {
+    public GameManager(Plugin plugin, T gameType, MapManager mapManager, Supplier<Collection<? extends Player>> playersInGame) {
         this.plugin = plugin;
         this.gameType = gameType;
         this.mapManager = mapManager;
-        for(Player p : inGamePlayers.get()){
-            playersInGame.add(p.getUniqueId());
+        for(Player p : playersInGame.get()){
+            this.playersInGame.add(p.getUniqueId());
         }
     }
 
