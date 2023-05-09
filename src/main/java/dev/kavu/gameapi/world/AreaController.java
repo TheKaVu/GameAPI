@@ -14,8 +14,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 
@@ -113,6 +111,12 @@ public class AreaController {
     }
 
     public AreaController(HashMap<Area, Integer> areas, Plugin plugin){
+        if(areas == null){
+            throw new NullPointerException("areas was null");
+        }
+        if(plugin == null){
+            throw new NullPointerException("plugin was null");
+        }
         this.areas = areas;
         PluginManager manager = plugin.getServer().getPluginManager();
         manager.registerEvents(moveListener, plugin);
@@ -122,6 +126,9 @@ public class AreaController {
     }
 
     public boolean addArea(Area area, int priority){
+        if(area == null){
+            throw new NullPointerException();
+        }
         return areas.putIfAbsent(area, priority) == null;
     }
 
@@ -140,6 +147,9 @@ public class AreaController {
     }
 
     public Area getLocationArea(Location location){
+        if(location == null){
+            throw new NullPointerException("areas was null");
+        }
         int lastPriority = Integer.MIN_VALUE;
         AtomicReference<Area> currentArea = new AtomicReference<>(null);
 
