@@ -15,10 +15,22 @@ public class GameType {
 
     // Constructor
     public GameType(String name, String systemName, String prefix, int minPlayers, int maxPlayers) {
+        if(name == null){
+            throw new NullPointerException("name was null");
+        }
+        if(systemName == null){
+            throw new NullPointerException("systemName was null");
+        }
+        if(prefix == null){
+            throw new NullPointerException("prefix was null");
+        }
+        if(minPlayers > maxPlayers){
+            throw new ArithmeticException("Minimum value was bigger than maximum value");
+        }
         this.name = name;
         this.systemName = systemName;
         this.prefix = prefix;
-        this.minPlayers = Math.min(minPlayers, maxPlayers);
+        this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
     }
 
