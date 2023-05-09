@@ -28,7 +28,9 @@ public class Area {
         if(x < 0) throw new IllegalArgumentException("x was less than 0");
         if(y < 0) throw new IllegalArgumentException("y was less than 0");
         if(z < 0) throw new IllegalArgumentException("z was less than 0");
-
+        if(affectTarget == null){
+            throw new NullPointerException();
+        }
         if(center) {
             this.dx = 2 * x;
             this.dy = 2 * y;
@@ -44,6 +46,9 @@ public class Area {
     }
 
     public Area(Location corner1, Location corner2, Target affectTarget) {
+        if(affectTarget == null){
+            throw new NullPointerException();
+        }
         dx = Math.abs(corner1.getBlockX() - corner2.getBlockX());
         dy = Math.abs(corner1.getBlockY() - corner2.getBlockY());
         dz = Math.abs(corner1.getBlockZ() - corner2.getBlockZ());
@@ -103,6 +108,9 @@ public class Area {
     }
 
     public void setTarget(Target target){
+        if(target == null){
+            throw new NullPointerException();
+        }
         this.target = target;
     }
 
@@ -111,6 +119,9 @@ public class Area {
     }
 
     public void setBlockFilter(Predicate<Material> blockFilter) {
+        if(blockFilter == null){
+            throw new NullPointerException();
+        }
         this.blockFilter = blockFilter;
     }
 
@@ -119,6 +130,9 @@ public class Area {
     }
 
     public void setPlayerFilter(Predicate<Player> playerFilter) {
+        if(playerFilter == null){
+            throw new NullPointerException();
+        }
         this.playerFilter = playerFilter;
     }
 
@@ -131,6 +145,9 @@ public class Area {
     }
 
     public boolean hasLocation(Location location){
+        if(location == null){
+            throw new NullPointerException();
+        }
         int x = location.getBlockX();
         int y = location.getBlockY();
         int z = location.getBlockZ();
@@ -143,6 +160,9 @@ public class Area {
     }
 
     public boolean hasPlayer(Player player){
+        if(player == null){
+            throw new NullPointerException();
+        }
         return hasLocation(player.getLocation()) || hasLocation(player.getEyeLocation());
     }
 
