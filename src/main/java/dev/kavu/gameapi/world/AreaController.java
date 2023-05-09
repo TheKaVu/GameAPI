@@ -14,6 +14,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 
@@ -119,8 +121,8 @@ public class AreaController {
         manager.registerEvents(blockInteractListener, plugin);
     }
 
-    public HashMap<Area, Integer> getAreas() {
-        return areas;
+    public boolean addArea(Area area, int priority){
+        return areas.putIfAbsent(area, priority) == null;
     }
 
     public Area getPlayerArea(Player player){
