@@ -24,6 +24,9 @@ public class GameStateTimer {
     }
 
     public GameStateTimer(GameState initialState){
+        if(initialState == null){
+            throw new NullPointerException();
+        }
         currentState = initialState;
     }
 
@@ -50,6 +53,9 @@ public class GameStateTimer {
 
     // Functionality
     public void initialize(GameState gameState){
+        if(gameState == null){
+            throw new NullPointerException();
+        }
 
         running = true;
         currentState = gameState;
