@@ -27,6 +27,9 @@ public class MapManager {
     }
 
     public MapManager(File mainFolder){
+        if(mainFolder == null){
+            throw new NullPointerException();
+        }
         this.mainFolder = mainFolder;
     }
 
@@ -46,6 +49,11 @@ public class MapManager {
     // Functionality
 
     public boolean load(GameMap map){
+
+        if(map == null) {
+            throw new NullPointerException();
+        }
+
         if(isLoaded()) return true;
 
         this.activeWorldFolder = new File(Bukkit.getWorldContainer().getParentFile(), map.getName() + "_active");
@@ -98,6 +106,9 @@ public class MapManager {
     }
 
     public GameMap createMap(String mapPath , boolean autoLoad){
+        if(mapPath == null){
+            throw new NullPointerException();
+        }
         GameMap map = new GameMap() {
 
             @Override
@@ -127,16 +138,24 @@ public class MapManager {
     }
 
     public GameMap createMap(String mapPath, Consumer<World> onLoadAction, Runnable onUnloadAction , boolean autoLoad){
+
+        if(onLoadAction == null){
+            throw new NullPointerException("onLoadAction was null");
+        }
+        if(onUnloadAction == null){
+            throw new NullPointerException("onUnloadAction was null");
+        }
+
         GameMap map = new GameMap() {
 
             @Override
             public void onLoad(World world) {
-                if(onLoadAction != null) onLoadAction.accept(world);
+                onLoadAction.accept(world);
             }
 
             @Override
             public void onUnload() {
-                if(onUnloadAction != null) onUnloadAction.run();
+                onUnloadAction.run();
             }
 
             @Override
