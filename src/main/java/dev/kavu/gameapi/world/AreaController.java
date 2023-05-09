@@ -140,11 +140,17 @@ public class AreaController {
     }
 
     public Area getLocationArea(Location location){
-        for(Area area : areas.keySet()){
-            if(area.hasLocation(location)) return area;
-        }
+        int lastPriority = Integer.MIN_VALUE;
+        AtomicReference<Area> currentArea = new AtomicReference<>(null);
 
-        return null;
+        areas.forEach((area, priority) -> {
+            if(area.hasLocation(location) && priority == lastPriority) throw new AreaPickEquivocationException(currentArea.get(), area);
+            if(area.hasLocation(location) && priority > lastPriority) {
+                currentArea.set(area);
+            }
+        });
+
+        return currentArea.get();
     }
 
     public boolean isRunning(){
