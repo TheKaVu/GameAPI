@@ -27,18 +27,42 @@ public class GameManager<T extends GameType> {
 
     // Constructor
     public GameManager(Plugin plugin, T gameType) {
+        if(plugin == null){
+            throw new NullPointerException("plugin was null");
+        }
+        if(gameType == null){
+            throw new NullPointerException("gameType was null");
+        }
         this.plugin = plugin;
         this.gameType = gameType;
         mapManager = new MapManager(plugin.getDataFolder());
     }
 
     public GameManager(Plugin plugin, T gameType, MapManager mapManager) {
+        if(plugin == null){
+            throw new NullPointerException("plugin was null");
+        }
+        if(gameType == null){
+            throw new NullPointerException("gameType was null");
+        }
+        if(mapManager == null){
+            throw new NullPointerException("mapManager was null");
+        }
         this.plugin = plugin;
         this.gameType = gameType;
         this.mapManager = mapManager;
     }
 
     public GameManager(Plugin plugin, T gameType, Supplier<Collection<? extends Player>> playersInGame) {
+        if(plugin == null){
+            throw new NullPointerException("plugin was null");
+        }
+        if(gameType == null){
+            throw new NullPointerException("gameType was null");
+        }
+        if(playersInGame == null){
+            throw new NullPointerException("playersInGame was null");
+        }
         this.plugin = plugin;
         this.gameType = gameType;
         mapManager = new MapManager(plugin.getDataFolder());
@@ -48,6 +72,18 @@ public class GameManager<T extends GameType> {
     }
 
     public GameManager(Plugin plugin, T gameType, MapManager mapManager, Supplier<Collection<? extends Player>> playersInGame) {
+        if(plugin == null){
+            throw new NullPointerException("plugin was null");
+        }
+        if(gameType == null){
+            throw new NullPointerException("gameType was null");
+        }
+        if(mapManager == null){
+            throw new NullPointerException("mapManager was null");
+        }
+        if(playersInGame == null){
+            throw new NullPointerException("playersInGame was null");
+        }
         this.plugin = plugin;
         this.gameType = gameType;
         this.mapManager = mapManager;
@@ -82,10 +118,16 @@ public class GameManager<T extends GameType> {
     }
 
     public void addStatistic(Statistic statistic){
+        if(statistic == null){
+            throw new NullPointerException();
+        }
         statistics.put(statistic.getClass(), statistic);
     }
 
     public <C extends Statistic> C getStatistic(Class<C> clazz){
+        if(clazz == null){
+            throw new NullPointerException();
+        }
         return clazz.cast(statistics.get(clazz));
     }
 }
