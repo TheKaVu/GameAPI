@@ -14,6 +14,9 @@ public abstract class StatisticSet<V> extends Statistic<HashMap<UUID, Statistic<
 
     public StatisticSet(V defaultValue, Collection<UUID> members) {
         super(new HashMap<>());
+        if(members == null){
+            throw new NullPointerException();
+        }
         defaultEntryValue = defaultValue;
         for (UUID id : members) {
             get().put(id, new Statistic<V>(defaultValue) {});
