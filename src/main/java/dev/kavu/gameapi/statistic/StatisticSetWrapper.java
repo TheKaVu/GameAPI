@@ -33,20 +33,23 @@ public class StatisticSetWrapper<V extends Serializable> implements Serializable
         return new StatisticSetWrapper<>(statistic.isLocked(), keys, values);
     }
 
-    public <T extends StatisticSet<V>> T getStatisticSet(Supplier<T> supplier) {
-        T statisticSet = supplier.get();
+    public <T extends StatisticSet<V>> T getStatisticSet(T statisticSet) {
         for(int i = 0; i < keys.length; i++){
-            statisticSet.get().put(keys[i], values[i].getStatistic(() -> new Statistic<V>(statisticSet.getDefaultEntry()) {}));
+            statisticSet.get().put(keys[i], values[i].getStatistic(new Statistic<V>(statisticSet.getDefaultEntry()) {}));
         }
         statisticSet.setLocked(locked);
         return statisticSet;
     }
 
-    public <T extends StatisticSet<V>> T getStatisticSet(Class<T> clazz) {
+    public <T extends StatisticSet<V>> T getStatisticSet(Class<T> clazz) throws InstantiationException, InvocationTargetException{
         try {
-            T t = clazz.getConstructor().newInstance();
-            return getStatisticSet(() -> t);
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ignored) {
+            T statisticSet = clazz.getConstructor().newInstance();
+            for(int i = 0; i < keys.length; i++){
+                statisticSet.get().put(keys[i], values[i].getStatistic(new Statistic<V>(statisticSet.getDefaultEntry()) {}));
+            }
+            statisticSet.setLocked(locked);
+            return statisticSet;
+        } catch (IllegalAccessException | NoSuchMethodException ignored) {
         }
         return null;
     }
