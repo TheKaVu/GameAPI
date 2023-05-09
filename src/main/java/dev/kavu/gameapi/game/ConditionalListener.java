@@ -16,7 +16,10 @@ public class ConditionalListener implements Listener {
 
     // Constructor
     public ConditionalListener(Listener handledListener, BooleanSupplier condition) {
-        this.condition = condition;
+        this.condition = condition == null ? () -> true : condition;
+        if(handledListener == null){
+            throw new NullPointerException("handledListener was null");
+        }
         this.handledListener = handledListener;
     }
 
