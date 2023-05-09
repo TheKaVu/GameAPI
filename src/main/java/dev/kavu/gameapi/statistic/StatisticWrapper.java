@@ -14,23 +14,23 @@ public class StatisticWrapper<V extends Serializable> implements Serializable {
         this.locked = locked;
     }
 
-    public <T extends Statistic<V>> T getStatistic(Supplier<T> supplier) {
-        T statistic = supplier.get();
-        statistic.setLocked(false);
-        statistic.set(value);
-        statistic.setLocked(locked);
-        return statistic;
+    public <T extends Statistic<V>> T getStatistic(T newStatistic) {
+        newStatistic.setLocked(false);
+        newStatistic.set(value);
+        newStatistic.setLocked(locked);
+        return newStatistic;
     }
 
-    public <T extends Statistic<V>> T getStatistic(Class<T> clazz) {
+    public <T extends Statistic<V>> T getStatistic(Class<T> clazz) throws InstantiationException, InvocationTargetException{
         try {
-            T t = clazz.getConstructor().newInstance();
-            return getStatistic(() -> t);
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
+            T statistic = clazz.getConstructor().newInstance();
+            statistic.setLocked(false);
+            statistic.set(value);
+            statistic.setLocked(locked);
+            return statistic;
+        } catch (IllegalAccessException | NoSuchMethodException ignored) {
+            return null;
         }
-        return null;
-
     }
 
     public static <V extends Serializable> StatisticWrapper<V> wrap(Statistic<V> statistic) {
