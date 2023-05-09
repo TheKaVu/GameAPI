@@ -17,22 +17,10 @@ public class StatisticSetWrapper<V extends Serializable> implements Serializable
         this.values = values;
     }
 
-    public static <V extends Serializable> StatisticSetWrapper<V> wrap(StatisticSet<V> statistic) {
-        int size = statistic.get().size();
-        UUID[] keys = new UUID[size];
-        StatisticWrapper<V>[] values = new StatisticWrapper[size];
-
-        AtomicInteger i = new AtomicInteger();
-
-        statistic.get().forEach((k, v) -> {
-            keys[i.get()] = k;
-            values[i.get()] = StatisticWrapper.wrap(v);
-            i.incrementAndGet();
-        });
-        return new StatisticSetWrapper<>(statistic.isLocked(), keys, values);
-    }
-
     public <T extends StatisticSet<V>> T getStatisticSet(T statisticSet) {
+        if(statisticSet == null){
+            throw new NullPointerException();
+        }
         for(int i = 0; i < keys.length; i++){
             statisticSet.get().put(keys[i], values[i].getStatistic(new Statistic<V>(statisticSet.getDefaultEntry()) {}));
         }
@@ -41,6 +29,9 @@ public class StatisticSetWrapper<V extends Serializable> implements Serializable
     }
 
     public <T extends StatisticSet<V>> T getStatisticSet(Class<T> clazz) throws InstantiationException, InvocationTargetException{
+        if(clazz == null){
+            throw new NullPointerException();
+        }
         try {
             T statisticSet = clazz.getConstructor().newInstance();
             for(int i = 0; i < keys.length; i++){
@@ -51,5 +42,23 @@ public class StatisticSetWrapper<V extends Serializable> implements Serializable
         } catch (IllegalAccessException | NoSuchMethodException ignored) {
         }
         return null;
+    }
+
+    public static <V extends Serializable> StatisticSetWrapper<V> wrap(StatisticSet<V> statisticSet) {
+        if(statisticSet == null){
+            throw new NullPointerException();
+        }
+        int size = statisticSet.get().size();
+        UUID[] keys = new UUID[size];
+        StatisticWrapper<V>[] values = new StatisticWrapper[size];
+
+        AtomicInteger i = new AtomicInteger();
+
+        statisticSet.get().forEach((k, v) -> {
+            keys[i.get()] = k;
+            values[i.get()] = StatisticWrapper.wrap(v);
+            i.incrementAndGet();
+        });
+        return new StatisticSetWrapper<>(statisticSet.isLocked(), keys, values);
     }
 }
