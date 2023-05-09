@@ -34,6 +34,9 @@ public abstract class GameState {
 
     // Constructors
     public GameState(String name, long duration, boolean reverseTimer) {
+        if(name == null){
+            throw new NullPointerException();
+        }
         this.duration = duration;
         this.period = 1;
         this.reverseTimer = reverseTimer;
@@ -41,9 +44,13 @@ public abstract class GameState {
     }
 
     public GameState(String name, long duration, int period, boolean reverseTimer) {
-        this.duration = duration;
-        if (period < 1)
+        if(name == null){
+            throw new NullPointerException();
+        }
+        if (period < 1) {
             throw new IllegalArgumentException("period is less than 1");
+        }
+        this.duration = duration;
         this.period = period;
         this.reverseTimer = reverseTimer;
         this.name = name;
