@@ -25,6 +25,9 @@ public class Area {
 
     // Constructors
     public Area(Location originPos, int x, int y, int z, Target affectTarget, boolean center) {
+        if(x < 0) throw new IllegalArgumentException("x was less than 0");
+        if(y < 0) throw new IllegalArgumentException("y was less than 0");
+        if(z < 0) throw new IllegalArgumentException("z was less than 0");
 
         if(center) {
             this.dx = 2 * x;
