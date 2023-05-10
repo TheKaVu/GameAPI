@@ -137,7 +137,7 @@ public class AreaController {
         AtomicReference<Area> currentArea = new AtomicReference<>(null);
 
         areas.forEach((area, priority) -> {
-            if(area.hasPlayer(player) && priority == lastPriority) throw new AreaPickEquivocationException(currentArea.get(), area);
+            if(area.hasPlayer(player) && priority == lastPriority) throw new AreaPickEquivocationException();
             if(area.hasPlayer(player) && priority > lastPriority) {
                 currentArea.set(area);
             }
@@ -154,7 +154,7 @@ public class AreaController {
         AtomicReference<Area> currentArea = new AtomicReference<>(null);
 
         areas.forEach((area, priority) -> {
-            if(area.hasLocation(location) && priority == lastPriority) throw new AreaPickEquivocationException(currentArea.get(), area);
+            if(area.hasLocation(location) && priority == lastPriority) throw new AreaPickEquivocationException();
             if(area.hasLocation(location) && priority > lastPriority) {
                 currentArea.set(area);
             }
