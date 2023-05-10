@@ -53,7 +53,7 @@ public class GameManager<T extends GameType> {
         this.mapManager = mapManager;
     }
 
-    public GameManager(Plugin plugin, T gameType, Supplier<Collection<? extends Player>> playersInGame) {
+    public GameManager(Plugin plugin, T gameType, Collection<? extends Player> playersInGame) {
         if(plugin == null){
             throw new NullPointerException("plugin was null");
         }
@@ -66,12 +66,12 @@ public class GameManager<T extends GameType> {
         this.plugin = plugin;
         this.gameType = gameType;
         mapManager = new MapManager(plugin.getDataFolder());
-        for(Player p : playersInGame.get()){
+        for(Player p : playersInGame){
             this.playersInGame.add(p.getUniqueId());
         }
     }
 
-    public GameManager(Plugin plugin, T gameType, MapManager mapManager, Supplier<Collection<? extends Player>> playersInGame) {
+    public GameManager(Plugin plugin, T gameType, MapManager mapManager, Collection<? extends Player> playersInGame) {
         if(plugin == null){
             throw new NullPointerException("plugin was null");
         }
@@ -87,7 +87,7 @@ public class GameManager<T extends GameType> {
         this.plugin = plugin;
         this.gameType = gameType;
         this.mapManager = mapManager;
-        for(Player p : playersInGame.get()){
+        for(Player p : playersInGame){
             this.playersInGame.add(p.getUniqueId());
         }
     }
