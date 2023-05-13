@@ -6,5 +6,7 @@ public interface Statistic<T extends Number> {
 
     boolean isLocked();
 
+    T getDefault();
+
     T onTrigger(T current);
 }
