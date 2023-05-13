@@ -1,12 +1,10 @@
 package dev.kavu.gameapi.game;
 
 import dev.kavu.gameapi.world.MapManager;
-import dev.kavu.gameapi.statistic.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.util.*;
-import java.util.function.Supplier;
 
 public class GameManager<T extends GameType> {
 
@@ -21,7 +19,7 @@ public class GameManager<T extends GameType> {
 
     private final HashSet<UUID> playersOffGame = new HashSet<>();
 
-    private final HashMap<Class<? extends Statistic>, Statistic<?>> statistics = new HashMap<>();
+    //private final HashMap<Class<? extends Statistic>, Statistic<?>> statistics = new HashMap<>();
 
     private final MapManager mapManager;
 
@@ -117,7 +115,7 @@ public class GameManager<T extends GameType> {
         return playersOffGame;
     }
 
-    public void addStatistic(Statistic statistic){
+    /*public void addStatistic(Statistic statistic){
         if(statistic == null){
             throw new NullPointerException();
         }
@@ -129,5 +127,5 @@ public class GameManager<T extends GameType> {
             throw new NullPointerException();
         }
         return clazz.cast(statistics.get(clazz));
-    }
+    }*/
 }
