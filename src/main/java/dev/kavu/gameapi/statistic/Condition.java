@@ -9,4 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Condition {
     // Determines if the function or field should be treated as a condition
+
+    boolean alternative() default false;
 }
