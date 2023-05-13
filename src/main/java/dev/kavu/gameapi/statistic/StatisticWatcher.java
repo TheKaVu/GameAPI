@@ -50,6 +50,7 @@ public class StatisticWatcher<T extends Number> {
     }
 
     public void trigger(UUID uuid){
+        if(!checkConditions()) return;
         execFor(uuid, statistic::onTrigger);
     }
 
