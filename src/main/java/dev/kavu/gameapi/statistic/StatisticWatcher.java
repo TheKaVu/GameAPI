@@ -1,8 +1,13 @@
 package dev.kavu.gameapi.statistic;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerEvent;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
 import java.util.function.Function;
 
 public class StatisticWatcher<T extends Number> {
@@ -10,6 +15,17 @@ public class StatisticWatcher<T extends Number> {
     // Fields
     private final Statistic<T> statistic;
     private final HashMap<UUID, T> members = new HashMap<>();
+    private final HashSet<Class<? extends PlayerEvent>> triggers = new HashSet<>();
+
+    private final Listener listener = new Listener() {
+        @EventHandler
+        public void onPlayerEvent(PlayerEvent playerEvent){
+            if(!triggers.contains(playerEvent.getClass())) return;
+            if(!checkConditions()) return;
+
+            execFor(playerEvent.getPlayer().getUniqueId(), statistic::onTrigger);
+        }
+    };
 
     // Constructor
     public StatisticWatcher(Statistic<T> statistic){
@@ -47,5 +63,37 @@ public class StatisticWatcher<T extends Number> {
         if(function == null) throw new NullPointerException();
 
         return members.replace(member, function.apply(members.get(member))) == null;
+    }
+
+    public <E extends PlayerEvent> void addEventAsTrigger(Class<E> event){
+        triggers.add(event);
+    }
+
+    public void trigger(UUID uuid){
+        execFor(uuid, statistic::onTrigger);
+    }
+
+    private boolean checkConditions() throws IllegalArgumentException{
+        boolean result = true;
+        boolean alternativeResult = false;
+
+        for(Method method : statistic.getClass().getDeclaredMethods()){
+            if(method.isAnnotationPresent(Condition.class)){
+                Condition condition = method.getAnnotation(Condition.class);
+
+                method.setAccessible(true);
+
+                try {
+                    if(!condition.alternative()) {
+                        result = (boolean) method.invoke(statistic) && result;
+                    } else {
+                        alternativeResult = (boolean) method.invoke(statistic) || alternativeResult;
+                    }
+                } catch (IllegalAccessException | InvocationTargetException ignored) {
+                    return false;
+                }
+            }
+        }
+        return result || alternativeResult;
     }
 }
