@@ -2,7 +2,7 @@ package dev.kavu.gameapi.statistic;
 
 public interface Statistic<T extends Number> {
 
-    void lock();
+    void setLocked(boolean locked);
 
     boolean isLocked();
 
