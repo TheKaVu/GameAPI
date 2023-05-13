@@ -41,6 +41,15 @@ public class StatisticWatcher<T extends Number> {
     }
 
     // Functionality
+
+    public void addEventAsTrigger(Class<? extends PlayerEvent> event){
+        triggers.add(event);
+    }
+
+    public void trigger(UUID uuid){
+        execFor(uuid, statistic::onTrigger);
+    }
+
     public boolean exec(Function<T, T> function) {
 
         if(members.isEmpty()) return false;
@@ -62,14 +71,6 @@ public class StatisticWatcher<T extends Number> {
         if(function == null) throw new NullPointerException();
 
         return members.replace(member, function.apply(members.get(member))) == null;
-    }
-
-    public void addEventAsTrigger(Class<? extends PlayerEvent> event){
-        triggers.add(event);
-    }
-
-    public void trigger(UUID uuid){
-        execFor(uuid, statistic::onTrigger);
     }
 
     private boolean checkConditions() throws IllegalArgumentException{
