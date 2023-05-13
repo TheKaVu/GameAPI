@@ -41,6 +41,9 @@ public class StatisticWatcher<T extends Number> {
     }
 
     // Functionality
+    public void addMember(UUID uuid){
+        members.putIfAbsent(uuid, statistic.getDefault());
+    }
 
     public void addEventAsTrigger(Class<? extends PlayerEvent> event){
         triggers.add(event);
