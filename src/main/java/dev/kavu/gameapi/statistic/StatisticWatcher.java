@@ -64,7 +64,7 @@ public class StatisticWatcher<T extends Number> {
         return members.replace(member, function.apply(members.get(member))) == null;
     }
 
-    public <E extends PlayerEvent> void addEventAsTrigger(Class<E> event){
+    public void addEventAsTrigger(Class<? extends PlayerEvent> event){
         triggers.add(event);
     }
 
