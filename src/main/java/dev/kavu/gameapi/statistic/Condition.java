@@ -10,5 +10,6 @@ import java.lang.annotation.Target;
 public @interface Condition {
     // Determines if the function or field should be treated as a condition
 
+    boolean negate() default false;
     boolean alternative() default false;
 }
