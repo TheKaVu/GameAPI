@@ -27,6 +27,9 @@ public class StatisticWatcher<T extends Number> {
 
     // Functionality
     public boolean exec(Function<T, T> function) {
+
+        if(members.isEmpty()) return false;
+
         boolean result = true;
 
         for (Map.Entry<UUID, T> e : members.entrySet()){
@@ -37,6 +40,10 @@ public class StatisticWatcher<T extends Number> {
     }
 
     public boolean execFor(UUID member, Function<T, T> function) {
+
+        if(statistic.isLocked()) return false;
+        if(members.isEmpty()) return false;
+
         if(function == null) throw new NullPointerException();
 
         return members.replace(member, function.apply(members.get(member))) == null;
