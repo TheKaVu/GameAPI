@@ -9,4 +9,6 @@ public interface Statistic<T extends Number> {
     void lock();
 
     boolean isLocked();
+
+    void trigger();
 }
