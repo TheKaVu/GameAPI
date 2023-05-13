@@ -89,7 +89,7 @@ public class StatisticWatcher<T extends Number> {
 
                 try {
                     if(!condition.alternative()) {
-                        result = ((boolean) method.invoke(statistic) && !condition.negate()) && result;
+                        result = ((boolean) method.invoke(statistic) == !condition.negate()) && result;
                     } else {
                         alternativeResult = ((boolean) method.invoke(statistic) && !condition.negate()) || alternativeResult;
                     }
