@@ -1,5 +1,7 @@
 package dev.kavu.gameapi.statistic;
 
+import java.util.Set;
+
 public interface Statistic<T extends Number> {
 
     T getDefault();
@@ -9,4 +11,6 @@ public interface Statistic<T extends Number> {
     boolean isLocked();
 
     T onTrigger(T current);
+
+    Trigger<?>[] getTriggers();
 }

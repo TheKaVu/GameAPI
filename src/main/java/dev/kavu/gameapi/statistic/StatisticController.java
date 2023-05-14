@@ -15,12 +15,11 @@ public class StatisticController<T extends Number> {
     // Fields
     private final Statistic<T> statistic;
     private final HashMap<UUID, T> members = new HashMap<>();
-    private final HashSet<Trigger<?>> triggers = new HashSet<>();
 
     private final Listener listener = new Listener() {
         @EventHandler
         public void onEvent(Event event){
-            for(Trigger<? extends Event> trigger : triggers){
+            for(Trigger<? extends Event> trigger : statistic.getTriggers()){
                 Class<? extends Event> clazz = trigger.getEventClass();
                 if(clazz.equals(event.getClass())){
                     UUID uuid = trigger.compute(clazz.cast(event));
