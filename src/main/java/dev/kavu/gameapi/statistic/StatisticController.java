@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Function;
 
-public class StatisticWatcher<T extends Number> {
+public class StatisticController<T extends Number> {
 
     // Fields
     private final Statistic<T> statistic;
@@ -27,7 +27,7 @@ public class StatisticWatcher<T extends Number> {
     };
 
     // Constructor
-    public StatisticWatcher(Statistic<T> statistic){
+    public StatisticController(Statistic<T> statistic){
         this.statistic = statistic;
     }
 
