@@ -1,5 +1,6 @@
 package dev.kavu.gameapi.statistic;
 
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerEvent;
@@ -14,15 +15,18 @@ public class StatisticController<T extends Number> {
     // Fields
     private final Statistic<T> statistic;
     private final HashMap<UUID, T> members = new HashMap<>();
-    private final HashSet<Class<? extends PlayerEvent>> triggers = new HashSet<>();
+    private final HashSet<Trigger<?>> triggers = new HashSet<>();
 
     private final Listener listener = new Listener() {
         @EventHandler
-        public void onPlayerEvent(PlayerEvent playerEvent){
-            if(!triggers.contains(playerEvent.getClass())) return;
-            if(!checkConditions()) return;
-
-            execFor(playerEvent.getPlayer().getUniqueId(), statistic::onTrigger);
+        public void onEvent(Event event){
+            for(Trigger<? extends Event> trigger : triggers){
+                Class<? extends Event> clazz = trigger.getEventClass();
+                if(clazz.equals(event.getClass())){
+                    UUID uuid = trigger.compute(clazz.cast(event));
+                    execFor(uuid, statistic::onTrigger);
+                }
+            }
         }
     };
 
@@ -45,8 +49,12 @@ public class StatisticController<T extends Number> {
         members.putIfAbsent(uuid, statistic.getDefault());
     }
 
-    public void addEventAsTrigger(Class<? extends PlayerEvent> event){
-        triggers.add(event);
+    public void addEventAsTrigger(Class<? extends PlayerEvent> eventClass){
+        addEventAsTrigger(eventClass, e -> e.getPlayer().getUniqueId());
+    }
+
+    public <E extends Event> void addEventAsTrigger(Class<E> eventClass, Function<E, UUID> mapper){
+        triggers.add(new Trigger<>(eventClass, mapper));
     }
 
     public void trigger(UUID uuid){
