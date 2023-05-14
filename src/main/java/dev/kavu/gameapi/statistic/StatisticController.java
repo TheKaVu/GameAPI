@@ -48,14 +48,6 @@ public class StatisticController<T extends Number> {
         members.putIfAbsent(uuid, statistic.getDefault());
     }
 
-    public void addEventAsTrigger(Class<? extends PlayerEvent> eventClass){
-        addEventAsTrigger(eventClass, e -> e.getPlayer().getUniqueId());
-    }
-
-    public <E extends Event> void addEventAsTrigger(Class<E> eventClass, Function<E, UUID> mapper){
-        triggers.add(new Trigger<>(eventClass, mapper));
-    }
-
     public void trigger(UUID uuid){
         if(!checkConditions()) return;
         execFor(uuid, statistic::onTrigger);
