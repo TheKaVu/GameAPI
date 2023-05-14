@@ -4,6 +4,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -30,8 +31,9 @@ public class StatisticController<T extends Number> {
     };
 
     // Constructor
-    public StatisticController(Statistic<T> statistic){
+    public StatisticController(Statistic<T> statistic, Plugin plugin){
         this.statistic = statistic;
+        plugin.getServer().getPluginManager().registerEvents(listener, plugin);
     }
 
     // Getters
