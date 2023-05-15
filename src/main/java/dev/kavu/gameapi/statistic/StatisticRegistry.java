@@ -29,9 +29,17 @@ public class StatisticRegistry<T extends Number> {
         }
     };
 
-    // Constructor
+    // Constructors
     public StatisticRegistry(Statistic<T> statistic, Plugin plugin){
         this.statistic = statistic;
+        plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+    }
+
+    public StatisticRegistry(Statistic<T> statistic, Collection<UUID> initialMembers, Plugin plugin){
+        this.statistic = statistic;
+        for(UUID member : initialMembers){
+            addMember(member);
+        }
         plugin.getServer().getPluginManager().registerEvents(listener, plugin);
     }
 
