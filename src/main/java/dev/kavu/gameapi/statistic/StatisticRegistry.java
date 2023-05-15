@@ -2,6 +2,7 @@ package dev.kavu.gameapi.statistic;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
@@ -16,23 +17,13 @@ public class StatisticRegistry<T extends Number> {
     private final Statistic<T> statistic;
     private final HashMap<UUID, T> members = new HashMap<>();
 
-    private final Listener listener = new Listener() {
-        @EventHandler
-        public void onEvent(Event event){
-            for(Trigger<? extends Event> trigger : statistic.getTriggers()){
-                Class<? extends Event> clazz = trigger.getEventClass();
-                if(clazz.equals(event.getClass())){
-                    UUID uuid = trigger.compute(clazz.cast(event));
-                    execFor(uuid, statistic::onTrigger);
-                }
-            }
-        }
-    };
 
     // Constructors
     public StatisticRegistry(Statistic<T> statistic, Plugin plugin){
         this.statistic = statistic;
-        plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+        for(Trigger<?> t : statistic.getTriggers()){
+            plugin.getServer().getPluginManager().registerEvent(t.getEventClass(), new Listener() { }, EventPriority.NORMAL, (listener, event) -> onEventCall(event), plugin);
+        }
     }
 
     public StatisticRegistry(Statistic<T> statistic, Collection<UUID> initialMembers, Plugin plugin){
@@ -40,7 +31,9 @@ public class StatisticRegistry<T extends Number> {
         for(UUID member : initialMembers){
             addMember(member);
         }
-        plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+        for(Trigger<?> t : statistic.getTriggers()){
+            plugin.getServer().getPluginManager().registerEvent(t.getEventClass(), new Listener() { }, EventPriority.NORMAL, (listener, event) -> onEventCall(event), plugin);
+        }
     }
 
     // Getters
@@ -106,5 +99,16 @@ public class StatisticRegistry<T extends Number> {
             }
         }
         return result || alternativeResult;
+    }
+
+    private void onEventCall(Event event){
+        for(Trigger<?> trigger : statistic.getTriggers()){
+            Class<? extends Event> clazz = trigger.getEventClass();
+            if(clazz.equals(event.getClass())){
+                System.out.println("Found one");
+                UUID uuid = trigger.compute(clazz.cast(event));
+                execFor(uuid, statistic::onTrigger);
+            }
+        }
     }
 }
