@@ -11,19 +11,12 @@ public abstract class UniversalListener<E extends Event> {
 
     public UniversalListener(Class<E> eventClass, Plugin plugin){
         this.eventClass = eventClass;
-        plugin.getServer().getPluginManager().registerEvent(eventClass, new Listener() { }, EventPriority.NORMAL, (listener, event) -> onEventCall(event), plugin);
+        plugin.getServer().getPluginManager().registerEvent(eventClass, new Listener() { }, EventPriority.NORMAL, (listener, event) -> onEvent(eventClass.cast(event)), plugin);
     }
 
     public Class<E> getEventClass() {
         return eventClass;
     }
 
-    private void onEventCall(Event event){
-        onEvent(event);
-        onTypedEvent(eventClass.cast(event));
-    }
-
-    public abstract void onEvent(Event event);
-
-    public abstract void onTypedEvent(E event);
+    public abstract void onEvent(E event);
 }
