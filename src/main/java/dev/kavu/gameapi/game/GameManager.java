@@ -124,11 +124,10 @@ public class GameManager<T extends GameType> {
         statistics.put(statistic.getClass(), new StatisticRegistry<>(statistic, plugin));
     }
 
-    public <E extends Statistic> E getStatistic(Class<E> clazz){
+    public <N extends Number, E extends Statistic<N>> StatisticRegistry<N> getStatisticRegistry(Class<E> clazz){
         if(clazz == null){
             throw new NullPointerException();
         }
-
-        return clazz.cast(statistics.get(clazz));
+        return (StatisticRegistry<N>) statistics.get(clazz);
     }
 }
