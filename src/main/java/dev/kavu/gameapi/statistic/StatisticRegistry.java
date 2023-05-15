@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Function;
 
-public class StatisticController<T extends Number> {
+public class StatisticRegistry<T extends Number> {
 
     // Fields
     private final Statistic<T> statistic;
@@ -30,7 +30,7 @@ public class StatisticController<T extends Number> {
     };
 
     // Constructor
-    public StatisticController(Statistic<T> statistic, Plugin plugin){
+    public StatisticRegistry(Statistic<T> statistic, Plugin plugin){
         this.statistic = statistic;
         plugin.getServer().getPluginManager().registerEvents(listener, plugin);
     }
