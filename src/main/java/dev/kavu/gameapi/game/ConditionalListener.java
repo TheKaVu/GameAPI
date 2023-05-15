@@ -1,13 +1,13 @@
 package dev.kavu.gameapi.game;
 
 import org.bukkit.event.Event;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.Method;
 import java.util.function.BooleanSupplier;
 
-public class ConditionalListener implements Listener {
+public class ConditionalListener extends UniversalListener<Event> {
 
     // Fields
     private final Listener handledListener;
@@ -15,7 +15,8 @@ public class ConditionalListener implements Listener {
     private final BooleanSupplier condition;
 
     // Constructor
-    public ConditionalListener(Listener handledListener, BooleanSupplier condition) {
+    public ConditionalListener(Listener handledListener, BooleanSupplier condition, Plugin plugin) {
+        super(Event.class, plugin);
         this.condition = condition == null ? () -> true : condition;
         if(handledListener == null){
             throw new NullPointerException("handledListener was null");
@@ -29,7 +30,7 @@ public class ConditionalListener implements Listener {
     }
 
     // Functionality
-    @EventHandler
+    @Override
     public final void onEvent(Event event){
         for(Method method : handledListener.getClass().getDeclaredMethods()){
 
