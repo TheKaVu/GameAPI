@@ -69,7 +69,6 @@ public class StatisticController<T extends Number> {
 
     public boolean execFor(UUID member, Function<T, T> function) {
 
-        if(statistic.isLocked()) return false;
         if(members.isEmpty()) return false;
 
         if(function == null) throw new NullPointerException();
