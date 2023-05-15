@@ -124,6 +124,13 @@ public class GameManager<T extends GameType> {
         statistics.put(statistic.getClass(), new StatisticRegistry<>(statistic, plugin));
     }
 
+    public <N extends Number> void registerStatistic(Statistic<N> statistic, Collection<UUID> initialMembers){
+        if(statistic == null){
+            throw new NullPointerException();
+        }
+        statistics.put(statistic.getClass(), new StatisticRegistry<>(statistic, initialMembers, plugin));
+    }
+
     public <N extends Number, E extends Statistic<N>> StatisticRegistry<N> getStatisticRegistry(Class<E> clazz){
         if(clazz == null){
             throw new NullPointerException();
