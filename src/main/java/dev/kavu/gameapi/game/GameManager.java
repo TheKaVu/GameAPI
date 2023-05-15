@@ -117,7 +117,7 @@ public class GameManager<T extends GameType> {
         return playersOffGame;
     }
 
-    public <N extends Number> void addStatistic(Statistic<N> statistic){
+    public <N extends Number> void registerStatistic(Statistic<N> statistic){
         if(statistic == null){
             throw new NullPointerException();
         }
