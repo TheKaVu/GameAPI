@@ -1,7 +1,7 @@
 package dev.kavu.gameapi.game;
 
 import dev.kavu.gameapi.statistic.Statistic;
-import dev.kavu.gameapi.statistic.StatisticController;
+import dev.kavu.gameapi.statistic.StatisticRegistry;
 import dev.kavu.gameapi.world.MapManager;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -21,7 +21,7 @@ public class GameManager<T extends GameType> {
 
     private final HashSet<UUID> playersOffGame = new HashSet<>();
 
-    private final HashMap<Class<? extends Statistic>, StatisticController<?>> statistics = new HashMap<>();
+    private final HashMap<Class<? extends Statistic>, StatisticRegistry<?>> statistics = new HashMap<>();
 
     private final MapManager mapManager;
 
@@ -121,13 +121,14 @@ public class GameManager<T extends GameType> {
         if(statistic == null){
             throw new NullPointerException();
         }
-        statistics.put(statistic.getClass(), new StatisticController<>(statistic, plugin));
+        statistics.put(statistic.getClass(), new StatisticRegistry<>(statistic, plugin));
     }
 
     public <E extends Statistic> E getStatistic(Class<E> clazz){
         if(clazz == null){
             throw new NullPointerException();
         }
+
         return clazz.cast(statistics.get(clazz));
     }
 }
