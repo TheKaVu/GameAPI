@@ -15,11 +15,13 @@ public class StatisticRegistry<T extends Number> {
     // Fields
     private final Statistic<T> statistic;
     private final HashMap<UUID, T> members = new HashMap<>();
+    private final Plugin plugin;
 
 
     // Constructors
     public StatisticRegistry(Statistic<T> statistic, Plugin plugin){
         this.statistic = statistic;
+        this.plugin = plugin;
         for(Trigger<?> t : statistic.getTriggers()){
             plugin.getServer().getPluginManager().registerEvent(t.getEventClass(), new Listener() { }, EventPriority.NORMAL, (listener, event) -> onEventCall(event), plugin);
         }
@@ -27,6 +29,7 @@ public class StatisticRegistry<T extends Number> {
 
     public StatisticRegistry(Statistic<T> statistic, Collection<UUID> initialMembers, Plugin plugin){
         this.statistic = statistic;
+        this.plugin = plugin;
         for(UUID member : initialMembers){
             addMember(member);
         }
@@ -42,6 +45,10 @@ public class StatisticRegistry<T extends Number> {
 
     public HashMap<UUID, T> getMembers() {
         return members;
+    }
+
+    public Plugin getPlugin() {
+        return plugin;
     }
 
     // Functionality
