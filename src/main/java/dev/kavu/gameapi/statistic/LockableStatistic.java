@@ -8,6 +8,7 @@ public abstract class LockableStatistic<T extends Number> implements Statistic<T
         this.locked = locked;
     }
 
+    @Condition(negate = true)
     public boolean isLocked() {
         return locked;
     }
