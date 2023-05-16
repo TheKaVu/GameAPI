@@ -114,7 +114,7 @@ public class StatisticRegistry<T extends Number> {
             if(clazz.equals(event.getClass())){
                 System.out.println("Found one");
                 UUID uuid = trigger.compute(clazz.cast(event));
-                execFor(uuid, statistic::onTrigger);
+                trigger(uuid);
             }
         }
     }
