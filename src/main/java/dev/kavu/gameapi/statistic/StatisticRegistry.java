@@ -57,8 +57,9 @@ public class StatisticRegistry<T extends Number> {
     }
 
     public void trigger(UUID uuid){
-        if(!checkConditions()) return;
-        execFor(uuid, statistic::onTrigger);
+        if(checkConditions()) {
+            plugin.getServer().getPluginManager().callEvent(new StatisticTriggerEvent(this, uuid, members.get(uuid)));
+        }
     }
 
     public boolean exec(Function<T, T> function) {
