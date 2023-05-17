@@ -32,8 +32,8 @@ public class Trigger<E extends Event> {
         return mapper.apply(eventClass.cast(event));
     }
 
-    public boolean validate(E event){
-        return validator.test(event);
+    public boolean validate(Event event){
+        return validator.test(eventClass.cast(event));
     }
 
     public boolean match(Class<? extends Event> clazz){
