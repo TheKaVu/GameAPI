@@ -13,11 +13,13 @@ public class StatisticTriggerEvent extends Event {
     private final StatisticRegistry<?> statisticRegistry;
     private final UUID member;
     private final Number value;
+    private final Event triggerEvent;
 
-    public StatisticTriggerEvent(StatisticRegistry<?> statisticRegistry, UUID member, Number value) {
+    public StatisticTriggerEvent(StatisticRegistry<?> statisticRegistry, UUID member, Number value, Event triggerEvent) {
         this.statisticRegistry = statisticRegistry;
         this.member = member;
         this.value = value;
+        this.triggerEvent = triggerEvent;
     }
 
     public StatisticRegistry<?> getStatisticRegistry() {
@@ -30,6 +32,10 @@ public class StatisticTriggerEvent extends Event {
 
     public Number getValue() {
         return value;
+    }
+
+    public Event getTriggerEvent(){
+        return triggerEvent;
     }
 
     @Override
