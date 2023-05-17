@@ -114,7 +114,9 @@ public class StatisticRegistry<T extends Number> {
             if(clazz.equals(event.getClass())){
                 if(!trigger.validate(clazz.cast(event))) continue;
                 UUID uuid = trigger.compute(clazz.cast(event));
-                trigger(uuid);
+                if(checkConditions()) {
+                    plugin.getServer().getPluginManager().callEvent(new StatisticTriggerEvent(this, uuid, members.get(uuid), event));
+                }
             }
         }
     }
