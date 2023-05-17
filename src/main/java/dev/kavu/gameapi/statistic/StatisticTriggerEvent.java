@@ -8,6 +8,8 @@ import java.util.UUID;
 public class StatisticTriggerEvent extends Event {
 
     // Fields
+    private static final HandlerList handlers = new HandlerList();
+
     private final StatisticRegistry<?> statisticRegistry;
     private final UUID member;
     private final Number value;
@@ -32,6 +34,10 @@ public class StatisticTriggerEvent extends Event {
 
     @Override
     public HandlerList getHandlers() {
-        return new HandlerList();
+        return handlers;
+    }
+
+    public static HandlerList getHandlerList(){
+        return handlers;
     }
 }
