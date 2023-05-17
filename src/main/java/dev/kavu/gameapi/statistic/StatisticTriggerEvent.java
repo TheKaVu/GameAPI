@@ -15,6 +15,13 @@ public class StatisticTriggerEvent extends Event {
     private final Number value;
     private final Event triggerEvent;
 
+    public StatisticTriggerEvent(StatisticRegistry<?> statisticRegistry, UUID member, Number value) {
+        this.statisticRegistry = statisticRegistry;
+        this.member = member;
+        this.value = value;
+        this.triggerEvent = null;
+    }
+
     public StatisticTriggerEvent(StatisticRegistry<?> statisticRegistry, UUID member, Number value, Event triggerEvent) {
         this.statisticRegistry = statisticRegistry;
         this.member = member;
