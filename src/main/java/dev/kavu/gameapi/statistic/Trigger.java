@@ -27,14 +27,14 @@ public class Trigger<E extends Event> {
         response = n -> n;
     }
 
-    public Trigger(Class<E> eventClass, Function<E, UUID> mapper, Function<? extends Number, ? extends Number> response) {
+    public <T extends Number> Trigger(Class<E> eventClass, Function<E, UUID> mapper, Function<T, T> response) {
         this.eventClass = eventClass;
         this.mapper = mapper;
         this.response = response;
         validator = e -> true;
     }
 
-    public Trigger(Class<E> eventClass, Function<E, UUID> mapper, Predicate<E> validator, Function<? extends Number, ? extends Number> response) {
+    public <T extends Number> Trigger(Class<E> eventClass, Function<E, UUID> mapper, Predicate<E> validator, Function<T, T> response) {
         this.eventClass = eventClass;
         this.mapper = mapper;
         this.validator = validator;
@@ -57,7 +57,7 @@ public class Trigger<E extends Event> {
         return clazz.equals(eventClass);
     }
 
-    public Function<? extends Number, ? extends Number> getResponse() {
-        return response;
+    public <T extends Number> Function<T, T> getResponse() {
+        return (Function<T, T>) response;
     }
 }
