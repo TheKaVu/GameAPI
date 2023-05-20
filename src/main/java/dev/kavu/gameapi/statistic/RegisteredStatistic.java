@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Function;
 
-public class StatisticRegistry<T extends Number> {
+public class RegisteredStatistic<T extends Number> {
 
     // Fields
     private final Statistic<T> statistic;
@@ -19,7 +19,7 @@ public class StatisticRegistry<T extends Number> {
 
 
     // Constructors
-    public StatisticRegistry(Statistic<T> statistic, Plugin plugin){
+    public RegisteredStatistic(Statistic<T> statistic, Plugin plugin){
         this.statistic = statistic;
         this.plugin = plugin;
         for(Trigger<?> t : statistic.getTriggers()){
@@ -27,7 +27,7 @@ public class StatisticRegistry<T extends Number> {
         }
     }
 
-    public StatisticRegistry(Statistic<T> statistic, Collection<UUID> initialMembers, Plugin plugin){
+    public RegisteredStatistic(Statistic<T> statistic, Collection<UUID> initialMembers, Plugin plugin){
         this.statistic = statistic;
         this.plugin = plugin;
         for(UUID member : initialMembers){
