@@ -53,10 +53,6 @@ public class Trigger<E extends Event> {
         return validator.test(eventClass.cast(event));
     }
 
-    public boolean match(Class<? extends Event> clazz){
-        return clazz.equals(eventClass);
-    }
-
     public <T extends Number> Function<T, T> getResponse() {
         return (Function<T, T>) response;
     }
