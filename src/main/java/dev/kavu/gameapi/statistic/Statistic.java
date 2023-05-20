@@ -9,10 +9,6 @@ public interface Statistic<T extends Number> {
     Set<Trigger<?>> getTriggers();
 
     // Utility
-    
-    static short increment(short a){
-        return ++a;
-    }
 
     static int increment(int a){
         return ++a;
@@ -28,10 +24,6 @@ public interface Statistic<T extends Number> {
 
     static float increment(float a){
         return ++a;
-    }
-
-    static short decrement(short a){
-        return --a;
     }
 
     static int decrement(int a){
