@@ -9,11 +9,7 @@ public interface Statistic<T extends Number> {
     Set<Trigger<?>> getTriggers();
 
     // Utility
-
-    static byte increment(byte a){
-        return ++a;
-    }
-
+    
     static short increment(short a){
         return ++a;
     }
@@ -32,10 +28,6 @@ public interface Statistic<T extends Number> {
 
     static float increment(float a){
         return ++a;
-    }
-
-    static byte decrement(byte a){
-        return --a;
     }
 
     static short decrement(short a){
