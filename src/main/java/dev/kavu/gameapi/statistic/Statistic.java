@@ -10,16 +10,8 @@ public interface Statistic<T extends Number> {
 
     // Utility
 
-    static double increment(double a){
-        return ++a;
-    }
-
     static float increment(float a){
         return ++a;
-    }
-
-    static double decrement(double a){
-        return --a;
     }
 
     static float decrement(float a){
