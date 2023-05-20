@@ -1,6 +1,6 @@
 package dev.kavu.gameapi.statistic.common;
 
-import dev.kavu.gameapi.statistic.LockableStatistic;
+import dev.kavu.gameapi.statistic.Statistic;
 
-public abstract class DoubleStatistic extends LockableStatistic<Double> {
+public interface DoubleStatistic extends Statistic<Double> {
 }
