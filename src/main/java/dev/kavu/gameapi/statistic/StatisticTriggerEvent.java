@@ -10,27 +10,27 @@ public class StatisticTriggerEvent extends Event {
     // Fields
     private static final HandlerList handlers = new HandlerList();
 
-    private final StatisticRegistry<?> statisticRegistry;
+    private final RegisteredStatistic<?> registeredStatistic;
     private final UUID member;
     private final Number value;
     private final Event triggerEvent;
 
-    public StatisticTriggerEvent(StatisticRegistry<?> statisticRegistry, UUID member, Number value) {
-        this.statisticRegistry = statisticRegistry;
+    public StatisticTriggerEvent(RegisteredStatistic<?> registeredStatistic, UUID member, Number value) {
+        this.registeredStatistic = registeredStatistic;
         this.member = member;
         this.value = value;
         this.triggerEvent = null;
     }
 
-    public StatisticTriggerEvent(StatisticRegistry<?> statisticRegistry, UUID member, Number value, Event triggerEvent) {
-        this.statisticRegistry = statisticRegistry;
+    public StatisticTriggerEvent(RegisteredStatistic<?> registeredStatistic, UUID member, Number value, Event triggerEvent) {
+        this.registeredStatistic = registeredStatistic;
         this.member = member;
         this.value = value;
         this.triggerEvent = triggerEvent;
     }
 
-    public StatisticRegistry<?> getStatisticRegistry() {
-        return statisticRegistry;
+    public RegisteredStatistic<?> getRegisteredStatistic() {
+        return registeredStatistic;
     }
 
     public UUID getMember() {
