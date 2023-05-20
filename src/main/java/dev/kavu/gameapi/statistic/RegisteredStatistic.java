@@ -57,7 +57,7 @@ public class RegisteredStatistic<T extends Number> {
     }
 
     public void trigger(UUID uuid){
-        if(checkConditions()) {
+        if(checkConditions(uuid)) {
             plugin.getServer().getPluginManager().callEvent(new StatisticTriggerEvent(this, uuid, members.get(uuid)));
         }
     }
@@ -84,25 +84,33 @@ public class RegisteredStatistic<T extends Number> {
         return members.replace(member, function.apply(members.get(member))) == null;
     }
 
-    private boolean checkConditions() throws IllegalArgumentException{
+    private boolean checkConditions(UUID targetMember) {
         boolean result = true;
         boolean alternativeResult = false;
 
         for(Method method : statistic.getClass().getDeclaredMethods()){
-            if(method.isAnnotationPresent(Condition.class)){
-                Condition condition = method.getAnnotation(Condition.class);
 
-                method.setAccessible(true);
+            if(!method.isAnnotationPresent(Condition.class)) continue;
+            if(!method.getReturnType().equals(boolean.class))
+            if(method.getParameterCount() > 1) continue;
+            method.setAccessible(true);
 
-                try {
-                    if(!condition.alternative()) {
-                        result = ((boolean) method.invoke(statistic) == !condition.negate()) && result;
-                    } else {
-                        alternativeResult = ((boolean) method.invoke(statistic) && !condition.negate()) || alternativeResult;
-                    }
-                } catch (IllegalAccessException | InvocationTargetException ignored) {
-                    return false;
+            Condition condition = method.getAnnotation(Condition.class);
+
+            boolean invokeResult = false;
+            try {
+                if (method.getParameterCount() == 0) {
+                    invokeResult = (boolean) method.invoke(statistic);
+                } else {
+                    invokeResult = (boolean) method.invoke(statistic, targetMember);
                 }
+            } catch (InvocationTargetException | IllegalAccessException ignored) {
+            }
+
+            if(!condition.alternative()) {
+                result = (invokeResult == !condition.negate()) && result;
+            } else {
+                alternativeResult = (invokeResult && !condition.negate()) || alternativeResult;
             }
         }
         return result || alternativeResult;
@@ -113,8 +121,8 @@ public class RegisteredStatistic<T extends Number> {
             Class<? extends Event> clazz = trigger.getEventClass();
             if(clazz.equals(event.getClass())){
                 if(!trigger.validate(clazz.cast(event))) continue;
-                if(checkConditions()) {
-                    UUID uuid = trigger.compute(clazz.cast(event));
+                UUID uuid = trigger.compute(clazz.cast(event));
+                if(checkConditions(uuid)) {
                     execFor(uuid, trigger.getResponse());
                     plugin.getServer().getPluginManager().callEvent(new StatisticTriggerEvent(this, uuid, members.get(uuid), event));
                     return;
