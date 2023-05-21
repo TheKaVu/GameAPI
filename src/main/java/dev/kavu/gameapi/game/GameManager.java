@@ -1,12 +1,12 @@
 package dev.kavu.gameapi.game;
 
-import dev.kavu.gameapi.world.MapManager;
 import dev.kavu.gameapi.statistic.Statistic;
+import dev.kavu.gameapi.statistic.RegisteredStatistic;
+import dev.kavu.gameapi.world.MapManager;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.util.*;
-import java.util.function.Supplier;
 
 public class GameManager<T extends GameType> {
 
@@ -21,7 +21,7 @@ public class GameManager<T extends GameType> {
 
     private final HashSet<UUID> playersOffGame = new HashSet<>();
 
-    private final HashMap<Class<? extends Statistic>, Statistic<?>> statistics = new HashMap<>();
+    private final HashMap<Class<? extends Statistic>, RegisteredStatistic<?>> statistics = new HashMap<>();
 
     private final MapManager mapManager;
 
@@ -117,17 +117,24 @@ public class GameManager<T extends GameType> {
         return playersOffGame;
     }
 
-    public void addStatistic(Statistic statistic){
+    public <N extends Number> void registerStatistic(Statistic<N> statistic){
         if(statistic == null){
             throw new NullPointerException();
         }
-        statistics.put(statistic.getClass(), statistic);
+        statistics.put(statistic.getClass(), new RegisteredStatistic<>(statistic, plugin));
     }
 
-    public <C extends Statistic> C getStatistic(Class<C> clazz){
+    public <N extends Number> void registerStatistic(Statistic<N> statistic, Collection<UUID> initialMembers){
+        if(statistic == null){
+            throw new NullPointerException();
+        }
+        statistics.put(statistic.getClass(), new RegisteredStatistic<>(statistic, initialMembers, plugin));
+    }
+
+    public <N extends Number, E extends Statistic<N>> RegisteredStatistic<N> getRegisteredStatistic(Class<E> clazz){
         if(clazz == null){
             throw new NullPointerException();
         }
-        return clazz.cast(statistics.get(clazz));
+        return (RegisteredStatistic<N>) statistics.get(clazz);
     }
 }
