@@ -1,5 +1,6 @@
-package dev.kavu.gameapi.statistic;
+package dev.kavu.gameapi.event;
 
+import dev.kavu.gameapi.statistic.RegisteredStatistic;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
