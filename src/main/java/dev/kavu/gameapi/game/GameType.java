@@ -1,5 +1,7 @@
 package dev.kavu.gameapi.game;
 
+import java.util.Properties;
+
 public class GameType {
 
     // Fields
@@ -12,6 +14,8 @@ public class GameType {
     private final int minPlayers;
 
     private final int maxPlayers;
+
+    private final Properties properties;
 
     // Constructor
     public GameType(String name, String systemName, String prefix, int minPlayers, int maxPlayers) {
@@ -32,6 +36,9 @@ public class GameType {
         this.prefix = prefix;
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
+        properties = new Properties();
+        properties.setProperty("min_players", String.valueOf(minPlayers));
+        properties.setProperty("max_players", String.valueOf(maxPlayers));
     }
 
     // Getters
@@ -53,6 +60,10 @@ public class GameType {
 
     public int getMaxPlayers() {
         return maxPlayers;
+    }
+
+    public Properties getProperties() {
+        return properties;
     }
 
     // Overrides
