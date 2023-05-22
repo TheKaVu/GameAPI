@@ -8,12 +8,12 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 
-public class GameManager<T extends GameType> {
+public class GameManager {
 
     // Fields
     private final Plugin plugin;
 
-    private final T gameType;
+    private final GameType gameType;
 
     private final GameStateTimer gameStateTimer = new GameStateTimer();
 
@@ -26,7 +26,7 @@ public class GameManager<T extends GameType> {
     private final MapManager mapManager;
 
     // Constructor
-    public GameManager(Plugin plugin, T gameType) {
+    public GameManager(Plugin plugin, GameType gameType) {
         if(plugin == null){
             throw new NullPointerException("plugin was null");
         }
@@ -38,7 +38,7 @@ public class GameManager<T extends GameType> {
         mapManager = new MapManager(plugin.getDataFolder());
     }
 
-    public GameManager(Plugin plugin, T gameType, MapManager mapManager) {
+    public GameManager(Plugin plugin, GameType gameType, MapManager mapManager) {
         if(plugin == null){
             throw new NullPointerException("plugin was null");
         }
@@ -53,7 +53,7 @@ public class GameManager<T extends GameType> {
         this.mapManager = mapManager;
     }
 
-    public GameManager(Plugin plugin, T gameType, Collection<? extends Player> playersInGame) {
+    public GameManager(Plugin plugin, GameType gameType, Collection<? extends Player> playersInGame) {
         if(plugin == null){
             throw new NullPointerException("plugin was null");
         }
@@ -71,7 +71,7 @@ public class GameManager<T extends GameType> {
         }
     }
 
-    public GameManager(Plugin plugin, T gameType, MapManager mapManager, Collection<? extends Player> playersInGame) {
+    public GameManager(Plugin plugin, GameType gameType, MapManager mapManager, Collection<? extends Player> playersInGame) {
         if(plugin == null){
             throw new NullPointerException("plugin was null");
         }
@@ -97,7 +97,7 @@ public class GameManager<T extends GameType> {
         return plugin;
     }
 
-    public T getGameType() {
+    public GameType getGameType() {
         return gameType;
     }
 
