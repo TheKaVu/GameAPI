@@ -4,19 +4,21 @@ import dev.kavu.gameapi.game.GameType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
+import java.util.Set;
+
 public class PlayerLeaveGameEvent extends PlayerGameEvent {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private final int playerCount;
+    private final Set<Player> players;
 
-    public PlayerLeaveGameEvent(GameType gameType, Player player, int playerCount) {
+    public PlayerLeaveGameEvent(GameType gameType, Player player, Set<Player> players) {
         super(gameType, player);
-        this.playerCount = playerCount;
+        this.players = players;
     }
 
-    public int getPlayerCount() {
-        return playerCount;
+    public Set<Player> getPlayers() {
+        return players;
     }
 
     @Override
