@@ -1,6 +1,6 @@
 package dev.kavu.gameapi.event;
 
-import dev.kavu.gameapi.game.GameType;
+import dev.kavu.gameapi.GameType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
