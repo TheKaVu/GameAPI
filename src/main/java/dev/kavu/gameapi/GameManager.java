@@ -1,4 +1,4 @@
-package dev.kavu.gameapi.game;
+package dev.kavu.gameapi;
 
 import dev.kavu.gameapi.statistic.Statistic;
 import dev.kavu.gameapi.statistic.RegisteredStatistic;
