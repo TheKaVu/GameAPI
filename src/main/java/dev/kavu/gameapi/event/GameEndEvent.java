@@ -11,7 +11,6 @@ public class GameEndEvent extends GameEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
-
     private final Set<Player> players;
     private boolean cancelled;
 
