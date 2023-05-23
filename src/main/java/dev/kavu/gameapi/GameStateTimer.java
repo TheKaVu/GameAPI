@@ -1,4 +1,4 @@
-package dev.kavu.gameapi.game;
+package dev.kavu.gameapi;
 
 import java.util.Timer;
 import java.util.TimerTask;
