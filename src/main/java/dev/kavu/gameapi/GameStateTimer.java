@@ -138,6 +138,8 @@ public class GameStateTimer {
     }
 
     public void terminate(boolean runNext){
+        plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule != null ? schedule.next() : null, false));
+        currentState.onEnd();
         if(runNext && schedule != null) {
             plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule.next(), false));
             initialize(schedule.getCurrent());
