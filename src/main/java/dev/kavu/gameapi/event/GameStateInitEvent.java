@@ -10,20 +10,14 @@ public class GameStateInitEvent extends GameStateTimerEvent {
     private static final HandlerList handlers = new HandlerList();
 
     private final GameState previousState;
-    private final boolean scheduled;
 
-    public GameStateInitEvent(GameStateTimer timer, GameState gameState, GameState previousState, boolean scheduled) {
+    public GameStateInitEvent(GameStateTimer timer, GameState gameState, GameState previousState) {
         super(timer, gameState);
         this.previousState = previousState;
-        this.scheduled = scheduled;
     }
 
     public GameState getPreviousState() {
         return previousState;
-    }
-
-    public boolean isScheduled() {
-        return scheduled;
     }
 
     @Override
