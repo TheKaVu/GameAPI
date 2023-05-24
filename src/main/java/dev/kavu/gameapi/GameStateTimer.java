@@ -1,5 +1,7 @@
 package dev.kavu.gameapi;
 
+import org.bukkit.plugin.Plugin;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,6 +16,8 @@ public class GameStateTimer {
 
     private final GameTimerSchedule schedule;
 
+    private final Plugin plugin;
+
     private long stateTime = 0;
 
     private boolean timerReversed;
@@ -21,30 +25,34 @@ public class GameStateTimer {
     private boolean running = false;
 
     // Constructors
-    public GameStateTimer(){
+    public GameStateTimer(Plugin plugin){
+        this.plugin = plugin;
         currentState = GameState.EMPTY;
         schedule = null;
     }
 
-    public GameStateTimer(GameState initialState){
+    public GameStateTimer(GameState initialState, Plugin plugin){
         if(initialState == null){
             throw new NullPointerException();
         }
         currentState = initialState;
         schedule = null;
+        this.plugin = plugin;
     }
 
-    public GameStateTimer(GameTimerSchedule schedule){
+    public GameStateTimer(GameTimerSchedule schedule, Plugin plugin){
         currentState = GameState.EMPTY;
         this.schedule = schedule;
+        this.plugin = plugin;
     }
 
-    public GameStateTimer(GameState initialState, GameTimerSchedule schedule){
+    public GameStateTimer(GameState initialState, GameTimerSchedule schedule, Plugin plugin){
         if(initialState == null){
             throw new NullPointerException();
         }
         currentState = initialState;
         this.schedule = schedule;
+        this.plugin = plugin;
     }
 
     // Getters & Setters
@@ -54,6 +62,10 @@ public class GameStateTimer {
 
     public GameTimerSchedule getSchedule() {
         return schedule;
+    }
+
+    public Plugin getPlugin() {
+        return plugin;
     }
 
     public long getStateTime() {
