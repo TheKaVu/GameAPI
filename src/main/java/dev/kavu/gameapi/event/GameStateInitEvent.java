@@ -12,8 +12,8 @@ public class GameStateInitEvent extends GameStateTimerEvent {
     private final GameState previousState;
     private final boolean scheduled;
 
-    public GameStateInitEvent(GameType gameType, GameStateTimer timer, GameState gameState, GameState previousState, boolean scheduled) {
-        super(gameType, timer, gameState);
+    public GameStateInitEvent(GameStateTimer timer, GameState gameState, GameState previousState, boolean scheduled) {
+        super(timer, gameState);
         this.previousState = previousState;
         this.scheduled = scheduled;
     }

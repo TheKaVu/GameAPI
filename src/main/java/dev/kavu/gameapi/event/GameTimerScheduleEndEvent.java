@@ -3,7 +3,6 @@ package dev.kavu.gameapi.event;
 import dev.kavu.gameapi.GameState;
 import dev.kavu.gameapi.GameStateTimer;
 import dev.kavu.gameapi.GameTimerSchedule;
-import dev.kavu.gameapi.GameType;
 import org.bukkit.event.HandlerList;
 
 public class GameTimerScheduleEndEvent extends GameStateTimerEvent{
@@ -12,8 +11,8 @@ public class GameTimerScheduleEndEvent extends GameStateTimerEvent{
 
     private final GameTimerSchedule schedule;
 
-    public GameTimerScheduleEndEvent(GameType gameType, GameStateTimer timer, GameState gameState) {
-        super(gameType, timer, gameState);
+    public GameTimerScheduleEndEvent(GameStateTimer timer, GameState gameState) {
+        super(timer, gameState);
         this.schedule = timer.getSchedule();
     }
 

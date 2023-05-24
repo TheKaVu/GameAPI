@@ -11,8 +11,8 @@ public class GameStateEndEvent extends GameStateTimerEvent {
 
     private final GameState nextState;
 
-    public GameStateEndEvent(GameType gameType, GameStateTimer timer, GameState gameState, GameState nextState) {
-        super(gameType, timer, gameState);
+    public GameStateEndEvent(GameStateTimer timer, GameState gameState, GameState nextState) {
+        super(timer, gameState);
         this.nextState = nextState;
     }
 
