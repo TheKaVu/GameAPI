@@ -34,7 +34,7 @@ public class GameStateTimer {
         schedule = null;
     }
 
-    public GameStateTimer( GameTimerSchedule schedule){
+    public GameStateTimer(GameTimerSchedule schedule){
         currentState = GameState.EMPTY;
         this.schedule = schedule;
     }
