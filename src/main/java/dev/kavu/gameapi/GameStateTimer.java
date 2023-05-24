@@ -52,6 +52,10 @@ public class GameStateTimer {
         return currentState;
     }
 
+    public GameTimerSchedule getSchedule() {
+        return schedule;
+    }
+
     public long getStateTime() {
         return stateTime;
     }
@@ -108,14 +112,21 @@ public class GameStateTimer {
 
         if (timerOvercount || currentState.shouldEnd()) {
             currentState.onEnd();
+            if(schedule != null){
+                initialize(schedule.next());
+            }
             return true;
         }
 
         return false;
     }
 
-    public void terminate(){
-        initialize(GameState.EMPTY);
+    public void terminate(boolean runNext){
+        if(runNext && schedule != null) {
+            initialize(schedule.next());
+        } else {
+            initialize(GameState.EMPTY);
+        }
         pause();
     }
 
