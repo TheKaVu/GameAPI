@@ -12,15 +12,21 @@ public class GameStateTimer {
 
     private GameState currentState;
 
+    private final GameTimerSchedule schedule;
+
     private long stateTime = 0;
 
     private boolean timerReversed;
 
     private boolean running = false;
 
+    private final boolean useSchedule;
+
     // Constructors
     public GameStateTimer(){
         currentState = GameState.EMPTY;
+        schedule = null;
+        useSchedule = false;
     }
 
     public GameStateTimer(GameState initialState){
@@ -28,6 +34,23 @@ public class GameStateTimer {
             throw new NullPointerException();
         }
         currentState = initialState;
+        schedule = null;
+        useSchedule = false;
+    }
+
+    public GameStateTimer( GameTimerSchedule schedule){
+        currentState = GameState.EMPTY;
+        this.schedule = schedule;
+        useSchedule = true;
+    }
+
+    public GameStateTimer(GameState initialState, GameTimerSchedule schedule){
+        if(initialState == null){
+            throw new NullPointerException();
+        }
+        currentState = initialState;
+        this.schedule = schedule;
+        useSchedule = true;
     }
 
     // Getters & Setters
