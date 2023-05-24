@@ -24,6 +24,13 @@ public class GameTimerSchedule {
         schedule.addAll(gameStates);
     }
 
+    public GameState getCurrent() {
+        if(index < schedule.size()) {
+            return schedule.get(index);
+        }
+        return GameState.EMPTY;
+    }
+
     public GameState next() {
         GameState state;
         if(index + 1 < schedule.size()) {
