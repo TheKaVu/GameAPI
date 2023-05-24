@@ -20,6 +20,10 @@ public class GameTimerSchedule {
         schedule.add(gameState);
     }
 
+    public void addStates(List<GameState> gameStates){
+        schedule.addAll(gameStates);
+    }
+
     public GameState next() {
         GameState state;
         if(index + 1 < schedule.size()) {
