@@ -1,5 +1,6 @@
 package dev.kavu.gameapi;
 
+import dev.kavu.gameapi.event.GameStateEndEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Timer;
@@ -123,9 +124,10 @@ public class GameStateTimer {
         boolean timerOvercount = (timerReversed ? (stateTime <= 0) : (stateTime >= currentState.getDuration())) && currentState.getDuration() >= 0;
 
         if (timerOvercount || currentState.shouldEnd()) {
+            plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule != null ? schedule.next() : null));
             currentState.onEnd();
             if(schedule != null){
-                initialize(schedule.next());
+                initialize(schedule.getCurrent());
             }
             return true;
         }
