@@ -16,6 +16,10 @@ public class GameTimerSchedule {
         this.schedule = schedule;
     }
 
+    public void addState(GameState gameState){
+        schedule.add(gameState);
+    }
+
     public GameState next() {
         GameState state;
 
