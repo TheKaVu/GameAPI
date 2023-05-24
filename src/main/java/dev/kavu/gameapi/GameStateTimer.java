@@ -1,6 +1,7 @@
 package dev.kavu.gameapi;
 
 import dev.kavu.gameapi.event.GameStateEndEvent;
+import dev.kavu.gameapi.event.GameStateInitEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Timer;
@@ -92,6 +93,7 @@ public class GameStateTimer {
         }
 
         running = true;
+        plugin.getServer().getPluginManager().callEvent(new GameStateInitEvent(this, currentState, gameState));
         currentState = gameState;
         currentState.onInit();
         timerReversed = currentState.doesReverseTimer();
@@ -124,7 +126,7 @@ public class GameStateTimer {
         boolean timerOvercount = (timerReversed ? (stateTime <= 0) : (stateTime >= currentState.getDuration())) && currentState.getDuration() >= 0;
 
         if (timerOvercount || currentState.shouldEnd()) {
-            plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule != null ? schedule.next() : null));
+            plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule != null ? schedule.next() : null, true));
             currentState.onEnd();
             if(schedule != null){
                 initialize(schedule.getCurrent());
@@ -137,8 +139,10 @@ public class GameStateTimer {
 
     public void terminate(boolean runNext){
         if(runNext && schedule != null) {
-            initialize(schedule.next());
+            plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule.next(), false));
+            initialize(schedule.getCurrent());
         } else {
+            plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, GameState.EMPTY, false));
             initialize(GameState.EMPTY);
         }
         pause();
