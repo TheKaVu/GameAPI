@@ -40,6 +40,10 @@ public class GameTimerSchedule {
         index = -1;
     }
 
+    public void skip(){
+        index = schedule.size() - 1;
+    }
+
     public static class AwaitState extends GameState{
         public AwaitState(long duration) {
             super("await", duration, false);
