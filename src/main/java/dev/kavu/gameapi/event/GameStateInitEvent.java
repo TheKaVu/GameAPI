@@ -4,7 +4,7 @@ import dev.kavu.gameapi.GameState;
 import dev.kavu.gameapi.GameType;
 import org.bukkit.event.HandlerList;
 
-public class GameStateInitEvent extends GameStateEvent{
+public class GameStateInitEvent extends GameStateTimerEvent {
 
     private static final HandlerList handlers = new HandlerList();
 
