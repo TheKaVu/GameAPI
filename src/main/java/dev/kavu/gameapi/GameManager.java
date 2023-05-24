@@ -15,7 +15,7 @@ public class GameManager {
 
     private final GameType gameType;
 
-    private final GameStateTimer gameStateTimer = new GameStateTimer();
+    private final GameStateTimer gameStateTimer;
 
     private final HashSet<UUID> playersInGame = new HashSet<>();
 
@@ -35,6 +35,7 @@ public class GameManager {
         }
         this.plugin = plugin;
         this.gameType = gameType;
+        gameStateTimer = new GameStateTimer(plugin);
         mapManager = new MapManager(plugin.getDataFolder());
     }
 
@@ -50,6 +51,7 @@ public class GameManager {
         }
         this.plugin = plugin;
         this.gameType = gameType;
+        gameStateTimer = new GameStateTimer(plugin);
         this.mapManager = mapManager;
     }
 
@@ -65,6 +67,7 @@ public class GameManager {
         }
         this.plugin = plugin;
         this.gameType = gameType;
+        gameStateTimer = new GameStateTimer(plugin);
         mapManager = new MapManager(plugin.getDataFolder());
         for(Player p : playersInGame){
             this.playersInGame.add(p.getUniqueId());
@@ -86,6 +89,7 @@ public class GameManager {
         }
         this.plugin = plugin;
         this.gameType = gameType;
+        gameStateTimer = new GameStateTimer(plugin);
         this.mapManager = mapManager;
         for(Player p : playersInGame){
             this.playersInGame.add(p.getUniqueId());
