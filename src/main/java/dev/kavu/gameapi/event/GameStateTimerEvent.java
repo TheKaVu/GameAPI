@@ -3,17 +3,17 @@ package dev.kavu.gameapi.event;
 import dev.kavu.gameapi.GameState;
 import dev.kavu.gameapi.GameStateTimer;
 import dev.kavu.gameapi.GameType;
+import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class GameStateTimerEvent extends GameEvent{
+public class GameStateTimerEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
     private final GameStateTimer timer;
     private final GameState gameState;
 
-    public GameStateTimerEvent(GameType gameType,GameStateTimer timer, GameState gameState) {
-        super(gameType);
+    public GameStateTimerEvent(GameStateTimer timer, GameState gameState) {
         this.timer = timer;
         this.gameState = gameState;
     }
