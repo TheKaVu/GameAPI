@@ -20,13 +20,10 @@ public class GameStateTimer {
 
     private boolean running = false;
 
-    private final boolean useSchedule;
-
     // Constructors
     public GameStateTimer(){
         currentState = GameState.EMPTY;
         schedule = null;
-        useSchedule = false;
     }
 
     public GameStateTimer(GameState initialState){
@@ -35,13 +32,11 @@ public class GameStateTimer {
         }
         currentState = initialState;
         schedule = null;
-        useSchedule = false;
     }
 
     public GameStateTimer( GameTimerSchedule schedule){
         currentState = GameState.EMPTY;
         this.schedule = schedule;
-        useSchedule = true;
     }
 
     public GameStateTimer(GameState initialState, GameTimerSchedule schedule){
@@ -50,7 +45,6 @@ public class GameStateTimer {
         }
         currentState = initialState;
         this.schedule = schedule;
-        useSchedule = true;
     }
 
     // Getters & Setters
