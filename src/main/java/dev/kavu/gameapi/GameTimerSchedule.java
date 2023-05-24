@@ -22,9 +22,8 @@ public class GameTimerSchedule {
 
     public GameState next() {
         GameState state;
-
-        index++;
-        if(index < schedule.size()) {
+        if(index + 1 < schedule.size()) {
+            index++;
             state = schedule.get(index);
         } else {
             state = GameState.EMPTY;
