@@ -25,4 +25,9 @@ public class Rule<E extends Enum<E>> {
     public void setStatus(E status) {
         this.status = status;
     }
+
+    public enum Basic {
+        ON,
+        OFF;
+    }
 }
