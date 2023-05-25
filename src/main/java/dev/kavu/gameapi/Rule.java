@@ -1,16 +1,11 @@
 package dev.kavu.gameapi;
 
-public class Rule {
+public class Rule<E extends Enum<E>> {
 
     private final String name;
-    private boolean status;
+    private E status;
 
-    public Rule(String name) {
-        this.name = name;
-        this.status = false;
-    }
-
-    public Rule(String name, boolean status) {
+    public Rule(String name, E status) {
         this.name = name;
         this.status = status;
     }
@@ -19,11 +14,15 @@ public class Rule {
         return name;
     }
 
-    public boolean check() {
+    public E getStatus(){
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public boolean check(E status) {
+        return this.status.equals(status);
+    }
+
+    public void setStatus(E status) {
         this.status = status;
     }
 }
