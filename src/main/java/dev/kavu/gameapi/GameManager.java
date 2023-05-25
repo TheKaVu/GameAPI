@@ -23,6 +23,8 @@ public class GameManager {
 
     private final HashMap<Class<? extends Statistic>, RegisteredStatistic<?>> statistics = new HashMap<>();
 
+    private final RuleSet rules = new RuleSet();
+
     private final MapManager mapManager;
 
     // Constructor
@@ -119,6 +121,10 @@ public class GameManager {
 
     public HashSet<UUID> getPlayersOffGame() {
         return playersOffGame;
+    }
+
+    public RuleSet getRules() {
+        return rules;
     }
 
     public <N extends Number> void registerStatistic(Statistic<N> statistic){
