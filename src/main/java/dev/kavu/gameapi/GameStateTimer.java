@@ -2,7 +2,7 @@ package dev.kavu.gameapi;
 
 import dev.kavu.gameapi.event.GameStateEndEvent;
 import dev.kavu.gameapi.event.GameStateInitEvent;
-import dev.kavu.gameapi.event.GameTimerScheduleEndEvent;
+import dev.kavu.gameapi.event.GstScheduleEndEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Timer;
@@ -133,7 +133,7 @@ public class GameStateTimer {
             if(schedule == null) return true;
 
             if(schedule.isDone()) {
-                plugin.getServer().getPluginManager().callEvent(new GameTimerScheduleEndEvent(this, currentState));
+                plugin.getServer().getPluginManager().callEvent(new GstScheduleEndEvent(this, currentState));
             }
             initialize(schedule.getCurrent());
 
