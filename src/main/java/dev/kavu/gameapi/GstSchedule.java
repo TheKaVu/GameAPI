@@ -3,16 +3,16 @@ package dev.kavu.gameapi;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameTimerSchedule {
+public class GstSchedule {
 
     private final List<GameState> schedule;
     private int index = -1;
 
-    public GameTimerSchedule(){
+    public GstSchedule(){
         schedule = new ArrayList<>();
     }
 
-    public GameTimerSchedule(List<GameState> schedule) {
+    public GstSchedule(List<GameState> schedule) {
         this.schedule = schedule;
     }
 
