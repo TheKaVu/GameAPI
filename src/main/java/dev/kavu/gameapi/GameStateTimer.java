@@ -17,7 +17,7 @@ public class GameStateTimer {
 
     private GameState currentState;
 
-    private final GameTimerSchedule schedule;
+    private final GstSchedule schedule;
 
     private final Plugin plugin;
 
@@ -43,13 +43,13 @@ public class GameStateTimer {
         this.plugin = plugin;
     }
 
-    public GameStateTimer(GameTimerSchedule schedule, Plugin plugin){
+    public GameStateTimer(GstSchedule schedule, Plugin plugin){
         currentState = GameState.EMPTY;
         this.schedule = schedule;
         this.plugin = plugin;
     }
 
-    public GameStateTimer(GameState initialState, GameTimerSchedule schedule, Plugin plugin){
+    public GameStateTimer(GameState initialState, GstSchedule schedule, Plugin plugin){
         if(initialState == null){
             throw new NullPointerException();
         }
@@ -63,7 +63,7 @@ public class GameStateTimer {
         return currentState;
     }
 
-    public GameTimerSchedule getSchedule() {
+    public GstSchedule getSchedule() {
         return schedule;
     }
 
