@@ -34,7 +34,7 @@ public class GameStateTimer {
         schedule = null;
     }
 
-    public GameStateTimer(GameState initialState, Plugin plugin){
+    public GameStateTimer(GameState initialState, Plugin plugin) {
         if(initialState == null){
             throw new NullPointerException();
         }
@@ -43,14 +43,14 @@ public class GameStateTimer {
         this.plugin = plugin;
     }
 
-    public GameStateTimer(GstSchedule schedule, Plugin plugin){
+    public GameStateTimer(GstSchedule schedule, Plugin plugin) {
         currentState = GameState.EMPTY;
         this.schedule = schedule;
         this.plugin = plugin;
     }
 
-    public GameStateTimer(GameState initialState, GstSchedule schedule, Plugin plugin){
-        if(initialState == null){
+    public GameStateTimer(GameState initialState, GstSchedule schedule, Plugin plugin) {
+        if (initialState == null) {
             throw new NullPointerException();
         }
         currentState = initialState;
@@ -143,7 +143,7 @@ public class GameStateTimer {
         return false;
     }
 
-    public void terminate(boolean runNext){
+    public void terminate(boolean runNext) {
         plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule != null ? schedule.next() : null, false));
         currentState.onEnd();
         if(runNext && schedule != null) {
