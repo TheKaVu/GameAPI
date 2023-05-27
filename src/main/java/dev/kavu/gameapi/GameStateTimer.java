@@ -128,14 +128,16 @@ public class GameStateTimer {
 
         if (timerOvercount || currentState.shouldEnd()) {
             plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule != null ? schedule.next() : null, true));
-            currentState.onEnd();
 
-            if(schedule == null) return true;
-
-            if(schedule.isDone()) {
-                plugin.getServer().getPluginManager().callEvent(new GstScheduleEndEvent(this, currentState));
+            if(schedule != null) {
+                if (schedule.isDone()) {
+                    plugin.getServer().getPluginManager().callEvent(new GstScheduleEndEvent(this, currentState));
+                }
+                currentState.onEnd();
+                initialize(schedule.getCurrent());
+            } else {
+                currentState.onEnd();
             }
-            initialize(schedule.getCurrent());
 
             return true;
         }
