@@ -153,7 +153,6 @@ public class GameStateTimer {
             plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, GameState.EMPTY, false));
             initialize(GameState.EMPTY);
         }
-        pause();
     }
 
     public void prompt(){
