@@ -1,6 +1,8 @@
 package dev.kavu.gameapi;
 
-public class Rule<E extends Enum<E>> {
+import java.io.Serializable;
+
+public class Rule<E extends Enum<E>> implements Serializable {
 
     private final String name;
     private E status;
