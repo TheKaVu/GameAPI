@@ -13,8 +13,6 @@ public class GameManager {
     // Fields
     private final Plugin plugin;
 
-    private final GameType gameType;
-
     private final GameStateTimer gameStateTimer;
 
     private final HashSet<UUID> playersInGame = new HashSet<>();
@@ -28,47 +26,35 @@ public class GameManager {
     private final MapManager mapManager;
 
     // Constructor
-    public GameManager(Plugin plugin, GameType gameType) {
+    public GameManager(Plugin plugin) {
         if(plugin == null){
-            throw new NullPointerException("plugin was null");
-        }
-        if(gameType == null){
-            throw new NullPointerException("gameType was null");
+            throw new NullPointerException();
         }
         this.plugin = plugin;
-        this.gameType = gameType;
         gameStateTimer = new GameStateTimer(plugin);
         mapManager = new MapManager(plugin.getDataFolder());
     }
 
-    public GameManager(Plugin plugin, GameType gameType, MapManager mapManager) {
+    public GameManager(Plugin plugin, MapManager mapManager) {
         if(plugin == null){
             throw new NullPointerException("plugin was null");
-        }
-        if(gameType == null){
-            throw new NullPointerException("gameType was null");
         }
         if(mapManager == null){
             throw new NullPointerException("mapManager was null");
         }
         this.plugin = plugin;
-        this.gameType = gameType;
         gameStateTimer = new GameStateTimer(plugin);
         this.mapManager = mapManager;
     }
 
-    public GameManager(Plugin plugin, GameType gameType, Collection<? extends Player> playersInGame) {
+    public GameManager(Plugin plugin, Collection<? extends Player> playersInGame) {
         if(plugin == null){
             throw new NullPointerException("plugin was null");
-        }
-        if(gameType == null){
-            throw new NullPointerException("gameType was null");
         }
         if(playersInGame == null){
             throw new NullPointerException("playersInGame was null");
         }
         this.plugin = plugin;
-        this.gameType = gameType;
         gameStateTimer = new GameStateTimer(plugin);
         mapManager = new MapManager(plugin.getDataFolder());
         for(Player p : playersInGame){
@@ -76,12 +62,9 @@ public class GameManager {
         }
     }
 
-    public GameManager(Plugin plugin, GameType gameType, MapManager mapManager, Collection<? extends Player> playersInGame) {
+    public GameManager(Plugin plugin, MapManager mapManager, Collection<? extends Player> playersInGame) {
         if(plugin == null){
             throw new NullPointerException("plugin was null");
-        }
-        if(gameType == null){
-            throw new NullPointerException("gameType was null");
         }
         if(mapManager == null){
             throw new NullPointerException("mapManager was null");
@@ -90,7 +73,6 @@ public class GameManager {
             throw new NullPointerException("playersInGame was null");
         }
         this.plugin = plugin;
-        this.gameType = gameType;
         gameStateTimer = new GameStateTimer(plugin);
         this.mapManager = mapManager;
         for(Player p : playersInGame){
@@ -101,10 +83,6 @@ public class GameManager {
     // Getters
     public Plugin getPlugin() {
         return plugin;
-    }
-
-    public GameType getGameType() {
-        return gameType;
     }
 
     public GameStateTimer getGameStateTimer() {
