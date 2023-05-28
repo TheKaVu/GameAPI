@@ -1,4 +1,4 @@
-package dev.kavu.gameapi.game;
+package dev.kavu.gameapi;
 
 public abstract class GameState {
 
@@ -73,12 +73,14 @@ public abstract class GameState {
         return name;
     }
 
-    // Abstract functionality
-    public abstract void onInit();
+    // Functionality
+    public void onInit() { }
 
-    public abstract void tick();
+    public void tick() { }
 
-    public abstract void onEnd();
+    public void onEnd() { }
 
-    public abstract boolean shouldEnd();
+    public boolean shouldEnd() {
+        return false;
+    }
 }

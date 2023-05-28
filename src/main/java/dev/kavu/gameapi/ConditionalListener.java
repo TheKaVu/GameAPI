@@ -1,4 +1,4 @@
-package dev.kavu.gameapi.game;
+package dev.kavu.gameapi;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -11,17 +11,29 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.function.BooleanSupplier;
+import java.util.function.Predicate;
 
 public class ConditionalListener {
 
     // Fields
     private final Listener handledListener;
 
-    private final BooleanSupplier condition;
+    private final BooleanSupplier noArgsCondition;
+    private final Predicate<Event> condition;
 
     // Constructor
-    public ConditionalListener(Listener handledListener, BooleanSupplier condition) {
-        this.condition = (condition == null) ? () -> true : condition;
+    public ConditionalListener(Listener handledListener, BooleanSupplier noArgsCondition) {
+        this.noArgsCondition = (noArgsCondition == null) ? () -> true : noArgsCondition;
+        this.condition = event -> true;
+        if(handledListener == null){
+            throw new NullPointerException();
+        }
+        this.handledListener = handledListener;
+    }
+
+    public ConditionalListener(Listener handledListener, Predicate<Event> condition) {
+        this.condition = (condition == null) ? event -> true : condition;
+        this.noArgsCondition = () -> true;
         if(handledListener == null){
             throw new NullPointerException();
         }
@@ -50,11 +62,12 @@ public class ConditionalListener {
 
             try {
 
-                BooleanSupplier finalCondition = condition;
+                BooleanSupplier finalNoArgsCondition = noArgsCondition;
+                Predicate<Event> finalCondition = condition;
                 Class<? extends Event> eventClass = (Class<? extends Event>) method.getParameterTypes()[0];
                 EventExecutor executor = (listener, event) -> {
                     try {
-                        if(finalCondition.getAsBoolean()){
+                        if(finalNoArgsCondition.getAsBoolean() && finalCondition.test(event)){
                             System.out.println("condition check passed");
                             method.invoke(listener, event);
                             System.out.println("event passed down to listener");

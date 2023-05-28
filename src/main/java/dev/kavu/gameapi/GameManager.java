@@ -1,4 +1,4 @@
-package dev.kavu.gameapi.game;
+package dev.kavu.gameapi;
 
 import dev.kavu.gameapi.statistic.Statistic;
 import dev.kavu.gameapi.statistic.RegisteredStatistic;
@@ -8,14 +8,12 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 
-public class GameManager<T extends GameType> {
+public class GameManager {
 
     // Fields
     private final Plugin plugin;
 
-    private final T gameType;
-
-    private final GameStateTimer gameStateTimer = new GameStateTimer();
+    private final GameStateTimer gameStateTimer;
 
     private final HashSet<UUID> playersInGame = new HashSet<>();
 
@@ -23,60 +21,50 @@ public class GameManager<T extends GameType> {
 
     private final HashMap<Class<? extends Statistic>, RegisteredStatistic<?>> statistics = new HashMap<>();
 
+    private final RuleSet rules = new RuleSet();
+
     private final MapManager mapManager;
 
     // Constructor
-    public GameManager(Plugin plugin, T gameType) {
+    public GameManager(Plugin plugin) {
         if(plugin == null){
-            throw new NullPointerException("plugin was null");
-        }
-        if(gameType == null){
-            throw new NullPointerException("gameType was null");
+            throw new NullPointerException();
         }
         this.plugin = plugin;
-        this.gameType = gameType;
+        gameStateTimer = new GameStateTimer(plugin);
         mapManager = new MapManager(plugin.getDataFolder());
     }
 
-    public GameManager(Plugin plugin, T gameType, MapManager mapManager) {
+    public GameManager(Plugin plugin, MapManager mapManager) {
         if(plugin == null){
             throw new NullPointerException("plugin was null");
-        }
-        if(gameType == null){
-            throw new NullPointerException("gameType was null");
         }
         if(mapManager == null){
             throw new NullPointerException("mapManager was null");
         }
         this.plugin = plugin;
-        this.gameType = gameType;
+        gameStateTimer = new GameStateTimer(plugin);
         this.mapManager = mapManager;
     }
 
-    public GameManager(Plugin plugin, T gameType, Collection<? extends Player> playersInGame) {
+    public GameManager(Plugin plugin, Collection<? extends Player> playersInGame) {
         if(plugin == null){
             throw new NullPointerException("plugin was null");
-        }
-        if(gameType == null){
-            throw new NullPointerException("gameType was null");
         }
         if(playersInGame == null){
             throw new NullPointerException("playersInGame was null");
         }
         this.plugin = plugin;
-        this.gameType = gameType;
+        gameStateTimer = new GameStateTimer(plugin);
         mapManager = new MapManager(plugin.getDataFolder());
         for(Player p : playersInGame){
             this.playersInGame.add(p.getUniqueId());
         }
     }
 
-    public GameManager(Plugin plugin, T gameType, MapManager mapManager, Collection<? extends Player> playersInGame) {
+    public GameManager(Plugin plugin, MapManager mapManager, Collection<? extends Player> playersInGame) {
         if(plugin == null){
             throw new NullPointerException("plugin was null");
-        }
-        if(gameType == null){
-            throw new NullPointerException("gameType was null");
         }
         if(mapManager == null){
             throw new NullPointerException("mapManager was null");
@@ -85,7 +73,7 @@ public class GameManager<T extends GameType> {
             throw new NullPointerException("playersInGame was null");
         }
         this.plugin = plugin;
-        this.gameType = gameType;
+        gameStateTimer = new GameStateTimer(plugin);
         this.mapManager = mapManager;
         for(Player p : playersInGame){
             this.playersInGame.add(p.getUniqueId());
@@ -95,10 +83,6 @@ public class GameManager<T extends GameType> {
     // Getters
     public Plugin getPlugin() {
         return plugin;
-    }
-
-    public T getGameType() {
-        return gameType;
     }
 
     public GameStateTimer getGameStateTimer() {
@@ -115,6 +99,10 @@ public class GameManager<T extends GameType> {
 
     public HashSet<UUID> getPlayersOffGame() {
         return playersOffGame;
+    }
+
+    public RuleSet getRules() {
+        return rules;
     }
 
     public <N extends Number> void registerStatistic(Statistic<N> statistic){
