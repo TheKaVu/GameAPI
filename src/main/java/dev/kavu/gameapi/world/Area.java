@@ -1,6 +1,5 @@
 package dev.kavu.gameapi.world;
 
-import dev.kavu.gameapi.AffectTarget;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,13 +18,13 @@ public class Area {
     private boolean blockPlacement = true;
     private boolean blockDestruction = true;
     private boolean blockInteraction = true;
-    private AffectTarget target;
+    private Target target;
 
     private Predicate<Material> blockFilter = (material) -> true;
     private Predicate<Player> playerFilter = (player) -> true;
 
     // Constructors
-    public Area(Location originPos, int x, int y, int z, AffectTarget affectTarget, boolean center) {
+    public Area(Location originPos, int x, int y, int z, Target affectTarget, boolean center) {
         if(x < 0) throw new IllegalArgumentException("x was less than 0");
         if(y < 0) throw new IllegalArgumentException("y was less than 0");
         if(z < 0) throw new IllegalArgumentException("z was less than 0");
@@ -46,7 +45,7 @@ public class Area {
         target = affectTarget;
     }
 
-    public Area(Location corner1, Location corner2, AffectTarget affectTarget) {
+    public Area(Location corner1, Location corner2, Target affectTarget) {
         if(affectTarget == null){
             throw new NullPointerException();
         }
@@ -104,11 +103,11 @@ public class Area {
         this.blockInteraction = blockInteraction;
     }
 
-    public AffectTarget getTarget(){
+    public Target getTarget(){
         return target;
     }
 
-    public void setTarget(AffectTarget target){
+    public void setTarget(Target target){
         if(target == null){
             throw new NullPointerException();
         }
@@ -173,6 +172,28 @@ public class Area {
 
     public void onLeave(Player player){
 
+    }
+
+    public enum Target {
+        BLOCKS_ONLY(false, true),
+        PLAYERS_ONLY(true, false),
+        BLOCKS_AND_PLAYERS(true, true);
+
+        private final boolean affectPlayers;
+        private final boolean affectBlocks;
+
+        Target(boolean affectPlayers, boolean affectBlocks) {
+            this.affectPlayers = affectPlayers;
+            this.affectBlocks = affectBlocks;
+        }
+
+        public boolean affectsPlayers() {
+            return affectPlayers;
+        }
+
+        public boolean affectsBlocks() {
+            return affectBlocks;
+        }
     }
 
 }
