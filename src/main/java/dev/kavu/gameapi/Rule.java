@@ -5,10 +5,12 @@ import java.io.Serializable;
 public class Rule<E extends Enum<E>> implements Serializable {
 
     private final String name;
+    private final AffectTarget target;
     private E status;
 
-    public Rule(String name, E status) {
+    public Rule(String name, AffectTarget target, E status) {
         this.name = name;
+        this.target = target;
         this.status = status;
     }
 
@@ -18,6 +20,10 @@ public class Rule<E extends Enum<E>> implements Serializable {
 
     public E getStatus(){
         return status;
+    }
+
+    public AffectTarget getTarget() {
+        return target;
     }
 
     public boolean check(E status) {
