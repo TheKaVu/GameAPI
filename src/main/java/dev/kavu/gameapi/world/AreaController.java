@@ -37,6 +37,9 @@ public class AreaController {
             throw new NullPointerException("plugin was null");
         }
         this.areas = areas;
+
+        ConditionalListener conditionalListener = new ConditionalListener(new AreaControllerListener(), this::isRunning);
+        conditionalListener.register(plugin);
     }
 
     public boolean addArea(Area area, int priority){
