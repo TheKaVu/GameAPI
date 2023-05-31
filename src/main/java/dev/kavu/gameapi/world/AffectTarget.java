@@ -1,4 +1,4 @@
-package dev.kavu.gameapi;
+package dev.kavu.gameapi.world;
 
 public enum AffectTarget {
     BLOCKS_ONLY(false, true),
