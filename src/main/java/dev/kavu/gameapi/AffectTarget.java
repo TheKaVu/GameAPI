@@ -4,7 +4,7 @@ public enum AffectTarget {
     BLOCKS_ONLY(false, true),
     PLAYERS_ONLY(true, false),
     BLOCKS_AND_PLAYERS(true, true),
-    GAME(false, false);
+    NONE(false, false);
 
     private final boolean affectPlayers;
     private final boolean affectBlocks;
