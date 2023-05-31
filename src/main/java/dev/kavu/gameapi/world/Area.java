@@ -1,6 +1,5 @@
 package dev.kavu.gameapi.world;
 
-import dev.kavu.gameapi.AffectTarget;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
