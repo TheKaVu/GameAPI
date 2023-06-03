@@ -1,6 +1,5 @@
 package dev.kavu.gameapi.world;
 
-import com.sun.javafx.geom.Vec3d;
 import org.bukkit.Location;
 
 public class Border {
@@ -43,7 +42,7 @@ public class Border {
     public boolean hasLocation(Location location) {
         if(location.getWorld() != center.getWorld()) return false;
 
-        return borderShape.compute(radius, height, new Vec3d(location.getX(), location.getY(), location.getZ()));
+        return borderShape.compute(this, center);
     }
 
     public Border scale(double radiusScale, double heightScale){
