@@ -1,7 +1,7 @@
 package dev.kavu.gameapi.world;
 
-import com.sun.javafx.geom.Vec3d;
+import org.bukkit.Location;
 
 public interface BorderShape {
-    boolean compute(double radius, double height, Vec3d pos);
+    boolean compute(Border border, Location pos);
 }
