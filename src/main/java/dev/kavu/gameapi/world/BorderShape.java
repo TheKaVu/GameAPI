@@ -22,4 +22,12 @@ public interface BorderShape {
 
         return centerPoint.distance(posPoint) <= border.getRadius() && Math.abs(center.getY() - pos.getY()) <= border.getHeight();
     };
+
+    BorderShape RECTANGLE = (border, pos) -> {
+        Location center = border.getCenter();
+        Point3D centerPoint = new Point3D(center.getX(), center.getY(), center.getZ());
+        Point3D posPoint = new Point3D(pos.getX(), pos.getY(), pos.getZ());
+        Point3D diff = centerPoint.subtract(posPoint);
+        return Math.abs(diff.getX()) <= border.getRadius() && Math.abs(diff.getZ()) <= border.getRadius() && Math.abs(diff.getY()) <= border.getHeight();
+    };
 }
