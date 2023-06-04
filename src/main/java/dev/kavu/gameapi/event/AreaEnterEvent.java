@@ -11,7 +11,7 @@ public class AreaEnterEvent extends AreaEvent {
     private final Area previousArea;
     private final Player player;
 
-    public AreaEnterEvent(Area area, Player player, Area previousArea) {
+    public AreaEnterEvent(Area area, Area previousArea, Player player) {
         super(area);
         this.player = player;
         this.previousArea = previousArea;
