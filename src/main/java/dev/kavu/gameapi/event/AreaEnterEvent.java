@@ -8,11 +8,17 @@ public class AreaEnterEvent extends AreaEvent {
 
     private static final HandlerList handlerList = new HandlerList();
 
+    private final Area previousArea;
     private final Player player;
 
-    public AreaEnterEvent(Area area, Player player) {
+    public AreaEnterEvent(Area area, Player player, Area previousArea) {
         super(area);
         this.player = player;
+        this.previousArea = previousArea;
+    }
+
+    public Area getPreviousArea() {
+        return previousArea;
     }
 
     public Player getPlayer() {
