@@ -1,6 +1,8 @@
 package dev.kavu.gameapi.world;
 
 import dev.kavu.gameapi.ConditionalListener;
+import dev.kavu.gameapi.event.AreaEnterEvent;
+import dev.kavu.gameapi.event.AreaLeaveEvent;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -23,6 +25,8 @@ public class AreaController {
 
     private final HashMap<Player, Area> players = new HashMap<>();
 
+    private final Plugin plugin;
+
     private boolean running = true;
 
     public AreaController(Plugin plugin){
@@ -37,6 +41,7 @@ public class AreaController {
             throw new NullPointerException("plugin was null");
         }
         this.areas = areas;
+        this.plugin = plugin;
 
         ConditionalListener conditionalListener = new ConditionalListener(new AreaControllerListener(), this::isRunning);
         conditionalListener.register(plugin);
@@ -84,6 +89,10 @@ public class AreaController {
         return running;
     }
 
+    public Plugin getPlugin() {
+        return plugin;
+    }
+
     public void start(){
         running = true;
     }
@@ -99,8 +108,14 @@ public class AreaController {
             Area newArea = getPlayerArea(event.getPlayer());
             Area lastArea = players.get(player);
             if(lastArea != newArea){
-                if(lastArea != null) lastArea.onLeave(event.getPlayer());
-                if(newArea != null) newArea.onEnter(event.getPlayer());
+                if(lastArea != null) {
+                    lastArea.onLeave(event.getPlayer());
+                    plugin.getServer().getPluginManager().callEvent(new AreaLeaveEvent(lastArea, player));
+                }
+                if(newArea != null) {
+                    newArea.onEnter(event.getPlayer());
+                    plugin.getServer().getPluginManager().callEvent(new AreaEnterEvent(newArea, lastArea, player));
+                }
                 players.put(player, newArea);
             }
         }
