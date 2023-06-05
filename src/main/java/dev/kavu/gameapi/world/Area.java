@@ -166,12 +166,4 @@ public class Area {
         return hasLocation(player.getLocation()) || hasLocation(player.getEyeLocation());
     }
 
-    public void onEnter(Player player){
-
-    }
-
-    public void onLeave(Player player){
-
-    }
-
 }

@@ -109,11 +109,9 @@ public class AreaController {
             Area lastArea = players.get(player);
             if(lastArea != newArea){
                 if(lastArea != null) {
-                    lastArea.onLeave(event.getPlayer());
                     plugin.getServer().getPluginManager().callEvent(new AreaLeaveEvent(lastArea, player));
                 }
                 if(newArea != null) {
-                    newArea.onEnter(event.getPlayer());
                     plugin.getServer().getPluginManager().callEvent(new AreaEnterEvent(newArea, lastArea, player));
                 }
                 players.put(player, newArea);
