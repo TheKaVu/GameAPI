@@ -23,7 +23,7 @@ public interface AreaShape {
         return (posPoint.getX() - centerPoint.getX()) / area.getSizeX() + (posPoint.getY() - centerPoint.getY()) / area.getSizeY() <= 1 && Math.abs(center.getY() - pos.getY()) <= area.getSizeZ();
     };
 
-    AreaShape RECTANGLE = (area, pos) -> {
+    AreaShape CUBOID = (area, pos) -> {
         Location center = area.getCenter();
         Point3D centerPoint = new Point3D(center.getX(), center.getY(), center.getZ());
         Point3D posPoint = new Point3D(pos.getX(), pos.getY(), pos.getZ());
