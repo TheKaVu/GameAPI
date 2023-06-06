@@ -11,6 +11,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class AreaController {
@@ -64,7 +66,7 @@ public class AreaController {
 
     public Area getArea(Location location){
         if(location == null){
-            throw new NullPointerException("areas was null");
+            throw new NullPointerException();
         }
         int lastPriority = Integer.MIN_VALUE;
         AtomicReference<Area> currentArea = new AtomicReference<>(null);
@@ -77,6 +79,32 @@ public class AreaController {
         });
 
         return currentArea.get();
+    }
+
+    public Set<Area> getAreas(Location location) {
+        if(location == null){
+            throw new NullPointerException();
+        }
+        Set<Area> areaSet = new HashSet<>();
+        areas.forEach((area, priority) -> {
+            if(area.hasLocation(location)) {
+                areaSet.add(area);
+            }
+        });
+        return areaSet;
+    }
+
+    public Set<Area> getAreas(Player player) {
+        if(player == null){
+            throw new NullPointerException();
+        }
+        Set<Area> areaSet = new HashSet<>();
+        areas.forEach((area, priority) -> {
+            if(area.hasPlayer(player)) {
+                areaSet.add(area);
+            }
+        });
+        return areaSet;
     }
 
     public boolean isRunning(){
