@@ -4,20 +4,14 @@ import dev.kavu.gameapi.ConditionalListener;
 import dev.kavu.gameapi.event.AreaEnterEvent;
 import dev.kavu.gameapi.event.AreaLeaveEvent;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Predicate;
 
 public class AreaController {
 
@@ -54,7 +48,7 @@ public class AreaController {
         return areas.putIfAbsent(area, priority) == null;
     }
 
-    public Area getPlayerArea(Player player){
+    public Area getArea(Player player){
         int lastPriority = Integer.MIN_VALUE;
         AtomicReference<Area> currentArea = new AtomicReference<>(null);
 
@@ -68,7 +62,7 @@ public class AreaController {
         return currentArea.get();
     }
 
-    public Area getLocationArea(Location location){
+    public Area getArea(Location location){
         if(location == null){
             throw new NullPointerException("areas was null");
         }
@@ -105,7 +99,7 @@ public class AreaController {
         @EventHandler
         public void onPlayerMove(PlayerMoveEvent event) {
             Player player = event.getPlayer();
-            Area newArea = getPlayerArea(event.getPlayer());
+            Area newArea = getArea(event.getPlayer());
             Area lastArea = players.get(player);
             if(lastArea != newArea){
                 if(lastArea != null) {
