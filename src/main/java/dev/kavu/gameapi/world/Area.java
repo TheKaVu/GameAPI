@@ -81,4 +81,8 @@ public abstract class Area {
         }
         return hasLocation(player.getLocation()) || hasLocation(player.getEyeLocation());
     }
+
+    public abstract void onEnter(Player player);
+
+    public abstract void onLeave(Player player);
 }
