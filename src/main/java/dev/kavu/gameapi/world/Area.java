@@ -84,5 +84,7 @@ public abstract class Area {
 
     public abstract void onEnter(Player player);
 
+    public abstract void onMove(Player player);
+
     public abstract void onLeave(Player player);
 }
