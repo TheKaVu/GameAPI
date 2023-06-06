@@ -1,10 +1,7 @@
 package dev.kavu.gameapi.world;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-
-import java.util.function.Predicate;
 
 public class Area {
 
