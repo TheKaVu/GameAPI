@@ -81,11 +81,11 @@ public class AreaController {
         return currentArea.get();
     }
 
-    public Set<Area> getAreas(Location location) {
+    public HashSet<Area> getAreas(Location location) {
         if(location == null){
             throw new NullPointerException();
         }
-        Set<Area> areaSet = new HashSet<>();
+        HashSet<Area> areaSet = new HashSet<>();
         areas.forEach((area, priority) -> {
             if(area.hasLocation(location)) {
                 areaSet.add(area);
@@ -94,11 +94,11 @@ public class AreaController {
         return areaSet;
     }
 
-    public Set<Area> getAreas(Player player) {
+    public HashSet<Area> getAreas(Player player) {
         if(player == null){
             throw new NullPointerException();
         }
-        Set<Area> areaSet = new HashSet<>();
+        HashSet<Area> areaSet = new HashSet<>();
         areas.forEach((area, priority) -> {
             if(area.hasPlayer(player)) {
                 areaSet.add(area);
