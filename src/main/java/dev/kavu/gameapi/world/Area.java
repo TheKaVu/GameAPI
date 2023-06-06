@@ -3,7 +3,7 @@ package dev.kavu.gameapi.world;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public class Area {
+public abstract class Area {
 
     // Fields
     private double sizeX;
@@ -81,5 +81,4 @@ public class Area {
         }
         return hasLocation(player.getLocation()) || hasLocation(player.getEyeLocation());
     }
-
 }
