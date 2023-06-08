@@ -3,17 +3,20 @@ package dev.kavu.gameapi.world;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.function.Supplier;
+
 public abstract class Area {
 
     // Fields
     private double sizeX;
     private double sizeY;
     private double sizeZ;
-    private final Location center;
+    private final Supplier<Location> center;
     private final AreaShape shape;
 
     // Constructors
-    public Area(Location center, double x, double y, double z, AreaShape shape) {
+
+    public Area(Supplier<Location> center, double x, double y, double z, AreaShape shape) {
         if(x < 0) throw new IllegalArgumentException("x was less than 0");
         if(y < 0) throw new IllegalArgumentException("y was less than 0");
         if(z < 0) throw new IllegalArgumentException("z was less than 0");
@@ -24,6 +27,10 @@ public abstract class Area {
         this.sizeZ = 2 * z;
         this.shape = shape;
 
+    }
+
+    public Area(Location center, double x, double y, double z, AreaShape shape) {
+        this(() -> center, x, y, z, shape);
     }
 
     // Getters & Setters
@@ -40,7 +47,7 @@ public abstract class Area {
     }
 
     public Location getCenter() {
-        return center;
+        return center.get();
     }
 
     public AreaShape getShape() {
@@ -70,9 +77,9 @@ public abstract class Area {
         if(location == null){
             throw new NullPointerException();
         }
-        if(location.getWorld() != center.getWorld()) return false;
+        if(location.getWorld() != getCenter().getWorld()) return false;
 
-        return shape.compute(this, center);
+        return shape.compute(this, getCenter());
     }
 
     public boolean hasPlayer(Player player){
