@@ -40,6 +40,15 @@ public class ConditionalListener {
         this.handledListener = handledListener;
     }
 
+    public ConditionalListener(Listener handledListener, BooleanSupplier noArgsCondition, Predicate<Event> condition) {
+        this.condition = (condition == null) ? event -> true : condition;
+        this.noArgsCondition = (noArgsCondition == null) ? () -> true : noArgsCondition;
+        if(handledListener == null){
+            throw new NullPointerException();
+        }
+        this.handledListener = handledListener;
+    }
+
     // Getters
     public Listener getHandledListener() {
         return handledListener;
