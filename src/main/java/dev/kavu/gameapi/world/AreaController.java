@@ -12,7 +12,6 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class AreaController {
@@ -39,7 +38,7 @@ public class AreaController {
         this.areas = areas;
         this.plugin = plugin;
 
-        ConditionalListener conditionalListener = new ConditionalListener(new AreaControllerListener(), this::isRunning);
+        ConditionalListener conditionalListener = new ConditionalListener(new AreaMoveListener(), this::isRunning);
         conditionalListener.register(plugin);
     }
 
@@ -123,7 +122,7 @@ public class AreaController {
         running = false;
     }
 
-    private class AreaControllerListener implements Listener {
+    private final class AreaMoveListener implements Listener {
         @EventHandler
         public void onPlayerMove(PlayerMoveEvent event) {
             Player player = event.getPlayer();
