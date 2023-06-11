@@ -57,7 +57,7 @@ public class ConditionalListener {
 
     // Functionality
     public void register(Plugin plugin){
-        Validate.notNull(plugin);
+        Validate.notNull(plugin, "plugin cannot be null");
 
         for(Method method : handledListener.getClass().getDeclaredMethods()){
             method.setAccessible(true);
