@@ -1,5 +1,7 @@
 package dev.kavu.gameapi;
 
+import org.apache.commons.lang.Validate;
+
 import java.util.Properties;
 
 public class GameType {
@@ -25,18 +27,11 @@ public class GameType {
 
     // Constructor
     public GameType(String name, String systemName, String prefix, int minPlayers, int maxPlayers, Properties properties) {
-        if(name == null){
-            throw new NullPointerException("name was null");
-        }
-        if(systemName == null){
-            throw new NullPointerException("systemName was null");
-        }
-        if(prefix == null){
-            throw new NullPointerException("prefix was null");
-        }
-        if(minPlayers > maxPlayers){
-            throw new ArithmeticException("Minimum value was bigger than maximum value");
-        }
+        Validate.notNull(name, "name cannot be null");
+        Validate.notNull(systemName, "systemName cannot be null");
+        Validate.notNull(prefix, "prefix cannot be null");
+        Validate.isTrue(minPlayers <= maxPlayers, "minPlayers cannot be greater that maxPlayers");
+
         this.name = name;
         this.systemName = systemName;
         this.prefix = prefix;
