@@ -56,6 +56,7 @@ public class MapManager {
 
         if(isLoaded()) return true;
 
+        this.currentMap = map;
         this.activeWorldFolder = new File(Bukkit.getWorldContainer().getParentFile(), map.getName() + "_active");
 
         try {
@@ -73,7 +74,12 @@ public class MapManager {
     }
 
     public void unload() {
-        if(world != null) Bukkit.unloadWorld(world, false);
+
+        if(world != null && currentMap != null) {
+            Bukkit.unloadWorld(world, false);
+            currentMap.onUnload(world);
+        }
+
         if(activeWorldFolder != null) {
             try {
                 FileUtils.deleteDirectory(activeWorldFolder);
@@ -96,11 +102,6 @@ public class MapManager {
         return load(gameMap != null ? gameMap : currentMap);
     }
 
-    public boolean restore(Supplier<GameMap> mapFactory){
-        unload();
-        return load(mapFactory != null ? mapFactory.get() : currentMap);
-    }
-
     public boolean isLoaded() {
         return world != null && activeWorldFolder != null && currentMap != null;
     }
@@ -117,45 +118,8 @@ public class MapManager {
             }
 
             @Override
-            public void onUnload() {
+            public void onUnload(World world) {
 
-            }
-
-            @Override
-            public String getName() {
-                return getSourceFolder().getName();
-            }
-
-            @Override
-            public File getSourceFolder() {
-                return new File(mainFolder + mapPath);
-            }
-
-        };
-        if(autoLoad) load(map);
-
-        return map;
-    }
-
-    public GameMap createMap(String mapPath, Consumer<World> onLoadAction, Runnable onUnloadAction , boolean autoLoad){
-
-        if(onLoadAction == null){
-            throw new NullPointerException("onLoadAction was null");
-        }
-        if(onUnloadAction == null){
-            throw new NullPointerException("onUnloadAction was null");
-        }
-
-        GameMap map = new GameMap() {
-
-            @Override
-            public void onLoad(World world) {
-                onLoadAction.accept(world);
-            }
-
-            @Override
-            public void onUnload() {
-                onUnloadAction.run();
             }
 
             @Override
