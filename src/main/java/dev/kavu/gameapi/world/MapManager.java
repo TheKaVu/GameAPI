@@ -56,6 +56,7 @@ public class MapManager {
 
         if(isLoaded()) return true;
 
+        this.currentMap = map;
         this.activeWorldFolder = new File(Bukkit.getWorldContainer().getParentFile(), map.getName() + "_active");
 
         try {
