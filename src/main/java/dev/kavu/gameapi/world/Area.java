@@ -22,9 +22,9 @@ public abstract class Area {
         if(z < 0) throw new IllegalArgumentException("z was less than 0");
 
         this.center = center;
-        this.sizeX = 2 * x;
-        this.sizeY = 2 * y;
-        this.sizeZ = 2 * z;
+        this.sizeX = x;
+        this.sizeY = y;
+        this.sizeZ = z;
         this.shape = shape;
 
     }
