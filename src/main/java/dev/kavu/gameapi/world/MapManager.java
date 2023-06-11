@@ -1,6 +1,7 @@
 package dev.kavu.gameapi.world;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
@@ -23,13 +24,14 @@ public class MapManager {
 
     // Constructor
     public MapManager(String mainFolder){
+        Validate.notNull(mainFolder, "mainFolder cannot be null");
+
         this.mainFolder = new File(mainFolder);
     }
 
     public MapManager(File mainFolder){
-        if(mainFolder == null){
-            throw new NullPointerException();
-        }
+        Validate.notNull(mainFolder, "mainFolder cannot be null");
+
         this.mainFolder = mainFolder;
     }
 
@@ -48,19 +50,16 @@ public class MapManager {
 
     // Functionality
 
-    public boolean load(GameMap map){
-
-        if(map == null) {
-            throw new NullPointerException();
-        }
+    public boolean load(GameMap gameMap){
+        Validate.notNull(gameMap, "map cannot be null");
 
         if(isLoaded()) return true;
 
-        this.currentMap = map;
-        this.activeWorldFolder = new File(Bukkit.getWorldContainer().getParentFile(), map.getName() + "_active");
+        this.currentMap = gameMap;
+        this.activeWorldFolder = new File(Bukkit.getWorldContainer().getParentFile(), gameMap.getName() + "_active");
 
         try {
-            FileUtils.copyDirectory(map.getSourceFolder(), activeWorldFolder);
+            FileUtils.copyDirectory(gameMap.getSourceFolder(), activeWorldFolder);
         } catch (IOException ignored) {
             return false;
         }
@@ -68,7 +67,7 @@ public class MapManager {
         world = Bukkit.createWorld(new WorldCreator(activeWorldFolder.getName()));
         if(world != null) world.setAutoSave(false);
 
-        map.onLoad(world);
+        gameMap.onLoad(world);
 
         return isLoaded();
     }
@@ -98,8 +97,9 @@ public class MapManager {
     }
 
     public boolean restore(GameMap gameMap){
+        Validate.notNull(gameMap, "map cannot be null");
         unload();
-        return load(gameMap != null ? gameMap : currentMap);
+        return load(gameMap);
     }
 
     public boolean isLoaded() {
@@ -107,9 +107,8 @@ public class MapManager {
     }
 
     public GameMap createMap(String mapPath , boolean autoLoad){
-        if(mapPath == null){
-            throw new NullPointerException();
-        }
+        Validate.notNull(mapPath, "mapPath cannot be null");
+
         GameMap map = new GameMap() {
 
             @Override
