@@ -3,6 +3,7 @@ package dev.kavu.gameapi.world;
 import dev.kavu.gameapi.ConditionalListener;
 import dev.kavu.gameapi.event.AreaEnterEvent;
 import dev.kavu.gameapi.event.AreaLeaveEvent;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,12 +30,9 @@ public class AreaController {
     }
 
     public AreaController(HashMap<Area, Integer> areas, Plugin plugin){
-        if(areas == null){
-            throw new NullPointerException("areas was null");
-        }
-        if(plugin == null){
-            throw new NullPointerException("plugin was null");
-        }
+        Validate.notNull(areas, "areas cannot be null");
+        Validate.notNull(plugin, "plugin cannot be null");
+
         this.areas = areas;
         this.plugin = plugin;
 
@@ -43,13 +41,14 @@ public class AreaController {
     }
 
     public boolean addArea(Area area, int priority){
-        if(area == null){
-            throw new NullPointerException();
-        }
+        Validate.notNull(area, "area cannot be null");
+
         return areas.putIfAbsent(area, priority) == null;
     }
 
     public Area getArea(Player player){
+        Validate.notNull(player, "player cannot be null");
+
         int lastPriority = Integer.MIN_VALUE;
         AtomicReference<Area> currentArea = new AtomicReference<>(null);
 
@@ -64,9 +63,8 @@ public class AreaController {
     }
 
     public Area getArea(Location location){
-        if(location == null){
-            throw new NullPointerException();
-        }
+        Validate.notNull(location, "location cannot be null");
+
         int lastPriority = Integer.MIN_VALUE;
         AtomicReference<Area> currentArea = new AtomicReference<>(null);
 
@@ -81,9 +79,8 @@ public class AreaController {
     }
 
     public HashSet<Area> getAreas(Location location) {
-        if(location == null){
-            throw new NullPointerException();
-        }
+        Validate.notNull(location, "location cannot be null");
+
         HashSet<Area> areaSet = new HashSet<>();
         areas.forEach((area, priority) -> {
             if(area.hasLocation(location)) {
@@ -94,9 +91,8 @@ public class AreaController {
     }
 
     public HashSet<Area> getAreas(Player player) {
-        if(player == null){
-            throw new NullPointerException();
-        }
+        Validate.notNull(player, "player cannot be null");
+
         HashSet<Area> areaSet = new HashSet<>();
         areas.forEach((area, priority) -> {
             if(area.hasPlayer(player)) {
