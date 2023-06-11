@@ -1,5 +1,7 @@
 package dev.kavu.gameapi;
 
+import org.apache.commons.lang.Validate;
+
 public abstract class GameState {
 
     // Constants
@@ -34,9 +36,8 @@ public abstract class GameState {
 
     // Constructors
     public GameState(String name, long duration, boolean reverseTimer) {
-        if(name == null){
-            throw new NullPointerException();
-        }
+        Validate.notNull(name, "name cannot be null");
+
         this.duration = duration;
         this.period = 1;
         this.reverseTimer = reverseTimer;
@@ -44,12 +45,9 @@ public abstract class GameState {
     }
 
     public GameState(String name, long duration, int period, boolean reverseTimer) {
-        if(name == null){
-            throw new NullPointerException();
-        }
-        if (period < 1) {
-            throw new IllegalArgumentException("period is less than 1");
-        }
+        Validate.notNull(name, "name cannot be null");
+        Validate.isTrue(period > 0, "period must be greater than 0");
+
         this.duration = duration;
         this.period = period;
         this.reverseTimer = reverseTimer;

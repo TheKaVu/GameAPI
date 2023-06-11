@@ -1,5 +1,6 @@
 package dev.kavu.gameapi;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -56,9 +57,7 @@ public class ConditionalListener {
 
     // Functionality
     public void register(Plugin plugin){
-        if(plugin == null) {
-            throw new NullPointerException();
-        }
+        Validate.notNull(plugin, "plugin cannot be null");
 
         for(Method method : handledListener.getClass().getDeclaredMethods()){
             method.setAccessible(true);

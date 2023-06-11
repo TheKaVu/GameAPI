@@ -1,5 +1,7 @@
 package dev.kavu.gameapi;
 
+import org.apache.commons.lang.Validate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +15,12 @@ public class GstSchedule {
     }
 
     public GstSchedule(List<GameState> schedule) {
+        Validate.notNull(schedule, "schedule cannot be null");
         this.schedule = schedule;
     }
 
     public void addState(GameState gameState){
+        Validate.notNull(gameState, "gameState cannot be null");
         schedule.add(gameState);
     }
 

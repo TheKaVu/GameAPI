@@ -3,6 +3,7 @@ package dev.kavu.gameapi;
 import dev.kavu.gameapi.statistic.Statistic;
 import dev.kavu.gameapi.statistic.RegisteredStatistic;
 import dev.kavu.gameapi.world.MapManager;
+import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -27,33 +28,26 @@ public class GameManager {
 
     // Constructor
     public GameManager(Plugin plugin) {
-        if(plugin == null){
-            throw new NullPointerException();
-        }
+        Validate.notNull(plugin, "plugin cannot be null");
+
         this.plugin = plugin;
         gameStateTimer = new GameStateTimer(plugin);
         mapManager = new MapManager(plugin.getDataFolder());
     }
 
     public GameManager(Plugin plugin, MapManager mapManager) {
-        if(plugin == null){
-            throw new NullPointerException("plugin was null");
-        }
-        if(mapManager == null){
-            throw new NullPointerException("mapManager was null");
-        }
+        Validate.notNull(plugin, "plugin cannot be null");
+        Validate.notNull(plugin, "mapManager cannot be null");
+
         this.plugin = plugin;
         gameStateTimer = new GameStateTimer(plugin);
         this.mapManager = mapManager;
     }
 
     public GameManager(Plugin plugin, Collection<? extends Player> playersInGame) {
-        if(plugin == null){
-            throw new NullPointerException("plugin was null");
-        }
-        if(playersInGame == null){
-            throw new NullPointerException("playersInGame was null");
-        }
+        Validate.notNull(plugin, "plugin cannot be null");
+        Validate.notNull(plugin, "playersInGame cannot be null");
+
         this.plugin = plugin;
         gameStateTimer = new GameStateTimer(plugin);
         mapManager = new MapManager(plugin.getDataFolder());
@@ -63,15 +57,10 @@ public class GameManager {
     }
 
     public GameManager(Plugin plugin, MapManager mapManager, Collection<? extends Player> playersInGame) {
-        if(plugin == null){
-            throw new NullPointerException("plugin was null");
-        }
-        if(mapManager == null){
-            throw new NullPointerException("mapManager was null");
-        }
-        if(playersInGame == null){
-            throw new NullPointerException("playersInGame was null");
-        }
+        Validate.notNull(plugin, "plugin cannot be null");
+        Validate.notNull(plugin, "mapManager cannot be null");
+        Validate.notNull(plugin, "playersInGame cannot be null");
+
         this.plugin = plugin;
         gameStateTimer = new GameStateTimer(plugin);
         this.mapManager = mapManager;
@@ -106,23 +95,20 @@ public class GameManager {
     }
 
     public <N extends Number> void registerStatistic(Statistic<N> statistic){
-        if(statistic == null){
-            throw new NullPointerException();
-        }
+        Validate.notNull(statistic, "statistic cannot be null");
+
         statistics.put(statistic.getClass(), new RegisteredStatistic<>(statistic, plugin));
     }
 
     public <N extends Number> void registerStatistic(Statistic<N> statistic, Collection<UUID> initialMembers){
-        if(statistic == null){
-            throw new NullPointerException();
-        }
+        Validate.notNull(statistic, "statistic cannot be null");
+
         statistics.put(statistic.getClass(), new RegisteredStatistic<>(statistic, initialMembers, plugin));
     }
 
     public <N extends Number, E extends Statistic<N>> RegisteredStatistic<N> getRegisteredStatistic(Class<E> clazz){
-        if(clazz == null){
-            throw new NullPointerException();
-        }
+        Validate.notNull(clazz, "clazz cannot be null");
+
         return (RegisteredStatistic<N>) statistics.get(clazz);
     }
 }

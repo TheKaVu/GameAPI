@@ -3,6 +3,7 @@ package dev.kavu.gameapi;
 import dev.kavu.gameapi.event.GameStateEndEvent;
 import dev.kavu.gameapi.event.GameStateInitEvent;
 import dev.kavu.gameapi.event.GstScheduleEndEvent;
+import org.apache.commons.lang.Validate;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Timer;
@@ -29,30 +30,34 @@ public class GameStateTimer {
 
     // Constructors
     public GameStateTimer(Plugin plugin){
+        Validate.notNull(plugin, "plugin cannot be null");
+
         this.plugin = plugin;
         currentState = GameState.EMPTY;
         schedule = null;
     }
 
     public GameStateTimer(GameState initialState, Plugin plugin) {
-        if(initialState == null){
-            throw new NullPointerException();
-        }
+        Validate.notNull(initialState, "initialState cannot be null");
+        Validate.notNull(plugin, "plugin cannot be null");
+
         currentState = initialState;
         schedule = null;
         this.plugin = plugin;
     }
 
     public GameStateTimer(GstSchedule schedule, Plugin plugin) {
+        Validate.notNull(plugin, "plugin cannot be null");
+
         currentState = GameState.EMPTY;
         this.schedule = schedule;
         this.plugin = plugin;
     }
 
     public GameStateTimer(GameState initialState, GstSchedule schedule, Plugin plugin) {
-        if (initialState == null) {
-            throw new NullPointerException();
-        }
+        Validate.notNull(initialState, "initialState cannot be null");
+        Validate.notNull(plugin, "plugin cannot be null");
+
         currentState = initialState;
         this.schedule = schedule;
         this.plugin = plugin;
@@ -89,9 +94,7 @@ public class GameStateTimer {
 
     // Functionality
     public void initialize(GameState gameState){
-        if(gameState == null){
-            throw new NullPointerException();
-        }
+        Validate.notNull(gameState, "gameState cannot be null");
 
         running = true;
         plugin.getServer().getPluginManager().callEvent(new GameStateInitEvent(this, currentState, gameState));

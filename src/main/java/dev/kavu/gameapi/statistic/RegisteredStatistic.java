@@ -1,6 +1,7 @@
 package dev.kavu.gameapi.statistic;
 
 import dev.kavu.gameapi.event.StatisticTriggerEvent;
+import org.apache.commons.lang.Validate;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -21,6 +22,9 @@ public class RegisteredStatistic<T extends Number> {
 
     // Constructors
     public RegisteredStatistic(Statistic<T> statistic, Plugin plugin){
+        Validate.notNull(statistic, "statistic cannot be null");
+        Validate.notNull(plugin, "plugin cannot be null");
+
         this.statistic = statistic;
         this.plugin = plugin;
         for(Trigger<?> t : statistic.getTriggers()){
@@ -29,6 +33,10 @@ public class RegisteredStatistic<T extends Number> {
     }
 
     public RegisteredStatistic(Statistic<T> statistic, Collection<UUID> initialMembers, Plugin plugin){
+        Validate.notNull(statistic, "statistic cannot be null");
+        Validate.notNull(initialMembers, "initialMembers cannot be null");
+        Validate.notNull(plugin, "plugin cannot be null");
+
         this.statistic = statistic;
         this.plugin = plugin;
         for(UUID member : initialMembers){
@@ -53,17 +61,22 @@ public class RegisteredStatistic<T extends Number> {
     }
 
     // Functionality
-    public void addMember(UUID uuid){
-        members.putIfAbsent(uuid, statistic.getDefault());
+    public void addMember(UUID member){
+        Validate.notNull(member, "member cannot be null");
+
+        members.putIfAbsent(member, statistic.getDefault());
     }
 
-    public void trigger(UUID uuid){
-        if(checkConditions(uuid)) {
-            plugin.getServer().getPluginManager().callEvent(new StatisticTriggerEvent(this, uuid, members.get(uuid)));
+    public void trigger(UUID member){
+        Validate.notNull(member, "member cannot be null");
+
+        if(checkConditions(member)) {
+            plugin.getServer().getPluginManager().callEvent(new StatisticTriggerEvent(this, member, members.get(member)));
         }
     }
 
     public boolean exec(Function<T, T> function) {
+        Validate.notNull(function, "function cannot be null");
 
         if(members.isEmpty()) return false;
 
@@ -77,6 +90,8 @@ public class RegisteredStatistic<T extends Number> {
     }
 
     public boolean execFor(UUID member, Function<T, T> function) {
+        Validate.notNull(member, "member cannot be null");
+        Validate.notNull(function, "function cannot be null");
 
         if(members.isEmpty()) return false;
 
