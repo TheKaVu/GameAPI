@@ -73,7 +73,12 @@ public class MapManager {
     }
 
     public void unload() {
-        if(world != null) Bukkit.unloadWorld(world, false);
+
+        if(world != null && currentMap != null) {
+            Bukkit.unloadWorld(world, false);
+            currentMap.onUnload(world);
+        }
+
         if(activeWorldFolder != null) {
             try {
                 FileUtils.deleteDirectory(activeWorldFolder);
@@ -112,7 +117,7 @@ public class MapManager {
             }
 
             @Override
-            public void onUnload() {
+            public void onUnload(World world) {
 
             }
 

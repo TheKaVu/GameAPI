@@ -8,7 +8,7 @@ public interface GameMap {
 
     void onLoad(World world);
 
-    void onUnload();
+    void onUnload(World world);
 
     String getName();
 
