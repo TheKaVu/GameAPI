@@ -32,6 +32,8 @@ public abstract class GameState {
 
     private final boolean reverseTimer;
 
+    private final boolean interruptible;
+
     private final String name;
 
     // Constructors
@@ -41,16 +43,18 @@ public abstract class GameState {
         this.duration = duration;
         this.period = 1;
         this.reverseTimer = reverseTimer;
+        this.interruptible = true;
         this.name = name;
     }
 
-    public GameState(String name, long duration, int period, boolean reverseTimer) {
+    public GameState(String name, long duration, int period, boolean reverseTimer, boolean interruptible) {
         Validate.notNull(name, "name cannot be null");
         Validate.isTrue(period > 0, "period must be greater than 0");
 
         this.duration = duration;
         this.period = period;
         this.reverseTimer = reverseTimer;
+        this.interruptible = interruptible;
         this.name = name;
     }
 
@@ -65,6 +69,10 @@ public abstract class GameState {
 
     public boolean doesReverseTimer() {
         return reverseTimer;
+    }
+
+    public boolean isInterruptible() {
+        return interruptible;
     }
 
     public String getName() {

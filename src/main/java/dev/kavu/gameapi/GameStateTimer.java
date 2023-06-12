@@ -93,9 +93,17 @@ public class GameStateTimer {
     }
 
     // Functionality
-    public void initialize(GameState gameState){
+    public void initialize(GameState gameState) throws GameStateInterruptException {
         Validate.notNull(gameState, "gameState cannot be null");
 
+        if(!currentState.isInterruptible()) {
+            throw new GameStateInterruptException();
+        }
+
+        init(gameState);
+    }
+
+    private void init(GameState gameState) {
         running = true;
         plugin.getServer().getPluginManager().callEvent(new GameStateInitEvent(this, currentState, gameState));
         currentState = gameState;
@@ -137,7 +145,7 @@ public class GameStateTimer {
                     plugin.getServer().getPluginManager().callEvent(new GstScheduleEndEvent(this, currentState));
                 }
                 currentState.onEnd();
-                initialize(schedule.getCurrent());
+                init(schedule.getCurrent());
             } else {
                 currentState.onEnd();
             }
@@ -148,15 +156,21 @@ public class GameStateTimer {
         return false;
     }
 
-    public void terminate(boolean runNext) {
+    public void terminate(boolean runNext) throws GameStateInterruptException {
+        if (currentState == GameState.EMPTY) return;
+
+        if (!currentState.isInterruptible()) {
+            throw new GameStateInterruptException();
+        }
+
         plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule != null ? schedule.next() : null, false));
         currentState.onEnd();
         if(runNext && schedule != null) {
             plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule.next(), false));
-            initialize(schedule.getCurrent());
+            init(schedule.getCurrent());
         } else {
             plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, GameState.EMPTY, false));
-            initialize(GameState.EMPTY);
+            init(GameState.EMPTY);
         }
     }
 
