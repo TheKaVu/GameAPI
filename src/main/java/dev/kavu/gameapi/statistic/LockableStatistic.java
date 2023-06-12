@@ -18,7 +18,6 @@ public abstract class LockableStatistic<T extends Number> implements Statistic<T
     public void setLocked(UUID member, boolean locked){
         Validate.notNull(member, "member cannot be null");
 
-
         locks.replace(member, locked);
     }
 
