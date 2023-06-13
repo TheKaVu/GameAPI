@@ -10,7 +10,11 @@ public enum BoolState {
         this.value = value;
     }
 
-    public boolean get() {
+    public boolean isTrue() {
         return value;
+    }
+
+    public boolean isFalse() {
+        return !value;
     }
 }
