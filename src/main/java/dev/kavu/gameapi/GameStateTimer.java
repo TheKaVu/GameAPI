@@ -32,35 +32,35 @@ public class GameStateTimer {
     public GameStateTimer(Plugin plugin){
         Validate.notNull(plugin, "plugin cannot be null");
 
-        this.plugin = plugin;
-        currentState = GameState.EMPTY;
         schedule = null;
+        this.plugin = plugin;
+        force(GameState.EMPTY);
     }
 
     public GameStateTimer(GameState initialState, Plugin plugin) {
         Validate.notNull(initialState, "initialState cannot be null");
         Validate.notNull(plugin, "plugin cannot be null");
 
-        currentState = initialState;
         schedule = null;
         this.plugin = plugin;
+        force(initialState);
     }
 
     public GameStateTimer(GstSchedule schedule, Plugin plugin) {
         Validate.notNull(plugin, "plugin cannot be null");
 
-        currentState = GameState.EMPTY;
         this.schedule = schedule;
         this.plugin = plugin;
+        force(GameState.EMPTY);
     }
 
     public GameStateTimer(GameState initialState, GstSchedule schedule, Plugin plugin) {
         Validate.notNull(initialState, "initialState cannot be null");
         Validate.notNull(plugin, "plugin cannot be null");
 
-        currentState = initialState;
         this.schedule = schedule;
         this.plugin = plugin;
+        force(initialState);
     }
 
     // Getters & Setters
@@ -100,10 +100,10 @@ public class GameStateTimer {
             throw new GameStateInterruptException();
         }
 
-        init(gameState);
+        force(gameState);
     }
 
-    private void init(GameState gameState) {
+    protected final void force(GameState gameState) {
         running = true;
         plugin.getServer().getPluginManager().callEvent(new GameStateInitEvent(this, currentState, gameState));
         currentState = gameState;
@@ -145,7 +145,7 @@ public class GameStateTimer {
                     plugin.getServer().getPluginManager().callEvent(new GstScheduleEndEvent(this, currentState));
                 }
                 currentState.onEnd();
-                init(schedule.getCurrent());
+                force(schedule.getCurrent());
             } else {
                 currentState.onEnd();
             }
@@ -167,10 +167,10 @@ public class GameStateTimer {
         currentState.onEnd();
         if(runNext && schedule != null) {
             plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule.next(), false));
-            init(schedule.getCurrent());
+            force(schedule.getCurrent());
         } else {
             plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, GameState.EMPTY, false));
-            init(GameState.EMPTY);
+            force(GameState.EMPTY);
         }
     }
 
