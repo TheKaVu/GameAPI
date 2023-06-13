@@ -185,10 +185,4 @@ public class GameStateTimer {
     public void resume(){
         running = true;
     }
-
-    public final static class Await extends GameState{
-        public Await(long duration) {
-            super("await", duration, false);
-        }
-    }
 }
