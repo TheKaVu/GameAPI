@@ -103,6 +103,37 @@ public class GameStateTimer {
         force(gameState);
     }
 
+    public void terminate(boolean runNext) throws GameStateInterruptException {
+        if (currentState == GameState.EMPTY) return;
+
+        if (!currentState.isInterruptible()) {
+            throw new GameStateInterruptException();
+        }
+
+        plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule != null ? schedule.next() : null, false));
+        currentState.onEnd();
+        if(runNext && schedule != null) {
+            plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule.next(), false));
+            force(schedule.getCurrent());
+        } else {
+            plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, GameState.EMPTY, false));
+            force(GameState.EMPTY);
+        }
+    }
+
+    public void prompt(){
+        if(running) shouldCancel();
+    }
+
+    public void pause(){
+        running = false;
+    }
+
+    public void resume(){
+        running = true;
+    }
+
+
     protected final void force(GameState gameState) {
         running = true;
         plugin.getServer().getPluginManager().callEvent(new GameStateInitEvent(this, currentState, gameState));
@@ -154,35 +185,5 @@ public class GameStateTimer {
         }
 
         return false;
-    }
-
-    public void terminate(boolean runNext) throws GameStateInterruptException {
-        if (currentState == GameState.EMPTY) return;
-
-        if (!currentState.isInterruptible()) {
-            throw new GameStateInterruptException();
-        }
-
-        plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule != null ? schedule.next() : null, false));
-        currentState.onEnd();
-        if(runNext && schedule != null) {
-            plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule.next(), false));
-            force(schedule.getCurrent());
-        } else {
-            plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, GameState.EMPTY, false));
-            force(GameState.EMPTY);
-        }
-    }
-
-    public void prompt(){
-        if(running) shouldCancel();
-    }
-
-    public void pause(){
-        running = false;
-    }
-
-    public void resume(){
-        running = true;
     }
 }
