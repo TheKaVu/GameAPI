@@ -1,6 +1,6 @@
 package dev.kavu.gameapi.event;
 
-import dev.kavu.gameapi.GameType;
+import dev.kavu.gameapi.Game;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
@@ -12,8 +12,8 @@ public class PlayerLeaveGameEvent extends PlayerGameEvent {
 
     private final Set<Player> players;
 
-    public PlayerLeaveGameEvent(GameType gameType, Player player, Set<Player> players) {
-        super(gameType, player);
+    public PlayerLeaveGameEvent(Game game, Player player, Set<Player> players) {
+        super(game, player);
         this.players = players;
     }
 
