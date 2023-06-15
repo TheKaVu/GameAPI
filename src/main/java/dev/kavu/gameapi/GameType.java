@@ -24,8 +24,6 @@ public class GameType {
         this(name, systemName, prefix, minPlayers, maxPlayers, new Properties());
     }
 
-
-    // Constructor
     public GameType(String name, String systemName, String prefix, int minPlayers, int maxPlayers, Properties properties) {
         Validate.notNull(name, "name cannot be null");
         Validate.notNull(systemName, "systemName cannot be null");
