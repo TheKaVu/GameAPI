@@ -2,7 +2,6 @@ package dev.kavu.gameapi.event;
 
 import dev.kavu.gameapi.GameState;
 import dev.kavu.gameapi.GameStateTimer;
-import dev.kavu.gameapi.GameType;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 

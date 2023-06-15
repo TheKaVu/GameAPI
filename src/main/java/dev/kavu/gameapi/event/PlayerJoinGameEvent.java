@@ -1,6 +1,6 @@
 package dev.kavu.gameapi.event;
 
-import dev.kavu.gameapi.GameType;
+import dev.kavu.gameapi.Game;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -14,8 +14,8 @@ public class PlayerJoinGameEvent extends PlayerGameEvent implements Cancellable 
     private final Set<Player> players;
     private boolean cancelled;
 
-    public PlayerJoinGameEvent(GameType gameType, Player player, Set<Player> players) {
-        super(gameType, player);
+    public PlayerJoinGameEvent(Game game, Player player, Set<Player> players) {
+        super(game, player);
         this.players = players;
     }
 

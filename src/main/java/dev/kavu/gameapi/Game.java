@@ -4,7 +4,7 @@ import org.apache.commons.lang.Validate;
 
 import java.util.Properties;
 
-public class GameType {
+public class Game {
 
     // Fields
     private final String name;
@@ -20,13 +20,11 @@ public class GameType {
     private final Properties properties;
 
     // Constructors
-    public GameType(String name, String systemName, String prefix, int minPlayers, int maxPlayers) {
+    public Game(String name, String systemName, String prefix, int minPlayers, int maxPlayers) {
         this(name, systemName, prefix, minPlayers, maxPlayers, new Properties());
     }
 
-
-    // Constructor
-    public GameType(String name, String systemName, String prefix, int minPlayers, int maxPlayers, Properties properties) {
+    public Game(String name, String systemName, String prefix, int minPlayers, int maxPlayers, Properties properties) {
         Validate.notNull(name, "name cannot be null");
         Validate.notNull(systemName, "systemName cannot be null");
         Validate.notNull(prefix, "prefix cannot be null");

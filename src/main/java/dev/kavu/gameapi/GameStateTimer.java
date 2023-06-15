@@ -32,35 +32,35 @@ public class GameStateTimer {
     public GameStateTimer(Plugin plugin){
         Validate.notNull(plugin, "plugin cannot be null");
 
-        this.plugin = plugin;
-        currentState = GameState.EMPTY;
         schedule = null;
+        this.plugin = plugin;
+        force(GameState.EMPTY);
     }
 
     public GameStateTimer(GameState initialState, Plugin plugin) {
         Validate.notNull(initialState, "initialState cannot be null");
         Validate.notNull(plugin, "plugin cannot be null");
 
-        currentState = initialState;
         schedule = null;
         this.plugin = plugin;
+        force(initialState);
     }
 
     public GameStateTimer(GstSchedule schedule, Plugin plugin) {
         Validate.notNull(plugin, "plugin cannot be null");
 
-        currentState = GameState.EMPTY;
         this.schedule = schedule;
         this.plugin = plugin;
+        force(GameState.EMPTY);
     }
 
     public GameStateTimer(GameState initialState, GstSchedule schedule, Plugin plugin) {
         Validate.notNull(initialState, "initialState cannot be null");
         Validate.notNull(plugin, "plugin cannot be null");
 
-        currentState = initialState;
         this.schedule = schedule;
         this.plugin = plugin;
+        force(initialState);
     }
 
     // Getters & Setters
@@ -93,9 +93,48 @@ public class GameStateTimer {
     }
 
     // Functionality
-    public void initialize(GameState gameState){
+    public void initialize(GameState gameState) throws GameStateInterruptException {
         Validate.notNull(gameState, "gameState cannot be null");
 
+        if(!currentState.isInterruptible()) {
+            throw new GameStateInterruptException();
+        }
+
+        force(gameState);
+    }
+
+    public void terminate(boolean runNext) throws GameStateInterruptException {
+        if (currentState == GameState.EMPTY) return;
+
+        if (!currentState.isInterruptible()) {
+            throw new GameStateInterruptException();
+        }
+
+        plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule != null ? schedule.next() : null, false));
+        currentState.onEnd();
+        if(runNext && schedule != null) {
+            plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule.next(), false));
+            force(schedule.getCurrent());
+        } else {
+            plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, GameState.EMPTY, false));
+            force(GameState.EMPTY);
+        }
+    }
+
+    public void prompt(){
+        if(running) shouldCancel();
+    }
+
+    public void pause(){
+        running = false;
+    }
+
+    public void resume(){
+        running = true;
+    }
+
+
+    protected final void force(GameState gameState) {
         running = true;
         plugin.getServer().getPluginManager().callEvent(new GameStateInitEvent(this, currentState, gameState));
         currentState = gameState;
@@ -137,7 +176,7 @@ public class GameStateTimer {
                     plugin.getServer().getPluginManager().callEvent(new GstScheduleEndEvent(this, currentState));
                 }
                 currentState.onEnd();
-                initialize(schedule.getCurrent());
+                force(schedule.getCurrent());
             } else {
                 currentState.onEnd();
             }
@@ -147,29 +186,4 @@ public class GameStateTimer {
 
         return false;
     }
-
-    public void terminate(boolean runNext) {
-        plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule != null ? schedule.next() : null, false));
-        currentState.onEnd();
-        if(runNext && schedule != null) {
-            plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, schedule.next(), false));
-            initialize(schedule.getCurrent());
-        } else {
-            plugin.getServer().getPluginManager().callEvent(new GameStateEndEvent(this, currentState, GameState.EMPTY, false));
-            initialize(GameState.EMPTY);
-        }
-    }
-
-    public void prompt(){
-        if(running) shouldCancel();
-    }
-
-    public void pause(){
-        running = false;
-    }
-
-    public void resume(){
-        running = true;
-    }
-
 }

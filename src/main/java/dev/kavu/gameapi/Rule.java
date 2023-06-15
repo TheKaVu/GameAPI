@@ -34,9 +34,4 @@ public class Rule<E extends Enum<E>> implements Serializable {
         Validate.notNull(status, "status cannot be null");
         this.status = status;
     }
-
-    public enum Basic {
-        ON,
-        OFF;
-    }
 }

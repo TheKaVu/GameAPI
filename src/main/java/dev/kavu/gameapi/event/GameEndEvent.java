@@ -1,6 +1,6 @@
 package dev.kavu.gameapi.event;
 
-import dev.kavu.gameapi.GameType;
+import dev.kavu.gameapi.Game;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -14,8 +14,8 @@ public class GameEndEvent extends GameEvent implements Cancellable {
     private final Set<Player> players;
     private boolean cancelled;
 
-    public GameEndEvent(GameType gameType, Set<Player> players) {
-        super(gameType);
+    public GameEndEvent(Game game, Set<Player> players) {
+        super(game);
         this.players = players;
     }
 

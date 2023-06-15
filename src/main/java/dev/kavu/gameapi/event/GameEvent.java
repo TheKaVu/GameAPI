@@ -1,17 +1,17 @@
 package dev.kavu.gameapi.event;
 
-import dev.kavu.gameapi.GameType;
+import dev.kavu.gameapi.Game;
 import org.bukkit.event.Event;
 
 public abstract class GameEvent extends Event {
 
-    private final GameType gameType;
+    private final Game game;
 
-    public GameEvent(GameType gameType) {
-        this.gameType = gameType;
+    public GameEvent(Game game) {
+        this.game = game;
     }
 
-    public GameType getGameType() {
-        return gameType;
+    public Game getGame() {
+        return game;
     }
 }
