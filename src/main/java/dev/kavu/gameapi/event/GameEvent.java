@@ -11,7 +11,7 @@ public abstract class GameEvent extends Event {
         this.game = game;
     }
 
-    public Game getGameType() {
+    public Game getGame() {
         return game;
     }
 }
