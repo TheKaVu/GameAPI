@@ -19,14 +19,12 @@ public abstract class Game {
 
     private final Properties properties;
 
-    private final Class<? extends Category<Game>> category;
-
     // Constructors
-    public Game(String name, String systemName, String prefix, int minPlayers, int maxPlayers, Class<? extends Category<Game>> category) {
-        this(name, systemName, prefix, minPlayers, maxPlayers, new Properties(), category);
+    public Game(String name, String systemName, String prefix, int minPlayers, int maxPlayers) {
+        this(name, systemName, prefix, minPlayers, maxPlayers, new Properties());
     }
 
-    public Game(String name, String systemName, String prefix, int minPlayers, int maxPlayers, Properties properties, Class<? extends Category<Game>> category) {
+    public Game(String name, String systemName, String prefix, int minPlayers, int maxPlayers, Properties properties) {
         Validate.notNull(name, "name cannot be null");
         Validate.notNull(systemName, "systemName cannot be null");
         Validate.notNull(prefix, "prefix cannot be null");
@@ -40,7 +38,6 @@ public abstract class Game {
         this.properties = properties;
         properties.setProperty("min_players", String.valueOf(minPlayers));
         properties.setProperty("max_players", String.valueOf(maxPlayers));
-        this.category = category;
     }
 
     // Getters
@@ -68,9 +65,7 @@ public abstract class Game {
         return properties;
     }
 
-    public Class<? extends Category<Game>> getCategory() {
-        return category;
-    }
+    public abstract Class<? extends Game> getCategory();
 
     // Overrides
     @Override
