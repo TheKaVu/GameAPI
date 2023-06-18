@@ -4,7 +4,7 @@ import org.apache.commons.lang.Validate;
 
 import java.util.Properties;
 
-public class Game {
+public abstract class Game {
 
     // Fields
     private final String name;
@@ -64,6 +64,8 @@ public class Game {
     public Properties getProperties() {
         return properties;
     }
+
+    public abstract Class<? extends Game> getCategory();
 
     // Overrides
     @Override
