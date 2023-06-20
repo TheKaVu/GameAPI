@@ -1,4 +1,6 @@
-# Game API
+![gameapi_banner](https://github.com/TheKaVu/GameAPI/assets/130859839/b1f34733-efe7-484b-82c3-6dd7d6004a15)
+![GitHub release (release name instead of tag name)](https://img.shields.io/github/v/release/TheKaVu/GameAPI?include_prereleases)
+
 The API dedicated for minecraft widely understood game and minigame development, based on Spigot API.
 
 ## Purpose
