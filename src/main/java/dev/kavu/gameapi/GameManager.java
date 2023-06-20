@@ -16,9 +16,7 @@ public class GameManager {
 
     private final GameStateTimer gameStateTimer;
 
-    private final HashSet<UUID> playersInGame = new HashSet<>();
-
-    private final HashSet<UUID> playersOffGame = new HashSet<>();
+    private final HashSet<UUID> players = new HashSet<>();
 
     private final HashMap<Class<? extends Statistic>, RegisteredStatistic<?>> statistics = new HashMap<>();
 
@@ -44,19 +42,19 @@ public class GameManager {
         this.mapManager = mapManager;
     }
 
-    public GameManager(Plugin plugin, Collection<? extends Player> playersInGame) {
+    public GameManager(Plugin plugin, Collection<? extends Player> players) {
         Validate.notNull(plugin, "plugin cannot be null");
         Validate.notNull(plugin, "playersInGame cannot be null");
 
         this.plugin = plugin;
         gameStateTimer = new GameStateTimer(plugin);
         mapManager = new MapManager(plugin.getDataFolder());
-        for(Player p : playersInGame){
-            this.playersInGame.add(p.getUniqueId());
+        for(Player p : players){
+            this.players.add(p.getUniqueId());
         }
     }
 
-    public GameManager(Plugin plugin, MapManager mapManager, Collection<? extends Player> playersInGame) {
+    public GameManager(Plugin plugin, MapManager mapManager, Collection<? extends Player> players) {
         Validate.notNull(plugin, "plugin cannot be null");
         Validate.notNull(plugin, "mapManager cannot be null");
         Validate.notNull(plugin, "playersInGame cannot be null");
@@ -64,8 +62,8 @@ public class GameManager {
         this.plugin = plugin;
         gameStateTimer = new GameStateTimer(plugin);
         this.mapManager = mapManager;
-        for(Player p : playersInGame){
-            this.playersInGame.add(p.getUniqueId());
+        for(Player p : players){
+            this.players.add(p.getUniqueId());
         }
     }
 
@@ -82,12 +80,8 @@ public class GameManager {
         return mapManager;
     }
 
-    public HashSet<UUID> getPlayersInGame() {
-        return playersInGame;
-    }
-
-    public HashSet<UUID> getPlayersOffGame() {
-        return playersOffGame;
+    public HashSet<UUID> getPlayers() {
+        return players;
     }
 
     public RuleSet getRules() {
