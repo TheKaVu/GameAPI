@@ -27,7 +27,7 @@ This API is created with `Java 8` and built using `Maven`. It uses `Spigot API 1
 <dependency>
     <groupId>com.github.TheKaVu</groupId>
     <artifactId>GameAPI</artifactId>
-    <version>Tag</version>
+    <version>v0.1.0-alpha</version>
 </dependency>
 ```
 
