@@ -54,7 +54,7 @@ public class MapManager {
         if(isLoaded()) return true;
 
         this.currentMap = gameMap;
-        this.activeWorldFolder = new File(Bukkit.getWorldContainer().getParentFile(), gameMap.getName() + "_active");
+        this.activeWorldFolder = new File(Bukkit.getWorldContainer().getParentFile(), gameMap.getName() + "_active_" + System.currentTimeMillis());
 
         try {
             FileUtils.copyDirectory(gameMap.getSourceFolder(), activeWorldFolder);
@@ -62,7 +62,8 @@ public class MapManager {
             return false;
         }
 
-        world = Bukkit.createWorld(new WorldCreator(activeWorldFolder.getName()));
+        world = Bukkit.getServer().createWorld(new WorldCreator(activeWorldFolder.getName()));
+
         if(world != null) world.setAutoSave(false);
 
         gameMap.onLoad(world);
@@ -72,9 +73,11 @@ public class MapManager {
 
     public void unload() {
 
-        if(world != null && currentMap != null) {
-            Bukkit.unloadWorld(world, false);
-            currentMap.onUnload(world);
+        if(world != null) {
+            Bukkit.getServer().unloadWorld(world, false);
+            if (currentMap != null) {
+                currentMap.onUnload(world);
+            }
         }
 
         if(activeWorldFolder != null) {
