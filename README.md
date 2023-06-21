@@ -31,9 +31,6 @@ This API is created with `Java 8` and built using `Maven`. It uses `Spigot API 1
 </dependency>
 ```
 
-Tag is an unofficial release and can be found [here](https://jitpack.io/#TheKaVu/GameAPI/). Until there are no releases, that's the only way to depend on this repo. When new commits are pushed the tag may be changed. So to get the updated version it is recommended to check regularly for updates. However this trouble will be gone as soon as first releases come out.
 ***
-**Note:** 
-
-This API is in early development state thus depending on it might be risky. Changes are done almost day by day so major incompatibilities must be expected.
+> **Note:** This API is in early development state thus depending on it might be risky. Changes are done almost day by day so major incompatibilities must be expected.
 As any of provided functionality were barely tested right now it is obvious that many bugs and malfunction could encounter.
