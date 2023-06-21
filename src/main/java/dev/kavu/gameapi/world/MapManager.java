@@ -8,8 +8,6 @@ import org.bukkit.WorldCreator;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class MapManager {
 
