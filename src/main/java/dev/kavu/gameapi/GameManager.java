@@ -33,9 +33,18 @@ public class GameManager {
         mapManager = new MapManager(plugin.getDataFolder());
     }
 
+    public GameManager(Plugin plugin, GameStateTimer gameStateTimer) {
+        Validate.notNull(plugin, "plugin cannot be null");
+        Validate.notNull(gameStateTimer, "gameStateTimer cannot be null");
+
+        this.plugin = plugin;
+        this.gameStateTimer = gameStateTimer;
+        mapManager = new MapManager(plugin.getDataFolder());
+    }
+
     public GameManager(Plugin plugin, MapManager mapManager) {
         Validate.notNull(plugin, "plugin cannot be null");
-        Validate.notNull(plugin, "mapManager cannot be null");
+        Validate.notNull(mapManager, "mapManager cannot be null");
 
         this.plugin = plugin;
         gameStateTimer = new GameStateTimer(plugin);
@@ -44,7 +53,7 @@ public class GameManager {
 
     public GameManager(Plugin plugin, Collection<? extends Player> players) {
         Validate.notNull(plugin, "plugin cannot be null");
-        Validate.notNull(plugin, "playersInGame cannot be null");
+        Validate.notNull(players, "players cannot be null");
 
         this.plugin = plugin;
         gameStateTimer = new GameStateTimer(plugin);
@@ -54,13 +63,14 @@ public class GameManager {
         }
     }
 
-    public GameManager(Plugin plugin, MapManager mapManager, Collection<? extends Player> players) {
+    public GameManager(Plugin plugin, GameStateTimer gameStateTimer, MapManager mapManager, Collection<? extends Player> players) {
         Validate.notNull(plugin, "plugin cannot be null");
-        Validate.notNull(plugin, "mapManager cannot be null");
-        Validate.notNull(plugin, "playersInGame cannot be null");
+        Validate.notNull(gameStateTimer, "gameStateTimer cannot be null");
+        Validate.notNull(mapManager, "mapManager cannot be null");
+        Validate.notNull(players, "players cannot be null");
 
         this.plugin = plugin;
-        gameStateTimer = new GameStateTimer(plugin);
+        this.gameStateTimer = gameStateTimer;
         this.mapManager = mapManager;
         for(Player p : players){
             this.players.add(p.getUniqueId());
