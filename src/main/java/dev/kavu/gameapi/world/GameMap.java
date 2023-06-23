@@ -8,9 +8,7 @@ public interface GameMap {
 
     void onLoad(World world);
 
-    void onUnload(World world);
-
     String getName();
 
-    File getSourceFolder();
+    File getSource();
 }

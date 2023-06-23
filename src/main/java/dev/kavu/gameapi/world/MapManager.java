@@ -12,8 +12,6 @@ import java.io.IOException;
 public class MapManager {
 
     // Fields
-    private final File mainFolder;
-
     private File activeWorldFolder;
 
     private World world;
@@ -21,23 +19,11 @@ public class MapManager {
     private GameMap currentMap;
 
     // Constructor
-    public MapManager(String mainFolder){
-        Validate.notNull(mainFolder, "mainFolder cannot be null");
+    public MapManager(String mainFolder) {
 
-        this.mainFolder = new File(mainFolder);
-    }
-
-    public MapManager(File mainFolder){
-        Validate.notNull(mainFolder, "mainFolder cannot be null");
-
-        this.mainFolder = mainFolder;
     }
 
     // Getters & setters
-    public File getMainFolder() {
-        return mainFolder;
-    }
-
     public GameMap getCurrentMap() {
         return currentMap;
     }
@@ -62,7 +48,7 @@ public class MapManager {
         this.activeWorldFolder = new File(Bukkit.getWorldContainer().getParentFile(), worldName);
 
         try {
-            FileUtils.copyDirectory(gameMap.getSourceFolder(), activeWorldFolder);
+            FileUtils.copyDirectory(gameMap.getSource(), activeWorldFolder);
         } catch (IOException ignored) {
             return false;
         }
@@ -80,9 +66,6 @@ public class MapManager {
 
         if(world != null) {
             Bukkit.getServer().unloadWorld(world, false);
-            if (currentMap != null) {
-                currentMap.onUnload(world);
-            }
         }
 
         if(activeWorldFolder != null) {
@@ -112,10 +95,13 @@ public class MapManager {
         return world != null && activeWorldFolder != null && currentMap != null;
     }
 
-    public GameMap createMap(String mapPath , boolean autoLoad){
-        Validate.notNull(mapPath, "mapPath cannot be null");
+    public GameMap createMap(File sourceFolder, String mapName, boolean autoLoad){
+        Validate.notNull(sourceFolder, "sourceFolder cannot be null");
+        Validate.notNull(mapName, "mapName cannot be null");
 
         GameMap map = new GameMap() {
+
+            private final File source = new File(sourceFolder, mapName);
 
             @Override
             public void onLoad(World world) {
@@ -123,18 +109,13 @@ public class MapManager {
             }
 
             @Override
-            public void onUnload(World world) {
-
-            }
-
-            @Override
             public String getName() {
-                return getSourceFolder().getName();
+                return mapName;
             }
 
             @Override
-            public File getSourceFolder() {
-                return new File(mainFolder + mapPath);
+            public File getSource() {
+                return source;
             }
 
         };
