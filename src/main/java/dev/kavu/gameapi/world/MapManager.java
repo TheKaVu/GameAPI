@@ -7,7 +7,9 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
+import java.util.Random;
 
 public class MapManager {
 
@@ -95,18 +97,22 @@ public class MapManager {
         return world != null && activeWorldFolder != null && currentMap != null;
     }
 
-    public GameMap createMap(File sourceFolder, String mapName, boolean autoLoad){
+    public GameMap createMap(File sourceFolder, String mapName, boolean autoLoad) throws MapCreationException{
         Validate.notNull(sourceFolder, "sourceFolder cannot be null");
+        Validate.isTrue(sourceFolder.isDirectory(), "sourceFolder has to be a directory");
         Validate.notNull(mapName, "mapName cannot be null");
+
+        File file = new File(sourceFolder, mapName);
+
+        if(!file.exists()) throw new MapCreationException("Following directory does not exist: " + file.getAbsolutePath());
+        if(!file.isDirectory()) throw new MapCreationException("Subdirectory of given name is not a directory");
 
         GameMap map = new GameMap() {
 
-            private final File source = new File(sourceFolder, mapName);
+            private final File source = file;
 
             @Override
-            public void onLoad(World world) {
-
-            }
+            public void onLoad(World world) {}
 
             @Override
             public String getName() {
@@ -122,5 +128,16 @@ public class MapManager {
         if(autoLoad) load(map);
 
         return map;
+    }
+
+    public GameMap randomizeMap(File sourceFolder, boolean autoLoad) throws MapCreationException {
+        Validate.isTrue(sourceFolder.isDirectory(), "sourceFolder has to be a directory");
+
+        Random random = new Random();
+        File[] files = sourceFolder.listFiles(file -> file.isDirectory());
+        if(files == null) throw new MapCreationException();
+        if (files.length == 0) throw new MapCreationException("There are no subdirectories in path: " + sourceFolder.getAbsolutePath());
+
+        return createMap(sourceFolder, files[random.nextInt(files.length)].getName(), autoLoad) ;
     }
 }
