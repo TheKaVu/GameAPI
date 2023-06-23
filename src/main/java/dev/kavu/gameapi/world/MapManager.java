@@ -49,12 +49,17 @@ public class MapManager {
     // Functionality
 
     public boolean load(GameMap gameMap){
+        return load(gameMap, gameMap.getName() + "_" + System.currentTimeMillis());
+    }
+
+    public boolean load(GameMap gameMap, String worldName){
         Validate.notNull(gameMap, "map cannot be null");
+        Validate.notNull(worldName, "worldName cannot be null");
 
         if(isLoaded()) return true;
 
         this.currentMap = gameMap;
-        this.activeWorldFolder = new File(Bukkit.getWorldContainer().getParentFile(), gameMap.getName() + "_active_" + System.currentTimeMillis());
+        this.activeWorldFolder = new File(Bukkit.getWorldContainer().getParentFile(), worldName);
 
         try {
             FileUtils.copyDirectory(gameMap.getSourceFolder(), activeWorldFolder);
