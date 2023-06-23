@@ -7,7 +7,6 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.util.Random;
 
