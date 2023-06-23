@@ -19,7 +19,7 @@ public class MapManager {
     private GameMap currentMap;
 
     // Constructor
-    public MapManager(String mainFolder) {
+    public MapManager() {
 
     }
 

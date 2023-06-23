@@ -30,7 +30,7 @@ public class GameManager {
 
         this.plugin = plugin;
         gameStateTimer = new GameStateTimer(plugin);
-        mapManager = new MapManager(plugin.getDataFolder());
+        mapManager = new MapManager();
     }
 
     public GameManager(Plugin plugin, GameStateTimer gameStateTimer) {
@@ -39,7 +39,7 @@ public class GameManager {
 
         this.plugin = plugin;
         this.gameStateTimer = gameStateTimer;
-        mapManager = new MapManager(plugin.getDataFolder());
+        mapManager = new MapManager();
     }
 
     public GameManager(Plugin plugin, MapManager mapManager) {
@@ -57,7 +57,7 @@ public class GameManager {
 
         this.plugin = plugin;
         gameStateTimer = new GameStateTimer(plugin);
-        mapManager = new MapManager(plugin.getDataFolder());
+        mapManager = new MapManager();
         for(Player p : players){
             this.players.add(p.getUniqueId());
         }
