@@ -112,7 +112,9 @@ public abstract class Game {
      */
     public abstract Class<? extends Game> getCategory();
 
-    // Overrides
+    /**
+     * @return String representation of this object
+     */
     @Override
     public String toString(){
         return name;
