@@ -25,7 +25,7 @@ public abstract class Game {
     // Constructors
 
     /**
-     * Creates the new instance of Game class with following values.
+     * Creates the new instance of <tt>Game</tt> class with following values.
      * @param name Name of the game for the display use
      * @param systemName Systematic name of the game, without spaces and capital letters
      * @param prefix The prefix referencing to this game
@@ -37,7 +37,7 @@ public abstract class Game {
     }
 
     /**
-     * Creates the new instance of Game class with following values.
+     * Creates the new instance of <tt>Game</tt> class with following values.
      * @param name Name of the game for the display use
      * @param systemName Systematic name of the game, without spaces and capital letters
      * @param prefix The prefix referencing to this game
