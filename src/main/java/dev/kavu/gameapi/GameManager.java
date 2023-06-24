@@ -37,7 +37,7 @@ public class GameManager {
     // Constructors
 
     /**
-     * Creates the new instance of {@code GameManager} class in the most minimalistic way, basing just on the {@link Plugin} object.
+     * Creates the new instance of <tt>GameManager</tt> class in the most minimalistic way, basing just on the {@link Plugin} object.
      * @param plugin Plugin this manager runs for
      */
     public GameManager(Plugin plugin) {
@@ -49,9 +49,9 @@ public class GameManager {
     }
 
     /**
-     * Creates the new instance of {@code GameManager} class with the custom {@link GameStateTimer}.
+     * Creates the new instance of <tt>GameManager</tt> class with the custom {@link GameStateTimer}.
      * @param plugin Plugin this manager runs for
-     * @param gameStateTimer Custom dedicated timer
+     * @param gameStateTimer Custom dedicated <tt>GameStateTimer</tt>
      */
     public GameManager(Plugin plugin, GameStateTimer gameStateTimer) {
         Validate.notNull(plugin, "plugin cannot be null");
@@ -63,7 +63,7 @@ public class GameManager {
     }
 
     /**
-     * Creates the new instance of {@code GameManager} class with the custom {@link MapManager}. Although, it is instantiated with no-args constructor, thus it is the option for its subclasses.
+     * Creates the new instance of <tt>GameManager</tt> class with the custom {@link MapManager}. Although, it is instantiated with no-args constructor, thus it is the option for its subclasses.
      * @param plugin Plugin this manager runs for
      * @param mapManager Custom dedicated map manager
      */
@@ -77,7 +77,7 @@ public class GameManager {
     }
 
     /**
-     * Creates the new instance of {@code GameManager} class with initial collection of players. Passed collection contains players considered as taking part in this game.
+     * Creates the new instance of <tt>GameManager</tt> class with initial collection of players. Passed collection contains players considered as taking part in this game.
      * The following collection will be mapped to the {@code HashSet&lt;UUID&gt;}, where {@link UUID} object is the uuid of the player.
      * @param plugin Plugin this manager runs for
      * @param players Players playing this game
@@ -95,7 +95,7 @@ public class GameManager {
     }
 
     /**
-     * Creates the new instance of {@code GameManager} class in the most explicit way, as allows a lot of customization.It accepts custom {@link GameStateTimer}, {@link MapManager} and the initial players' collection.
+     * Creates the new instance of <tt>GameManager</tt> class in the most explicit way, as allows a lot of customization.It accepts custom {@link GameStateTimer}, {@link MapManager} and the initial players' collection.
      * The following collection will be mapped to the {@code HashSet&lt;UUID&gt;}, where {@link UUID} object is the uuid of the player.
      * @param plugin Plugin this manager runs for
      * @param gameStateTimer Custom dedicated timer
@@ -179,7 +179,7 @@ public class GameManager {
      * @param clazz Class of desired statistic
      * @param <N> Numeric type; class or subclass of {@link Number}
      * @param <E> Statistic type; class or subclass of {@link Statistic}
-     * @return If registry exists, {@code RegisteredStatistic} object of this statistic, otherwise {@code null}
+     * @return If registry exists, <tt>RegisteredStatistic</tt> object of this statistic, otherwise {@code null}
      */
     public <N extends Number, E extends Statistic<N>> RegisteredStatistic<N> getRegisteredStatistic(Class<E> clazz){
         Validate.notNull(clazz, "clazz cannot be null");
