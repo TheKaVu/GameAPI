@@ -54,7 +54,7 @@ public abstract class GameState {
     // Constructors
 
     /**
-     * Creates the new instance of {@code GameState} class with specific name and duration expressed in milliseconds, interruptible by default. As period is not specified, it is equal to {@code 1}.
+     * Creates the new instance of <tt>GameState</tt> class with specific name and duration expressed in milliseconds, interruptible by default. As period is not specified, it is equal to {@code 1}.
      * @param name Name of this state
      * @param duration Duration of this state expressed in milliseconds
      * @param reverseTimer If {@code true}, timer will count back from the duration down to {@code 0}
@@ -70,7 +70,7 @@ public abstract class GameState {
     }
 
     /**
-     * Creates the new instance of {@code GameState} class with specific name and duration of periods of specific length expressed in milliseconds.
+     * Creates the new instance of <tt>GameState</tt> class with specific name and duration of periods of specific length expressed in milliseconds.
      * @param name Name of this state
      * @param duration Duration of this state expressed periods
      * @param period Period duration expressed in milliseconds, time between two following timer iterations
