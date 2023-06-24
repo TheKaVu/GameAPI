@@ -78,12 +78,10 @@ public class MapManager {
 
         world = null;
         activeWorldFolder = null;
-        currentMap = null;
     }
 
-    public boolean restore(){
-        unload();
-        return load(currentMap);
+    public boolean restore() {
+        return restore(currentMap);
     }
 
     public boolean restore(GameMap gameMap){
