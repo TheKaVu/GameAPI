@@ -157,7 +157,7 @@ public class GameStateTimer {
     }
 
     /**
-     * Terminates current game state. Has no effect if timer runs no state (runs {@code GameState.EMPTY}).
+     * Terminates current game state. Has no effect if timer runs no state (runs {@link GameState#EMPTY}).
      * @param runNext If set {@code true}, initializes next state in the schedule, if it exists.
      * @throws GameStateInterruptException When current game state is uninterruptible
      */
