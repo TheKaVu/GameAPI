@@ -90,7 +90,7 @@ public class GameStateTimer {
     // Getters & Setters
 
     /**
-     * @return Game state this timer is currently running, {@code GameState.EMPTY} stands for no state running
+     * @return Game state this timer is currently running, {@link GameState#EMPTY} stands for no state running
      */
     public GameState getCurrentState() {
         return currentState;
