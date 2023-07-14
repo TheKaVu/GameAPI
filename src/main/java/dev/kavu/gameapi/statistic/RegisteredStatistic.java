@@ -117,9 +117,8 @@ public class RegisteredStatistic<T extends Number> {
      * @return {@code true} if all actions were done, {@code false} otherwise
      */
     public boolean exec(Function<T, T> function) {
-        Validate.notNull(function, "function cannot be null");
-
         if(members.isEmpty()) return false;
+        if(function == null) return false;
 
         boolean result = true;
 
@@ -138,9 +137,9 @@ public class RegisteredStatistic<T extends Number> {
      */
     public boolean execFor(UUID member, Function<T, T> function) {
         Validate.notNull(member, "member cannot be null");
-        Validate.notNull(function, "function cannot be null");
 
         if(members.isEmpty()) return false;
+        if(function == null) return false;
 
         return members.replace(member, function.apply(members.get(member))) == null;
     }
