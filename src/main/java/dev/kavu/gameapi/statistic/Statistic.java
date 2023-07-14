@@ -9,6 +9,7 @@ import java.util.Set;
  *
  * @param <T> Numeric type of this statistic
  *
+ * @see LockableStatistic
  * @see RegisteredStatistic
  */
 public interface Statistic<T extends Number> {
