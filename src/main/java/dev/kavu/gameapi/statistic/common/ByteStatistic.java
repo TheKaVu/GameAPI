@@ -3,12 +3,12 @@ package dev.kavu.gameapi.statistic.common;
 import dev.kavu.gameapi.statistic.Statistic;
 
 /**
- * Subinterface of {@link Statistic} interface of {@code byte} type
+ * Subinterface of {@link Statistic} interface of <tt>byte</tt> type
  */
 public interface ByteStatistic extends Statistic<Byte> {
 
     /**
-     * Incrementor for {@code byte} numbers
+     * Incrementor for <tt>byte</tt> numbers
      * @param a Number to be incremented
      * @return Incremented number
      */
@@ -17,7 +17,7 @@ public interface ByteStatistic extends Statistic<Byte> {
     }
 
     /**
-     * Decrementor for {@code byte} numbers
+     * Decrementor for <tt>byte</tt> numbers
      * @param a Number to be decremented
      * @return Decremented number
      */
