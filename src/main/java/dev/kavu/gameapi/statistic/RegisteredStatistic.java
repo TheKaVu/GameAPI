@@ -12,6 +12,11 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Function;
 
+/**
+ * Representation of registered {@link Statistic} containing values mapped to members of following statistic. Statistic registered using {@link dev.kavu.gameapi.GameManager GameManager}
+ * will create an object of this class and associate it with registered statistic.
+ * @param <T> Numeric type of wrapped statistic
+ */
 public class RegisteredStatistic<T extends Number> {
 
     // Fields
@@ -21,6 +26,12 @@ public class RegisteredStatistic<T extends Number> {
 
 
     // Constructors
+
+    /**
+     * Creates new instance of <tt>RegisteredStatistic</tt> with base of specified statistic.
+     * @param statistic Registered statistic
+     * @param plugin Plugin the statistic is registered for
+     */
     public RegisteredStatistic(Statistic<T> statistic, Plugin plugin){
         Validate.notNull(statistic, "statistic cannot be null");
         Validate.notNull(plugin, "plugin cannot be null");
@@ -32,6 +43,12 @@ public class RegisteredStatistic<T extends Number> {
         }
     }
 
+    /**
+     * Creates new instance of <tt>RegisteredStatistic</tt> with base of specified statistic with initial members.
+     * @param statistic Registered statistic
+     * @param initialMembers Collection if members that will be instantly added to the statistic members
+     * @param plugin Plugin the statistic is registered for
+     */
     public RegisteredStatistic(Statistic<T> statistic, Collection<UUID> initialMembers, Plugin plugin){
         Validate.notNull(statistic, "statistic cannot be null");
         Validate.notNull(initialMembers, "initialMembers cannot be null");
@@ -48,25 +65,44 @@ public class RegisteredStatistic<T extends Number> {
     }
 
     // Getters
+
+    /**
+     * @return Registered statistic
+     */
     public Statistic<T> getStatistic() {
         return statistic;
     }
 
+    /**
+     * @return Map of members represented by {@link UUID} objects associated with their values
+     */
     public HashMap<UUID, T> getMembers() {
         return members;
     }
 
+    /**
+     * @return Plugin the statistic is registered for
+     */
     public Plugin getPlugin() {
         return plugin;
     }
 
     // Functionality
+
+    /**
+     * Adds member to the statistic if it is not yet present.
+     * @param member Member to be added represented by {@link UUID} object
+     */
     public void addMember(UUID member){
         Validate.notNull(member, "member cannot be null");
 
         members.putIfAbsent(member, statistic.getDefault());
     }
 
+    /**
+     * Triggers this statistic if its possible thus calls {@link StatisticTriggerEvent} with no parent {@link Trigger} object.
+     * @param member Member the statistic will be triggered for
+     */
     public void trigger(UUID member){
         Validate.notNull(member, "member cannot be null");
 
@@ -75,6 +111,11 @@ public class RegisteredStatistic<T extends Number> {
         }
     }
 
+    /**
+     * Executes the function for all members of the statistic.
+     * @param function Function to be called
+     * @return {@code true} if all actions were done, {@code false} otherwise
+     */
     public boolean exec(Function<T, T> function) {
         Validate.notNull(function, "function cannot be null");
 
@@ -89,13 +130,17 @@ public class RegisteredStatistic<T extends Number> {
         return result;
     }
 
+    /**
+     * Executes the function for specific member of the statistic.
+     * @param member Member the function fill be called for, represented by {@link UUID} object
+     * @param function Function to be called
+     * @return {@code true} if the action was done, {@code false} otherwise
+     */
     public boolean execFor(UUID member, Function<T, T> function) {
         Validate.notNull(member, "member cannot be null");
         Validate.notNull(function, "function cannot be null");
 
         if(members.isEmpty()) return false;
-
-        if(function == null) throw new NullPointerException();
 
         return members.replace(member, function.apply(members.get(member))) == null;
     }
