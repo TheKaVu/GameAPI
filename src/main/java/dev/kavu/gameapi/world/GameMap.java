@@ -6,6 +6,8 @@ import java.io.File;
 
 /**
  * Representation of minecraft game map.
+ *
+ * @see MapManager
  */
 public interface GameMap {
 
