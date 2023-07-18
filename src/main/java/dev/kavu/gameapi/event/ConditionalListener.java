@@ -1,4 +1,4 @@
-package dev.kavu.gameapi;
+package dev.kavu.gameapi.event;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.event.Event;

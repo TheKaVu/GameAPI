@@ -1,6 +1,6 @@
 package dev.kavu.gameapi.world;
 
-import dev.kavu.gameapi.ConditionalListener;
+import dev.kavu.gameapi.event.ConditionalListener;
 import dev.kavu.gameapi.event.AreaEnterEvent;
 import dev.kavu.gameapi.event.AreaLeaveEvent;
 import org.apache.commons.lang.Validate;
