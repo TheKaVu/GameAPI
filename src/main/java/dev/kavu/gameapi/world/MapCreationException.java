@@ -1,5 +1,8 @@
 package dev.kavu.gameapi.world;
 
+/**
+ * Thrown where game map cannot be created with given data.
+ */
 public class MapCreationException extends Exception{
 
     public MapCreationException(){

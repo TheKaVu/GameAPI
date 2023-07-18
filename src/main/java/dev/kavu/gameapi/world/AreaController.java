@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Controller class designated to manage all areas present in the world. It is necessary for area to work.
+ */
 public class AreaController {
 
     private final HashMap<Area, Integer> areas;
@@ -25,10 +28,19 @@ public class AreaController {
 
     private boolean running = true;
 
+    /**
+     * Creates new instance of <tt>AreaController</tt> just with {@link Plugin} object.
+     * @param plugin Plugin this controller is bound to
+     */
     public AreaController(Plugin plugin){
         this(new HashMap<>(), plugin);
     }
 
+    /**
+     * Creates new instance of <tt>AreaController</tt> with initial set of prioritized areas.
+     * @param areas Map of {@link Area} objects associated with its priority represented by <tt>int</tt> value
+     * @param plugin Plugin this controller is bound to
+     */
     public AreaController(HashMap<Area, Integer> areas, Plugin plugin){
         Validate.notNull(areas, "areas cannot be null");
         Validate.notNull(plugin, "plugin cannot be null");
@@ -40,12 +52,26 @@ public class AreaController {
         conditionalListener.register(plugin);
     }
 
+    /**
+     * Adds new {@link Area} object with its priority if it does not exist yet.
+     * @param area Area to be added
+     * @param priority Area's priority
+     * @return {@code true} if area was successfully added; {@code false} otherwise
+     */
     public boolean addArea(Area area, int priority){
         Validate.notNull(area, "area cannot be null");
 
         return areas.putIfAbsent(area, priority) == null;
     }
 
+    /**
+     * Gets the most prioritized area specified player is in. <p/>
+     * <b>Warning: </b> If there are two or more overlapping areas with same priority, when having specified player, {@link AreaPickEquivocationException} will be thrown.
+     * @param player Player to be checked
+     * @return {@link Area} object with the highest priority containing specified player; {@code null} if there is no such area
+     *
+     * @see #getAreas
+     */
     public Area getArea(Player player){
         Validate.notNull(player, "player cannot be null");
 
@@ -62,6 +88,14 @@ public class AreaController {
         return currentArea.get();
     }
 
+    /**
+     * Gets the most prioritized area containing specified location. <p/>
+     * <b>Warning: </b> If there are two or more overlapping areas with same priority, when having specified location, {@link AreaPickEquivocationException} will be thrown.
+     * @param location Designated location
+     * @return {@link Area} object with the highest priority containing specified location; {@code null} if there is no such area
+     *
+     * @see #getAreas
+     */
     public Area getArea(Location location){
         Validate.notNull(location, "location cannot be null");
 
@@ -78,6 +112,14 @@ public class AreaController {
         return currentArea.get();
     }
 
+    /**
+     * Gets all areas containing specified location.
+     * @param location Designated location
+     * @return HashSet of {@link Area} objects having all areas containing specified location; {@code null} if there is no such area
+     *
+     * @see #getArea
+     */
+
     public HashSet<Area> getAreas(Location location) {
         Validate.notNull(location, "location cannot be null");
 
@@ -90,6 +132,13 @@ public class AreaController {
         return areaSet;
     }
 
+    /**
+     * Gets all areas containing specified location.
+     * @param player Player to be checked
+     * @return HashSet of {@link Area} objects having all areas specified player is in; {@code null} if there is no such area
+     *
+     * @see #getArea
+     */
     public HashSet<Area> getAreas(Player player) {
         Validate.notNull(player, "player cannot be null");
 
@@ -102,18 +151,30 @@ public class AreaController {
         return areaSet;
     }
 
+    /**
+     * @return {@code true} if controller is running; {@code false} if is not
+     */
     public boolean isRunning(){
         return running;
     }
 
+    /**
+     * @return Associated plugin
+     */
     public Plugin getPlugin() {
         return plugin;
     }
 
+    /**
+     * Starts or resumes the controller
+     */
     public void start(){
         running = true;
     }
 
+    /**
+     * Stops the controller
+     */
     public void stop(){
         running = false;
     }

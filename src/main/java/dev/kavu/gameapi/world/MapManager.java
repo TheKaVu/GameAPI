@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
+/**
+ * This class manages all maps of one game. It allows loading, unloading and restoring maps for the game. It operates on {@link GameMap} objects which are representation of single game maps.
+ */
 public class MapManager {
 
     // Fields
@@ -20,25 +23,52 @@ public class MapManager {
     private GameMap currentMap;
 
     // Constructor
+
+    /**
+     * Creates new instance of <tt>MapManager</tt> class.
+     */
     public MapManager() {
 
     }
 
     // Getters & setters
+
+    /**
+     * @return Current loaded map; {@code null} if no map is loaded
+     */
     public GameMap getCurrentMap() {
         return currentMap;
     }
 
+    /**
+     * @return World of currently loaded map
+     */
     public World getWorld() {
         return world;
     }
 
     // Functionality
 
+    /**
+     * Loads specified map. If any map is loaded already, new map won't be loaded<br/>
+     * Loading process consists in creating <i>new world</i> by copying its insides from source stored in {@link GameMap} object.
+     * Player won't be warped to this world automatically, thus it has to be done by hand.
+     * You can see how to do it in <a href="https://github.com/TheKaVu/GameAPI/wiki/World-Management">GameAPI wiki</a>
+     * @param gameMap Game map to be loaded
+     * @return {@code true} if map was loaded; {@code false} otherwise
+     */
     public boolean load(GameMap gameMap){
         return load(gameMap, gameMap.getName() + "_" + System.currentTimeMillis());
     }
 
+    /**
+     * Loads specified map and designates the world name. If any map is loaded already, new map won't be loaded<br/>
+     *      * Loading process consists in creating <i>new world</i> by copying its insides from source stored in {@link GameMap} object.
+     *      * Player won't be warped to this world automatically, thus it has to be done by hand.
+     *      * You can see how to do it in <a href="https://github.com/TheKaVu/GameAPI/wiki/World-Management">GameAPI wiki</a>
+     *      * @param gameMap Game map to be loaded
+     *      * @return {@code true} if map was loaded; {@code false} otherwise
+     */
     public boolean load(GameMap gameMap, String worldName){
         Validate.notNull(gameMap, "map cannot be null");
         Validate.notNull(worldName, "worldName cannot be null");
@@ -63,6 +93,9 @@ public class MapManager {
         return isLoaded();
     }
 
+    /**
+     * Unloads currently loaded map. That includes unloading and removing associated world and its directory.
+     */
     public void unload() {
 
         if(world != null) {
@@ -80,20 +113,39 @@ public class MapManager {
         activeWorldFolder = null;
     }
 
+    /**
+     * Restores - unloads and loads, currently stored map.
+     * @return {@code true} if map was successfully restored; {@code false} if not
+     */
     public boolean restore() {
         return restore(currentMap);
     }
 
+    /**
+     * Unloads currently stored map and loads new one.
+     * @return {@code true} if map was successfully restored; {@code false} if not
+     */
     public boolean restore(GameMap gameMap){
         Validate.notNull(gameMap, "map cannot be null");
         unload();
         return load(gameMap);
     }
 
+    /**
+     * @return {@code true} if any map is already loaded; {@code false} otherwise
+     */
     public boolean isLoaded() {
         return world != null && activeWorldFolder != null && currentMap != null;
     }
 
+    /**
+     * Creates new game map represented by {@link GameMap} object.
+     * @param sourceFolder Directory map is located in
+     * @param mapName Name of the map and directory containing world data
+     * @param autoLoad Determines if map should be loaded automatically
+     * @return New game map
+     * @throws MapCreationException When map cannot be created due to improper data passed in arguments
+     */
     public GameMap createMap(File sourceFolder, String mapName, boolean autoLoad) throws MapCreationException{
         Validate.notNull(sourceFolder, "sourceFolder cannot be null");
         Validate.isTrue(sourceFolder.isDirectory(), "sourceFolder has to be a directory");
@@ -127,6 +179,13 @@ public class MapManager {
         return map;
     }
 
+    /**
+     * Randomly picks and creates a map from specified directory.
+     * @param sourceFolder Directory desired maps are located in
+     * @param autoLoad Determines if picked map should be loaded automatically
+     * @return New and randomized game map
+     * @throws MapCreationException When there is no subdirectory containing a map data
+     */
     public GameMap randomizeMap(File sourceFolder, boolean autoLoad) throws MapCreationException {
         Validate.isTrue(sourceFolder.isDirectory(), "sourceFolder has to be a directory");
 
