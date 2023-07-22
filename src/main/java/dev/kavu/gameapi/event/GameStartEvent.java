@@ -7,6 +7,9 @@ import org.bukkit.event.HandlerList;
 
 import java.util.Set;
 
+/**
+ * Represents a game start event.
+ */
 public class GameStartEvent extends GameEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
@@ -19,6 +22,9 @@ public class GameStartEvent extends GameEvent implements Cancellable {
         this.players = players;
     }
 
+    /**
+     * @return Set of players the game has started with
+     */
     public Set<Player> getPlayers() {
         return players;
     }
