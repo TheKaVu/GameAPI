@@ -6,7 +6,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
- * Represents a game state timer event
+ * Represents a game state timer event.
  */
 public class GameStateTimerEvent extends Event {
 
