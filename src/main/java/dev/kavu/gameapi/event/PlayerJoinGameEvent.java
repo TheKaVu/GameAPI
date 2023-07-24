@@ -7,6 +7,9 @@ import org.bukkit.event.HandlerList;
 
 import java.util.Set;
 
+/**
+ * Represents player join game event.
+ */
 public class PlayerJoinGameEvent extends PlayerGameEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
@@ -19,6 +22,9 @@ public class PlayerJoinGameEvent extends PlayerGameEvent implements Cancellable 
         this.players = players;
     }
 
+    /**
+     * @return Set of players present in the game
+     */
     public Set<Player> getPlayers() {
         return players;
     }
