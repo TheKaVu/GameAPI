@@ -6,6 +6,9 @@ import org.bukkit.event.HandlerList;
 
 import java.util.UUID;
 
+/**
+ * Represents a statistic trigger event.
+ */
 public class StatisticTriggerEvent extends Event {
 
     // Fields
@@ -30,18 +33,32 @@ public class StatisticTriggerEvent extends Event {
         this.triggerEvent = triggerEvent;
     }
 
+    /**
+     * @return Triggered statistic represented by {@link RegisteredStatistic} object
+     */
     public RegisteredStatistic<?> getRegisteredStatistic() {
         return registeredStatistic;
     }
 
+    /**
+     * @return Member the statistic was triggered for
+     */
     public UUID getMember() {
         return member;
     }
 
+    /**
+     * @return Value of the statistic associated with member the statistic was triggered for
+     */
     public Number getValue() {
         return value;
     }
 
+    /**
+     * @return Event that caused a trigger; {@code null} if trigger was manual
+     *
+     * @see RegisteredStatistic#trigger
+     */
     public Event getTriggerEvent(){
         return triggerEvent;
     }
