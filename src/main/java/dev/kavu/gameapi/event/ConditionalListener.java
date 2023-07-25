@@ -14,6 +14,10 @@ import java.lang.reflect.Modifier;
 import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
 
+/**
+ * This class is the special listener that can be surrounded with a condition that determines whether event will be passed forward or not.
+ * <tt>ConditionalListener</tt> is the wrapping for any Bukkit {@link Listener} object.
+ */
 public class ConditionalListener {
 
     // Fields
@@ -23,6 +27,12 @@ public class ConditionalListener {
     private final Predicate<Event> condition;
 
     // Constructor
+
+    /**
+     * Creates new instance of Conditional listener with condition consuming no args.
+     * @param handledListener Listener to wrap
+     * @param noArgsCondition Condition with no arguments to be checked on event call
+     */
     public ConditionalListener(Listener handledListener, BooleanSupplier noArgsCondition) {
         this.noArgsCondition = (noArgsCondition == null) ? () -> true : noArgsCondition;
         this.condition = event -> true;
@@ -32,6 +42,11 @@ public class ConditionalListener {
         this.handledListener = handledListener;
     }
 
+    /**
+     * Creates new instance of Conditional listener with argument condition.
+     * @param handledListener Listener to wrap
+     * @param condition Condition to be checked on event call
+     */
     public ConditionalListener(Listener handledListener, Predicate<Event> condition) {
         this.condition = (condition == null) ? event -> true : condition;
         this.noArgsCondition = () -> true;
@@ -41,6 +56,12 @@ public class ConditionalListener {
         this.handledListener = handledListener;
     }
 
+    /**
+     * Creates new instance of Conditional listener with both no argument and argument conditions.
+     * @param handledListener Listener to wrap
+     * @param noArgsCondition Condition with no arguments to be checked on event call
+     * @param condition Condition to be checked on event call
+     */
     public ConditionalListener(Listener handledListener, BooleanSupplier noArgsCondition, Predicate<Event> condition) {
         this.condition = (condition == null) ? event -> true : condition;
         this.noArgsCondition = (noArgsCondition == null) ? () -> true : noArgsCondition;
@@ -51,11 +72,20 @@ public class ConditionalListener {
     }
 
     // Getters
+
+    /**
+     * @return Wrapped {@link Listener}
+     */
     public Listener getHandledListener() {
         return handledListener;
     }
 
     // Functionality
+
+    /**
+     * Registers this listener in specified plugin.
+     * @param plugin Plugin to register this listener in
+     */
     public void register(Plugin plugin){
         Validate.notNull(plugin, "plugin cannot be null");
 

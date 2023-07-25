@@ -5,6 +5,9 @@ import dev.kavu.gameapi.GameStateTimer;
 import dev.kavu.gameapi.GstSchedule;
 import org.bukkit.event.HandlerList;
 
+/**
+ * Represents game state timer schedule event.
+ */
 public class GstScheduleEndEvent extends GameStateTimerEvent{
 
     private static final HandlerList handlers = new HandlerList();
@@ -16,6 +19,9 @@ public class GstScheduleEndEvent extends GameStateTimerEvent{
         this.schedule = timer.getSchedule();
     }
 
+    /**
+     * @return {@link GstSchedule} involved in this event
+     */
     public GstSchedule getSchedule() {
         return schedule;
     }

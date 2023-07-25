@@ -4,6 +4,9 @@ import dev.kavu.gameapi.world.Area;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
+/**
+ * Represents an area leave event.
+ */
 public class AreaLeaveEvent extends AreaEvent{
 
     private static final HandlerList handlerList = new HandlerList();
@@ -15,6 +18,9 @@ public class AreaLeaveEvent extends AreaEvent{
         this.player = player;
     }
 
+    /**
+     * @return Player that left the area
+     */
     public Player getPlayer() {
         return player;
     }
