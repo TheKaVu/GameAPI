@@ -1,7 +1,5 @@
 package dev.kavu.gameapi.world;
 
-import org.bukkit.World;
-
 import java.io.File;
 
 /**
@@ -10,12 +8,6 @@ import java.io.File;
  * @see MapManager
  */
 public interface GameMap {
-
-    /**
-     * Called when map is loaded.
-     * @param world Map world
-     */
-    void onLoad(World world);
 
     /**
      * @return Name of the map
