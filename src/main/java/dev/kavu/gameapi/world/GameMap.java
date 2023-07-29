@@ -7,7 +7,7 @@ import java.io.File;
  *
  * @see MapManager
  */
-public interface GameMap {
+public interface GameMap extends Cloneable{
 
     /**
      * @return Name of the map
@@ -17,5 +17,13 @@ public interface GameMap {
     /**
      * @return Source directory origin map is located in
      */
-    File getSource();
+    File getMapFolder();
+
+    /**
+     * The stricter version of {@link Cloneable#clone() clone()} function form {@link Cloneable} interface, with return type of this interface.
+     * @return Clone of this object
+     *
+     * @see Cloneable#clone()
+     */
+    GameMap clone();
 }
