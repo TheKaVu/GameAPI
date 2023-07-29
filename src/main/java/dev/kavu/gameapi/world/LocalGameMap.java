@@ -6,6 +6,8 @@ import java.io.File;
 
 /**
  * Representation of game map with specific folder and name.
+ *
+ * @see RandomGameMap
  */
 public class LocalGameMap implements GameMap, Cloneable{
 
