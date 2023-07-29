@@ -4,11 +4,19 @@ import org.apache.commons.lang.Validate;
 
 import java.io.File;
 
+/**
+ * Representation of game map with specific folder and name.
+ */
 public class LocalGameMap implements GameMap, Cloneable{
 
     private final File mapFolder;
     private final String name;
 
+    /**
+     * Creates a map from specified folder taking its name as a map name.
+     * @param mapFolder Directory containing map files
+     * @throws MapCreationException When map cannot be created due to invalid data
+     */
     public LocalGameMap(File mapFolder) throws MapCreationException {
         Validate.notNull(mapFolder, "mapFolder cannot be null");
         if(mapFolder.exists()) throw new MapCreationException("Following directory does not exist: " + mapFolder.getAbsolutePath());
@@ -18,6 +26,12 @@ public class LocalGameMap implements GameMap, Cloneable{
         this.name = mapFolder.getName();
     }
 
+    /**
+     * Creates a map from specified folder with custom name.
+     * @param mapFolder Directory containing map files
+     * @param name New map name
+     * @throws MapCreationException When map cannot be created due to invalid data
+     */
     public LocalGameMap(File mapFolder, String name) throws MapCreationException {
         Validate.notNull(mapFolder, "mapFolder cannot be null");
         if(mapFolder.exists()) throw new MapCreationException("Following directory does not exist: " + mapFolder.getAbsolutePath());
