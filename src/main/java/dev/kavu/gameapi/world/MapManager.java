@@ -79,7 +79,7 @@ public class MapManager {
         this.activeWorldFolder = new File(Bukkit.getWorldContainer().getParentFile(), worldName);
 
         try {
-            FileUtils.copyDirectory(gameMap.getSource(), activeWorldFolder);
+            FileUtils.copyDirectory(gameMap.getMapFolder(), activeWorldFolder);
         } catch (IOException ignored) {
             return false;
         }
@@ -87,8 +87,6 @@ public class MapManager {
         world = Bukkit.getServer().createWorld(new WorldCreator(activeWorldFolder.getName()));
 
         if(world != null) world.setAutoSave(false);
-
-        gameMap.onLoad(world);
 
         return isLoaded();
     }
@@ -118,7 +116,7 @@ public class MapManager {
      * @return {@code true} if map was successfully restored; {@code false} if not
      */
     public boolean restore() {
-        return restore(currentMap);
+        return restore(currentMap.clone());
     }
 
     /**
@@ -136,64 +134,5 @@ public class MapManager {
      */
     public boolean isLoaded() {
         return world != null && activeWorldFolder != null && currentMap != null;
-    }
-
-    /**
-     * Creates new game map represented by {@link GameMap} object.
-     * @param sourceFolder Directory map is located in
-     * @param mapName Name of the map and directory containing world data
-     * @param autoLoad Determines if map should be loaded automatically
-     * @return New game map
-     * @throws MapCreationException When map cannot be created due to improper data passed in arguments
-     */
-    public GameMap createMap(File sourceFolder, String mapName, boolean autoLoad) throws MapCreationException{
-        Validate.notNull(sourceFolder, "sourceFolder cannot be null");
-        Validate.isTrue(sourceFolder.isDirectory(), "sourceFolder has to be a directory");
-        Validate.notNull(mapName, "mapName cannot be null");
-
-        File file = new File(sourceFolder, mapName);
-
-        if(!file.exists()) throw new MapCreationException("Following directory does not exist: " + file.getAbsolutePath());
-        if(!file.isDirectory()) throw new MapCreationException("Subdirectory of given name is not a directory");
-
-        GameMap map = new GameMap() {
-
-            private final File source = file;
-
-            @Override
-            public void onLoad(World world) {}
-
-            @Override
-            public String getName() {
-                return mapName;
-            }
-
-            @Override
-            public File getSource() {
-                return source;
-            }
-
-        };
-        if(autoLoad) load(map);
-
-        return map;
-    }
-
-    /**
-     * Randomly picks and creates a map from specified directory.
-     * @param sourceFolder Directory desired maps are located in
-     * @param autoLoad Determines if picked map should be loaded automatically
-     * @return New and randomized game map
-     * @throws MapCreationException When there is no subdirectory containing a map data
-     */
-    public GameMap randomizeMap(File sourceFolder, boolean autoLoad) throws MapCreationException {
-        Validate.isTrue(sourceFolder.isDirectory(), "sourceFolder has to be a directory");
-
-        Random random = new Random();
-        File[] files = sourceFolder.listFiles(file -> file.isDirectory());
-        if(files == null) throw new MapCreationException();
-        if (files.length == 0) throw new MapCreationException("There are no subdirectories in path: " + sourceFolder.getAbsolutePath());
-
-        return createMap(sourceFolder, files[random.nextInt(files.length)].getName(), autoLoad) ;
     }
 }
