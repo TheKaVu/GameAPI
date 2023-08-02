@@ -1,7 +1,7 @@
 package dev.kavu.gameapi;
 
 import dev.kavu.gameapi.statistic.Statistic;
-import dev.kavu.gameapi.statistic.RegisteredStatistic;
+import dev.kavu.gameapi.statistic.StatisticRegistry;
 import dev.kavu.gameapi.world.MapManager;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
@@ -28,6 +28,8 @@ public class GameManager {
 
     private final HashSet<UUID> players = new HashSet<>();
 
+    private final StatisticRegistry statisticRegistry;
+
     private final RuleSet rules = new RuleSet();
 
     private final MapManager mapManager;
@@ -42,6 +44,7 @@ public class GameManager {
         Validate.notNull(plugin, "plugin cannot be null");
 
         this.plugin = plugin;
+        statisticRegistry = new StatisticRegistry(plugin);
         gameStateTimer = new GameStateTimer(plugin);
         mapManager = new MapManager();
     }
@@ -56,6 +59,7 @@ public class GameManager {
         Validate.notNull(gameStateTimer, "gameStateTimer cannot be null");
 
         this.plugin = plugin;
+        statisticRegistry = new StatisticRegistry(plugin);
         this.gameStateTimer = gameStateTimer;
         mapManager = new MapManager();
     }
@@ -70,6 +74,7 @@ public class GameManager {
         Validate.notNull(mapManager, "mapManager cannot be null");
 
         this.plugin = plugin;
+        statisticRegistry = new StatisticRegistry(plugin);
         gameStateTimer = new GameStateTimer(plugin);
         this.mapManager = mapManager;
     }
@@ -85,6 +90,7 @@ public class GameManager {
         Validate.notNull(players, "players cannot be null");
 
         this.plugin = plugin;
+        statisticRegistry = new StatisticRegistry(plugin);
         gameStateTimer = new GameStateTimer(plugin);
         mapManager = new MapManager();
         for(Player p : players){
@@ -107,6 +113,7 @@ public class GameManager {
         Validate.notNull(players, "players cannot be null");
 
         this.plugin = plugin;
+        statisticRegistry = new StatisticRegistry(plugin);
         this.gameStateTimer = gameStateTimer;
         this.mapManager = mapManager;
         for(Player p : players){
@@ -121,6 +128,13 @@ public class GameManager {
      */
     public Plugin getPlugin() {
         return plugin;
+    }
+
+    /**
+     * @return Statistic registry storing all statistics for this game
+     */
+    public StatisticRegistry getStatisticRegistry() {
+        return statisticRegistry;
     }
 
     /**
