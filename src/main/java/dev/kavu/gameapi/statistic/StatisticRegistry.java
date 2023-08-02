@@ -7,6 +7,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
+/**
+ * This class stores all statistics for the game.
+ */
 public class StatisticRegistry {
 
     private final Plugin plugin;
