@@ -1,7 +1,7 @@
 package dev.kavu.gameapi;
 
 import dev.kavu.gameapi.statistic.Statistic;
-import dev.kavu.gameapi.statistic.RegisteredStatistic;
+import dev.kavu.gameapi.statistic.StatisticRegistry;
 import dev.kavu.gameapi.world.MapManager;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
@@ -28,7 +28,7 @@ public class GameManager {
 
     private final HashSet<UUID> players = new HashSet<>();
 
-    private final HashMap<Class<? extends Statistic>, RegisteredStatistic<?>> statistics = new HashMap<>();
+    private final StatisticRegistry statisticRegistry;
 
     private final RuleSet rules = new RuleSet();
 
@@ -44,6 +44,7 @@ public class GameManager {
         Validate.notNull(plugin, "plugin cannot be null");
 
         this.plugin = plugin;
+        statisticRegistry = new StatisticRegistry(plugin);
         gameStateTimer = new GameStateTimer(plugin);
         mapManager = new MapManager();
     }
@@ -58,6 +59,7 @@ public class GameManager {
         Validate.notNull(gameStateTimer, "gameStateTimer cannot be null");
 
         this.plugin = plugin;
+        statisticRegistry = new StatisticRegistry(plugin);
         this.gameStateTimer = gameStateTimer;
         mapManager = new MapManager();
     }
@@ -72,6 +74,7 @@ public class GameManager {
         Validate.notNull(mapManager, "mapManager cannot be null");
 
         this.plugin = plugin;
+        statisticRegistry = new StatisticRegistry(plugin);
         gameStateTimer = new GameStateTimer(plugin);
         this.mapManager = mapManager;
     }
@@ -87,6 +90,7 @@ public class GameManager {
         Validate.notNull(players, "players cannot be null");
 
         this.plugin = plugin;
+        statisticRegistry = new StatisticRegistry(plugin);
         gameStateTimer = new GameStateTimer(plugin);
         mapManager = new MapManager();
         for(Player p : players){
@@ -109,6 +113,7 @@ public class GameManager {
         Validate.notNull(players, "players cannot be null");
 
         this.plugin = plugin;
+        statisticRegistry = new StatisticRegistry(plugin);
         this.gameStateTimer = gameStateTimer;
         this.mapManager = mapManager;
         for(Player p : players){
@@ -123,6 +128,13 @@ public class GameManager {
      */
     public Plugin getPlugin() {
         return plugin;
+    }
+
+    /**
+     * @return Statistic registry storing all statistics for this game
+     */
+    public StatisticRegistry getStatisticRegistry() {
+        return statisticRegistry;
     }
 
     /**
@@ -151,39 +163,5 @@ public class GameManager {
      */
     public RuleSet getRules() {
         return rules;
-    }
-
-    /**
-     * Registers the specified statistic by mapping its class to automatically created {@link RegisteredStatistic} object. Same statistic <b>cannot</b> be registered more than once. Future attempts will have no effect.
-     * @param statistic Statistic base represented by {@link Statistic} object
-     */
-    public void registerStatistic(Statistic<?> statistic){
-        Validate.notNull(statistic, "statistic cannot be null");
-
-        statistics.putIfAbsent(statistic.getClass(), new RegisteredStatistic<>(statistic, plugin));
-    }
-
-    /**
-     * Registers the specified statistic by mapping its class to automatically created {@link RegisteredStatistic} object. Same statistic <b>cannot</b> be registered more than once. Future attempts will have no effect.
-     * @param statistic Statistic base represented by {@link Statistic} object
-     * @param initialMembers Initial collection of members for this statistic
-     */
-    public void registerStatistic(Statistic<?> statistic, Collection<UUID> initialMembers){
-        Validate.notNull(statistic, "statistic cannot be null");
-
-        statistics.putIfAbsent(statistic.getClass(), new RegisteredStatistic<>(statistic, initialMembers, plugin));
-    }
-
-    /**
-     * Returns the registered statistic by its class represented by {@link RegisteredStatistic} object.
-     * @param clazz Class of desired statistic
-     * @param <N> Numeric type; class or subclass of {@link Number}
-     * @param <E> Statistic type; class or subclass of {@link Statistic}
-     * @return If registry exists, <tt>RegisteredStatistic</tt> object of this statistic, otherwise {@code null}
-     */
-    public <N extends Number, E extends Statistic<N>> RegisteredStatistic<N> getRegisteredStatistic(Class<E> clazz){
-        Validate.notNull(clazz, "clazz cannot be null");
-
-        return (RegisteredStatistic<N>) statistics.get(clazz);
     }
 }
