@@ -34,10 +34,12 @@ public class StatisticRegistry {
      * Registers the specified statistic by mapping its class to automatically created {@link RegisteredStatistic} object. Same statistic <b>cannot</b> be registered more than once. Future attempts will have no effect.
      * @param statistic Statistic base represented by {@link Statistic} object
      */
-    public void registerStatistic(Statistic<?> statistic){
+    public <N extends Number> RegisteredStatistic<N> registerStatistic(Statistic<N> statistic){
         Validate.notNull(statistic, "statistic cannot be null");
 
-        statistics.putIfAbsent(statistic.getClass(), new RegisteredStatistic<>(statistic, plugin));
+        RegisteredStatistic<N> registeredStatistic = new RegisteredStatistic<>(statistic, plugin);
+        statistics.putIfAbsent(statistic.getClass(), registeredStatistic);
+        return registeredStatistic;
     }
 
     /**
@@ -45,10 +47,12 @@ public class StatisticRegistry {
      * @param statistic Statistic base represented by {@link Statistic} object
      * @param initialMembers Initial collection of members for this statistic
      */
-    public void registerStatistic(Statistic<?> statistic, Collection<UUID> initialMembers){
+    public <N extends Number> RegisteredStatistic<N> registerStatistic(Statistic<N> statistic, Collection<UUID> initialMembers){
         Validate.notNull(statistic, "statistic cannot be null");
 
-        statistics.putIfAbsent(statistic.getClass(), new RegisteredStatistic<>(statistic, initialMembers, plugin));
+        RegisteredStatistic<N> registeredStatistic = new RegisteredStatistic<>(statistic, initialMembers, plugin);
+        statistics.putIfAbsent(statistic.getClass(), registeredStatistic);
+        return registeredStatistic;
     }
 
     /**
